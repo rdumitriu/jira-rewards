@@ -20,7 +20,12 @@
 
         <context>rewards</context>
     </web-resource>
-    
+
+    <!-- COMPONENTS -->
+    <component key="rcmpts_rwdtps" class="ro.agrade.jira.rewards.dao.RewardTypeDataServiceImpl" public="false">
+        <interface>ro.agrade.jira.rewards.dao.RewardTypeDataService</interface>
+    </component>
+
     <!-- publish our component
     <component key="myPluginComponent" class="ro.agrade.jira.MyPluginComponentImpl" public="true">
         <interface>ro.agrade.jira.MyPluginComponent</interface>
