@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE entitymodel PUBLIC "-//OFBiz//DTD Entity Model//EN" "http://www.ofbiz.org/dtds/entitymodel.dtd">
+
+<entitymodel>
+    <title>Entity Model for Rewards plugin</title>
+    <description>Contains the entities for Rewards</description>
+    <copyright>AGRADE</copyright>
+    <author>Radu Dumitriu</author>
+    <version>1.0</version>
+
+	<entity entity-name="RWDTYPES"
+            table-name="RWDTYPES"
+            package-name="ro.agrade.jira.rewards">
+        <description>The reward types</description>
+
+        <field name="t_id" type="numeric"/>
+        <field name="t_name" type="long-varchar"/>
+        <field name="t_desc" type="extremely-long"/>
+        
+		<prim-key field="t_id"/>
+    </entity>
+
+    <entity entity-name="RWDSPRINTS"
+            table-name="RWDSPRINTS"
+            package-name="ro.agrade.jira.rewards">
+        <description>The reward sprint</description>
+
+        <field name="s_id" type="numeric"/>
+        <field name="s_name" type="long-varchar"/>
+        <field name="s_where" type="extremely-long"/>
+        <field name="s_who" type="long-varchar"/>
+        <field name="s_when" type="date"/>
+
+        <prim-key field="s_id"/>
+    </entity>
+
+    <entity entity-name="RWDSPRINTINV"
+            table-name="RWDSPRINTINV"
+            package-name="ro.agrade.jira.rewards">
+        <description>The reward sprint invitees</description>
+
+        <field name="i_id" type="numeric"/>
+        <field name="s_id" type="numeric"/>
+        <field name="i_who" type="long-varchar"/>
+
+        <prim-key field="i_id"/>
+        <relation type="one" title="Invitees-to-Sprints" rel-entity-name="RWDSPRINTS" fk-name="RWDSPRINTINV_FK_1">
+            <key-map field-name="s_id" rel-field-name="s_id"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="RWDREWARDS"
+            table-name="RWDREWARDS"
+            package-name="ro.agrade.jira.rewards">
+        <description>The rewards, linked to a sprint</description>
+
+        <field name="r_id" type="numeric"/>
+        <field name="t_id" type="numeric"/>
+        <field name="s_id" type="numeric"/>
+        <field name="r_quantity" type="numeric"/>
+        <field name="r_limitdate" type="date"/>
+        <field name="r_shortdesc" type="long-varchar"/>
+        <field name="r_longdesc" type="extremely-long"/>
+        <!-- from user can be null, in which case is from the house (see sprint s_who) -->
+        <field name="r_fromuser" type="long-varchar"/>
+        <!-- to user is null until the reward is granted-->
+        <field name="r_touser" type="long-varchar"/>
+
+        <!-- If linked to an issue, not null -->
+        <field name="r_issueid" type="numeric"/>
+
+        <prim-key field="r_id"/>
+        <relation type="one" title="Rewards-to-Types" rel-entity-name="RWDTYPES" fk-name="RWDREWARDS_FK_1">
+            <key-map field-name="t_id" rel-field-name="t_id"/>
+        </relation>
+        <relation type="one" title="Rewards-to-Sprints" rel-entity-name="RWDSPRINTS" fk-name="RWDREWARDS_FK_2">
+            <key-map field-name="s_id" rel-field-name="s_id"/>
+        </relation>
+    </entity>
+
+	
+</entitymodel>
