@@ -30,9 +30,8 @@ public interface RewardTypeDataService {
 
     /**
      * Creates a reward type
-     * @param name the name of the reward, e.g. 'Beer'
-     * @param desc the description
+     * @param rt the type of the reward, e.g. 'Beer'
      * @return the reward type, created
      */
-    public abstract RewardType addRewardType(String name, String desc);
+    public abstract RewardType addRewardType(RewardType rt);
 }

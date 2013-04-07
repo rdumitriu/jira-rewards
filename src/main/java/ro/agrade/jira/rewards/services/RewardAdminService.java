@@ -35,7 +35,6 @@ public interface RewardAdminService {
     public abstract RewardType addRewardType(String name, String desc);
 
 
-
     /**
      * Gets the specified sprint
      * @param id the id

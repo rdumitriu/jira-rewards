@@ -16,7 +16,9 @@
 
         <field name="t_id" type="numeric"/>
         <field name="t_name" type="long-varchar"/>
+        <field name="t_nameplural" type="long-varchar"/>
         <field name="t_desc" type="extremely-long"/>
+        <field name="t_iconurl" type="long-varchar"/>
         
 		<prim-key field="t_id"/>
     </entity>
@@ -29,15 +31,17 @@
         <field name="s_id" type="numeric"/>
         <field name="s_name" type="long-varchar"/>
         <field name="s_where" type="extremely-long"/>
-        <field name="s_who" type="long-varchar"/>
+        <field name="s_owner" type="long-varchar"/>
         <field name="s_when" type="date"/>
         <field name="s_status" type="numeric"/>
 
         <prim-key field="s_id"/>
+
+        <!-- ::TODO:: one index on owner and one on date -->
     </entity>
 
-    <entity entity-name="RWDSPRINTINV"
-            table-name="RWDSPRINTINV"
+    <entity entity-name="RWDSPRINTGST"
+            table-name="RWDSPRINTGST"
             package-name="ro.agrade.jira.rewards">
         <description>The reward sprint invitees</description>
 
@@ -47,7 +51,7 @@
         <prim-key field="s_id"/>
         <prim-key field="i_who"/>
 
-        <relation type="one" title="Invitees-to-Sprints" rel-entity-name="RWDSPRINTS" fk-name="RWDSPRINTINV_FK_1">
+        <relation type="one" title="Invitees-to-Sprints" rel-entity-name="RWDSPRINTS" fk-name="RWDSPRINTGST_FK_1">
             <key-map field-name="s_id" rel-field-name="s_id"/>
         </relation>
     </entity>

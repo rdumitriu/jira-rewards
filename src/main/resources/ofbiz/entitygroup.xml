@@ -7,7 +7,7 @@
 	<!-- Configuration Plugin entities -->
 	<entity-group group="default" entity="RWDTYPES" />
 	<entity-group group="default" entity="RWDSPRINTS" />
-    <entity-group group="default" entity="RWDSPRINTINV" />
+    <entity-group group="default" entity="RWDSPRINTGST" />
     <entity-group group="default" entity="RWDREWARDS" />
 	
 </entitygroup>

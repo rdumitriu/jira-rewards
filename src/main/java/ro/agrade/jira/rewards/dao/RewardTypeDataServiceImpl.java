@@ -67,19 +67,19 @@ public class RewardTypeDataServiceImpl implements RewardTypeDataService {
 
     /**
      * Creates a reward type
-     * @param name the name of the reward, e.g. 'Beer'
-     * @param desc the description
+     * @param rt the type of the reward, e.g. 'Beer'
      * @return the reward type, created
      */
     @Override
-    public RewardType addRewardType(String name, String desc) {
+    public RewardType addRewardType(RewardType rt) {
         try {
             long id = delegator.getNextSeqId(ENTITY);
-            RewardType ret = new RewardType(id, name, desc);
-            delegator.create(toGenericValue(ret));
-            return ret;
+            rt.setId(id);
+            delegator.create(toGenericValue(rt));
+            return rt;
         } catch(GenericEntityException e) {
-            String msg = String.format("Could not create reward type ('%s', '%s') ?!?", name, desc);
+            String msg = String.format("Could not create reward type ('%s', '%s') ?!?",
+                                       rt.getName(), rt.getDescription());
             LOG.error(msg);
             throw new OfbizDataException(msg, e);
         }
@@ -95,7 +95,9 @@ public class RewardTypeDataServiceImpl implements RewardTypeDataService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(ID_FIELD, rt.getId());
         map.put(NAME_FIELD, rt.getName());
+        map.put(NAMEPL_FIELD, rt.getNamePluralForm());
         map.put(DESC_FIELD, rt.getDescription());
+        map.put(ICON_FIELD, rt.getIconURL());
         return delegator.makeValue(ENTITY, map);
     }
 
@@ -105,9 +107,11 @@ public class RewardTypeDataServiceImpl implements RewardTypeDataService {
         }
         long id = (Long)genval.get(ID_FIELD);
         String name = (String)genval.get(NAME_FIELD);
+        String namepl = (String) genval.get(NAMEPL_FIELD);
         String desc = (String)genval.get(DESC_FIELD);
+        String iconURL = (String) genval.get(ICON_FIELD);
 
-        return new RewardType(id, name, desc);
+        return new RewardType(id, name, namepl, desc, iconURL);
     }
 
     private List<RewardType> fromGenericValue(List<GenericValue> l) {
@@ -124,5 +128,7 @@ public class RewardTypeDataServiceImpl implements RewardTypeDataService {
     private static final String ENTITY = "RWDTYPES";
     private static final String ID_FIELD = "t_id";
     private static final String NAME_FIELD = "t_name";
+    private static final String NAMEPL_FIELD = "t_nameplural";
     private static final String DESC_FIELD = "t_desc";
+    private static final String ICON_FIELD = "t_iconurl";
 }

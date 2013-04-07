@@ -19,7 +19,7 @@ public class RewardSprint {
     //<field name="s_where" type="extremely-long"/>
     private String where;
     //<field name="s_who" type="long-varchar"/>
-    private String who;
+    private String owner;
     //<field name="s_when" type="date"/>
     private Date when;
     //<field name="s_status" type="numeric"/>
@@ -27,11 +27,11 @@ public class RewardSprint {
     //Link to invitees
     private List<String> invitees;
 
-    public RewardSprint(long id, String name, String where, String who, Date when, SprintStatus status, List<String> invitees) {
+    public RewardSprint(long id, String name, String where, String owner, Date when, SprintStatus status, List<String> invitees) {
         this.id = id;
         this.name = name;
         this.where = where;
-        this.who = who;
+        this.owner = owner;
         this.when = when;
         this.status = status;
         this.invitees = invitees;
@@ -61,12 +61,12 @@ public class RewardSprint {
         this.where = where;
     }
 
-    public String getWho() {
-        return who;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setWho(String who) {
-        this.who = who;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public Date getWhen() {

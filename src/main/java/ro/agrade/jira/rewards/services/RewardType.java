@@ -14,8 +14,12 @@ public class RewardType {
     private long id;
     //<field name="t_name" type="long-varchar"/>
     private String name;
+    //<field name="t_nameplural" type="long-varchar"/>
+    private String namePluralForm;
     //<field name="t_desc" type="extremely-long"/>
     private String description;
+    //<field name="t_iconurl" type="long-varchar"/>
+    private String iconURL;
 
     /**
      * Constructs a reward type
@@ -23,10 +27,12 @@ public class RewardType {
      * @param name the name
      * @param description the description
      */
-    public RewardType(long id, String name, String description) {
+    public RewardType(long id, String name, String pluralForm, String description, String iconURL) {
         this.id = id;
         this.name = name;
+        this.namePluralForm = pluralForm;
         this.description = description;
+        this.iconURL = iconURL;
     }
 
     public long getId() {
@@ -51,5 +57,21 @@ public class RewardType {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getNamePluralForm() {
+        return namePluralForm;
+    }
+
+    public void setNamePluralForm(String namePluralForm) {
+        this.namePluralForm = namePluralForm;
+    }
+
+    public String getIconURL() {
+        return iconURL;
+    }
+
+    public void setIconURL(String iconURL) {
+        this.iconURL = iconURL;
     }
 }
