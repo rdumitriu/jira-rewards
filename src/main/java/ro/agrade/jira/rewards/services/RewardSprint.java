@@ -22,15 +22,18 @@ public class RewardSprint {
     private String who;
     //<field name="s_when" type="date"/>
     private Date when;
+    //<field name="s_status" type="numeric"/>
+    private SprintStatus status;
     //Link to invitees
     private List<String> invitees;
 
-    public RewardSprint(long id, String name, String where, String who, Date when, List<String> invitees) {
+    public RewardSprint(long id, String name, String where, String who, Date when, SprintStatus status, List<String> invitees) {
         this.id = id;
         this.name = name;
         this.where = where;
         this.who = who;
         this.when = when;
+        this.status = status;
         this.invitees = invitees;
     }
 
@@ -80,5 +83,13 @@ public class RewardSprint {
 
     public void setInvitees(List<String> invitees) {
         this.invitees = invitees;
+    }
+
+    public SprintStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SprintStatus status) {
+        this.status = status;
     }
 }

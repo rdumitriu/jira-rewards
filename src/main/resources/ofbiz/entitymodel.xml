@@ -31,6 +31,7 @@
         <field name="s_where" type="extremely-long"/>
         <field name="s_who" type="long-varchar"/>
         <field name="s_when" type="date"/>
+        <field name="s_status" type="numeric"/>
 
         <prim-key field="s_id"/>
     </entity>
