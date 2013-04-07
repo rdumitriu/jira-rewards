@@ -40,11 +40,12 @@
             package-name="ro.agrade.jira.rewards">
         <description>The reward sprint invitees</description>
 
-        <field name="i_id" type="numeric"/>
         <field name="s_id" type="numeric"/>
         <field name="i_who" type="long-varchar"/>
 
-        <prim-key field="i_id"/>
+        <prim-key field="s_id"/>
+        <prim-key field="i_who"/>
+
         <relation type="one" title="Invitees-to-Sprints" rel-entity-name="RWDSPRINTS" fk-name="RWDSPRINTINV_FK_1">
             <key-map field-name="s_id" rel-field-name="s_id"/>
         </relation>
@@ -64,8 +65,9 @@
         <field name="r_longdesc" type="extremely-long"/>
         <!-- from user can be null, in which case is from the house (see sprint s_who) -->
         <field name="r_fromuser" type="long-varchar"/>
-        <!-- to user is null until the reward is granted-->
+        <!-- to user is null (and resolution, too) until the reward is granted-->
         <field name="r_touser" type="long-varchar"/>
+        <field name="r_resolution" type="extremely-long"/>
 
         <!-- If linked to an issue, not null -->
         <field name="r_issueid" type="numeric"/>
