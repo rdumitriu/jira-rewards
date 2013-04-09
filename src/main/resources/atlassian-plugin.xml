@@ -22,8 +22,20 @@
     </web-resource>
 
     <!-- COMPONENTS -->
-    <component key="rcmpts_rwdtps" class="ro.agrade.jira.rewards.dao.RewardTypeDataServiceImpl" public="false">
+    <component key="rcmpts_dsrwdtps" class="ro.agrade.jira.rewards.dao.RewardTypeDataServiceImpl" public="false">
         <interface>ro.agrade.jira.rewards.dao.RewardTypeDataService</interface>
+    </component>
+
+    <component key="rcmpts_dsrwdspr" class="ro.agrade.jira.rewards.dao.RewardSprintDataServiceImpl" public="false">
+        <interface>ro.agrade.jira.rewards.dao.RewardSprintDataService</interface>
+    </component>
+
+    <component key="rcmpts_dsrwdsprgst" class="ro.agrade.jira.rewards.dao.RewardSprintInvDataServiceImpl" public="false">
+        <interface>ro.agrade.jira.rewards.dao.RewardSprintInvDataService</interface>
+    </component>
+
+    <component key="rcmpts_dsrwdrwd" class="ro.agrade.jira.rewards.dao.RewardDataServiceImpl" public="false">
+        <interface>ro.agrade.jira.rewards.dao.RewardDataService</interface>
     </component>
 
     <!-- publish our component

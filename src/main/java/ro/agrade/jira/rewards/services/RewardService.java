@@ -14,11 +14,18 @@ import java.util.*;
 public interface RewardService {
 
     /**
-     * Gets the specified sprint
+     * Gets the specified reward
      * @param id the id
      * @return the sprint
      */
     public abstract Reward getReward(long id);
+
+    /**
+     * Gets the specified rewards for the given sprint
+     * @param sprintId the id of the sprint
+     * @return the list of rewards for the sprint
+     */
+    public abstract List<Reward> getRewardForSprint(long sprintId);
 
     /**
      * Adds the reward
