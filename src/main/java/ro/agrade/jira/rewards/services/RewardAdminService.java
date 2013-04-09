@@ -28,11 +28,10 @@ public interface RewardAdminService {
 
     /**
      * Creates a reward type
-     * @param name the name of the reward, e.g. 'Beer'
-     * @param desc the description
+     * @param rt the structure containing the name of the reward, e.g. 'Beer', pl 'Beers'
      * @return the reward type, created
      */
-    public abstract RewardType addRewardType(String name, String desc);
+    public abstract RewardType addRewardType(RewardType rt);
 
 
     /**
@@ -46,19 +45,13 @@ public interface RewardAdminService {
      * Gets my sprints
      * @return the sprints I'm invited or I started, including the proposed ones
      */
-    public abstract List<RewardSprint> getMyRewardSprints();
+    public abstract List<RewardSprint> getUserRewardSprints(String user, Date validAt);
 
     /**
      * Gets the specified sprints (all with the specified status)
      * @return the sprints
      */
     public abstract List<RewardSprint> getRewardSprints(SprintStatus status);
-
-    /**
-     * Gets the specified sprints (all marked as active)
-     * @return the sprint
-     */
-    public abstract List<RewardSprint> getActiveRewardSprints();
 
     /**
      * Adds a sprint

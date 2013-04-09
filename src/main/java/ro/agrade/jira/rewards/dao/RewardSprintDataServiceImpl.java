@@ -54,11 +54,17 @@ public class RewardSprintDataServiceImpl implements RewardSprintDataService {
      * @return the sprints added by an user
      */
     @Override
-    public List<RewardSprint> getRewardSprint(String user) {
+    public List<RewardSprint> getRewardSprints(String user, Date validAt, SprintStatus status) {
         try {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(OWNER_FIELD, user);
-            List<GenericValue> ret = delegator.findByAnd(ENTITY, map);
+            List<EntityExpr> conds = new ArrayList<EntityExpr>();
+            conds.add(new EntityExpr(OWNER_FIELD, EntityOperator.EQUALS, user));
+            if(status != null) {
+                conds.add(new EntityExpr(STATUS_FILED, EntityOperator.EQUALS, status.ordinal()));
+            }
+            if(validAt != null) {
+                conds.add(new EntityExpr(WHEN_FILED, EntityOperator.LESS_THAN, validAt));
+            }
+            List<GenericValue> ret = delegator.findByCondition(ENTITY, new EntityExprList(conds, EntityOperator.AND), null, null);
             return (ret != null ? fromGenericValue(ret) : null);
         } catch(GenericEntityException e) {
             String msg = String.format("Could not load reward sprints (user=%s) ?!?", user);

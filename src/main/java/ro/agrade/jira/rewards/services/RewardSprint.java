@@ -6,7 +6,7 @@ package ro.agrade.jira.rewards.services;
 import java.util.*;
 
 /**
- * The sprint (meeting or closing time), invitees added as well.
+ * The sprint (meeting or closing time), guests added as well.
  *
  * @author Radu Dumitriu (rdumitriu@gmail.com)
  * @since 1.0
@@ -24,8 +24,8 @@ public class RewardSprint {
     private Date when;
     //<field name="s_status" type="numeric"/>
     private SprintStatus status;
-    //Link to invitees
-    private List<String> invitees;
+    //Link to guests
+    private List<String> guests;
 
     public RewardSprint(long id, String name, String where, String owner, Date when, SprintStatus status, List<String> invitees) {
         this.id = id;
@@ -34,7 +34,7 @@ public class RewardSprint {
         this.owner = owner;
         this.when = when;
         this.status = status;
-        this.invitees = invitees;
+        this.guests = invitees;
     }
 
     public long getId() {
@@ -77,12 +77,12 @@ public class RewardSprint {
         this.when = when;
     }
 
-    public List<String> getInvitees() {
-        return invitees;
+    public List<String> getGuests() {
+        return guests;
     }
 
-    public void setInvitees(List<String> invitees) {
-        this.invitees = invitees;
+    public void setGuests(List<String> guests) {
+        this.guests = guests;
     }
 
     public SprintStatus getStatus() {

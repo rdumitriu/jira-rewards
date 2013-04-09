@@ -26,7 +26,9 @@ public interface RewardSprintDataService {
      * Gets a user reward sprint
      * @return the sprints added by an user
      */
-    public abstract List<RewardSprint> getRewardSprint(String user);
+    public abstract List<RewardSprint> getRewardSprints(String user,
+                                                        Date validAt,
+                                                        SprintStatus status);
 
     /**
      * Gets the specified sprints (all with the specified status)

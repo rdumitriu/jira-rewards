@@ -38,11 +38,13 @@
         <interface>ro.agrade.jira.rewards.dao.RewardDataService</interface>
     </component>
 
-    <!-- publish our component
-    <component key="myPluginComponent" class="ro.agrade.jira.MyPluginComponentImpl" public="true">
-        <interface>ro.agrade.jira.MyPluginComponent</interface>
+    <component key="rcmpts_sra" class="ro.agrade.jira.rewards.services.RewardAdminServiceImpl" public="false">
+        <interface>ro.agrade.jira.rewards.services.RewardAdminService</interface>
     </component>
-    -->
+
+    <component key="rcmpts_srs" class="ro.agrade.jira.rewards.services.RewardServiceImpl" public="false">
+        <interface>ro.agrade.jira.rewards.services.RewardService</interface>
+    </component>
     
     <!-- import from the product container -->
     <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties" />

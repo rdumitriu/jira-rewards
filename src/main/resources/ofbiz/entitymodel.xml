@@ -43,7 +43,7 @@
     <entity entity-name="RWDSPRINTGST"
             table-name="RWDSPRINTGST"
             package-name="ro.agrade.jira.rewards">
-        <description>The reward sprint invitees</description>
+        <description>The reward sprint guests</description>
 
         <field name="s_id" type="numeric"/>
         <field name="i_who" type="long-varchar"/>

@@ -25,7 +25,7 @@ public interface RewardService {
      * @param sprintId the id of the sprint
      * @return the list of rewards for the sprint
      */
-    public abstract List<Reward> getRewardForSprint(long sprintId);
+    public abstract List<Reward> getRewardsForSprint(long sprintId);
 
     /**
      * Adds the reward
