@@ -5,6 +5,8 @@ package ro.agrade.jira.rewards.services;
 
 import java.util.*;
 
+import ro.agrade.jira.rewards.dao.RewardDataService;
+
 /**
  * The reward service implementation
  *
@@ -12,6 +14,13 @@ import java.util.*;
  * @since 1.0
  */
 public class RewardServiceImpl implements RewardService {
+    private RewardDataService rds;
+    private RewardAdminService adminds;
+
+    public RewardServiceImpl(RewardDataService rds, RewardAdminService adminds) {
+        this.rds = rds;
+        this.adminds = adminds;
+    }
 
     /**
      * Gets the specified reward
@@ -21,7 +30,7 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public Reward getReward(long id) {
-        return null;  //::TODO::
+        return rds.getReward(id);
     }
 
     /**
@@ -32,7 +41,7 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public List<Reward> getRewardsForSprint(long sprintId) {
-        return null;  //::TODO::
+        return rds.getRewardForSprint(sprintId);
     }
 
     /**
@@ -43,7 +52,8 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public Reward addReward(Reward reward) {
-        return null;  //::TODO::
+        //::TODO:: date of the reward should be < date of the sprint
+        return rds.addReward(reward);
     }
 
     /**
@@ -53,7 +63,8 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public void updateReward(Reward reward) {
-        //::TODO::
+        //::TODO:: date of the reward should be < date of the sprint
+        rds.updateReward(reward);
     }
 
     /**
@@ -63,7 +74,7 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public void deleteReward(long id) {
-        //::TODO::
+        rds.deleteReward(id);
     }
 
     /**
@@ -76,33 +87,11 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public Reward grantRewardTo(Reward reward, String grantee, String resolution) {
-        return null;  //::TODO::
-    }
-
-    /**
-     * Update specifics of the reward
-     *
-     * @param reward      the reward
-     * @param quantity    the new quantity
-     * @param summary     the summary
-     * @param description the description
-     * @param dateEnds    the end date of the Reward
-     * @return the reward
-     */
-    @Override
-    public Reward updateReward(Reward reward, RewardType type, long quantity, String summary, String description, Date dateEnds) {
-        return null;  //::TODO::
-    }
-
-    /**
-     * Update specifics of the reward
-     *
-     * @param reward the reward
-     * @param sprint the new sprint
-     * @return the reward
-     */
-    @Override
-    public Reward changeRewardSprint(Reward reward, RewardSprint sprint) {
-        return null;  //::TODO::
+        reward.setToUser(grantee);
+        reward.setResolution(resolution);
+        updateReward(reward);
+        RewardSprint sprint = adminds.getRewardSprint(reward.getSprintId());
+        adminds.addSprintGuest(sprint, grantee);
+        return reward;
     }
 }

@@ -54,26 +54,4 @@ public interface RewardService {
      * @return the reward
      */
     public abstract Reward grantRewardTo(Reward reward, String grantee, String resolution);
-
-    /**
-     * Update specifics of the reward
-     * @param reward the reward
-     * @param quantity the new quantity
-     * @param summary the summary
-     * @param description the description
-     * @param dateEnds the end date of the Reward
-     * @return the reward
-     */
-    public abstract Reward updateReward(Reward reward, RewardType type,
-                                        long quantity,
-                                        String summary, String description,
-                                        Date dateEnds);
-
-    /**
-     * Update specifics of the reward
-     * @param reward the reward
-     * @param sprint the new sprint
-     * @return the reward
-     */
-    public abstract Reward changeRewardSprint(Reward reward, RewardSprint sprint);
 }

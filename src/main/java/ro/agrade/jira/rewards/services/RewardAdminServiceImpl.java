@@ -169,6 +169,7 @@ public class RewardAdminServiceImpl implements RewardAdminService {
         if(rs.getGuests() == null) {
             rs.setGuests(new ArrayList<String>());
         }
+        //::TODO:: unicity of the guest
         rs.getGuests().add(guest);
         updateRewardSprint(rs);
         return rs;
