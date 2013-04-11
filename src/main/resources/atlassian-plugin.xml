@@ -48,5 +48,42 @@
     
     <!-- import from the product container -->
     <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties" />
+    <component-import key="soyTemplateRenderer" interface="com.atlassian.soy.renderer.SoyTemplateRenderer"/>
+
+
+    <web-resource key="soy-templates">
+        <dependency>com.atlassian.soy.soy-template-plugin:soy-deps</dependency>
+
+        <!-- Available to the server-side only -->
+        <resource type="soy" name="issueView" location="/soy/issueView.soy"/>
+        <resource type="soy" name="templates" location="/soy/templates.soy"/>
+
+        <!-- Make available to the client-side in JS as well... -->
+        <transformation extension="soy">
+            <transformer key="soyTransformer" />
+        </transformation>
+        <resource type="download" name="issueView.soy.js" location="/soy/issueView.soy"/>
+        <resource type="download" name="templates.soy.js" location="/soy/templates.soy"/>
+        <context>atl.general</context>
+    </web-resource>
+
+    <!-- The Issue panel -->
+    <web-panel key="rewards-view-issue-panel" location="atl.jira.view.issue.right.context" >
+        <label key="rewards.issueView.panel.title"/>
+        <context-provider class="ro.agrade.jira.rewards.context.SoyContextProvider"/>
+        <resource name="view" type="velocity" location="velocity/issueView.vm"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    </web-panel>
+
+    <!-- Issue panel header link -->
+    <web-item key="create-reward" section="ro.agrade.jira.rewards:rewards-view-issue-panel/header" weight="1">
+        <label key="createreward.title"/>
+        <tooltip key="createreward.tooltip"/>
+        <styleClass>icon jira-icon-add issueaction-create-reward trigger-dialog</styleClass>
+        <link linkId="rwd-create-link">
+            /secure/CreateWorklog!default.jspa?id=${issue.id}
+        </link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    </web-item>
     
 </atlassian-plugin>

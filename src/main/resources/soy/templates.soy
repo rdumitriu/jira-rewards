@@ -1,0 +1,39 @@
+{namespace REWARDS.Templates}
+
+/**
+* Formats a user link
+* @param user - the user object
+* @param avatarUrl - the avatar URL
+*/
+{template .User}
+    <span class="user-hover {if $avatarUrl}user-avatar{/if}"
+        {if $avatarUrl}style="background-image: url({$avatarUrl});" {/if}
+        rel="{$user.username}">{$user.displayName}</span>
+{/template}
+
+/**
+* Renders a reward as the quantity followed by the reward icon
+* @param reward
+*/
+{template .RewardSmall}
+    <span class="rwd-icon-small"
+          style="background-image: url({$reward.fromUser.avatarUrl})"
+          title="{$reward.name} - {$reward.description}">
+          {$reward.quantity} {$reward.quantity < 2 ? $reward.name : $reward.pluralName}
+    </span>
+{/template}
+
+/**
+* Formats a reward entry
+* @param user
+* @param reward
+*/
+{template .OfferLinear}
+    {call .User}
+        {param user: $user /}
+    {/call}
+    ${getText('rewards.offers')}
+    {call .RewardSmall}
+        {param reward: $reward /}
+    {/call}
+{/template}
