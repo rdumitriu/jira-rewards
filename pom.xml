@@ -97,7 +97,7 @@
     </build>
 
     <properties>
-        <jira.version>6.0-m09</jira.version>
+        <jira.version>6.0-m10</jira.version>
         <amps.version>4.1.6</amps.version>
         <plugin.testrunner.version>1.1.1</plugin.testrunner.version>
     </properties>

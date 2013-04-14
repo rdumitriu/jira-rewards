@@ -18,7 +18,7 @@
         <resource type="download" name="rewards.js" location="/js/rewards.js"/>
         <resource type="download" name="images/" location="/images"/>
 
-        <context>rewards</context>
+        <context>atl.general</context>
     </web-resource>
 
     <!-- COMPONENTS -->
@@ -55,14 +55,12 @@
         <dependency>com.atlassian.soy.soy-template-plugin:soy-deps</dependency>
 
         <!-- Available to the server-side only -->
-        <resource type="soy" name="issueView" location="/soy/issueView.soy"/>
         <resource type="soy" name="templates" location="/soy/templates.soy"/>
 
         <!-- Make available to the client-side in JS as well... -->
         <transformation extension="soy">
             <transformer key="soyTransformer" />
         </transformation>
-        <resource type="download" name="issueView.soy.js" location="/soy/issueView.soy"/>
         <resource type="download" name="templates.soy.js" location="/soy/templates.soy"/>
         <context>atl.general</context>
     </web-resource>
@@ -70,7 +68,7 @@
     <!-- The Issue panel -->
     <web-panel key="rewards-view-issue-panel" location="atl.jira.view.issue.right.context" >
         <label key="rewards.issueView.panel.title"/>
-        <context-provider class="ro.agrade.jira.rewards.context.SoyContextProvider"/>
+        <context-provider class="ro.agrade.jira.rewards.context.IssueRewardsContextProvider"/>
         <resource name="view" type="velocity" location="velocity/issueView.vm"/>
         <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
     </web-panel>

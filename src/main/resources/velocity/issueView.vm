@@ -1,4 +1,7 @@
-$soyRenderer.render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.User',{
-    'user': $user,
-    'avatarUrl' : $!avatarService.getAvatarUrlNoPermCheck($user, $smallAvatarSize).toString()
-})
+$soyRenderer.render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.Sprints',
+                    {
+                        'sprints': $sprints
+                    },
+                    {
+                        'baseurl' : $baseurl
+                    })

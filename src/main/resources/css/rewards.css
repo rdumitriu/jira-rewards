@@ -1,0 +1,62 @@
+
+/* =========================================================================
+    Issue Panel styles
+   ========================================================================= */
+
+.rwd-sprint-summary {
+    margin-right: 20px;
+}
+
+.rwd-sprint-summary .rwd-sprint-header {
+    color: #A2A2A2;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1.364;
+    margin: 16px 0 0 0;
+    text-transform: uppercase;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+.rwd-sprint-summary .rwd-sprint-date {
+    float: right;
+}
+
+.rwd-list-item {
+    margin-top: 5px;
+}
+
+.rwd-list-item > table {
+    width: 100%;
+}
+
+.reward-left {
+    padding: 5px 3px 3px 0px;
+    width: 37px;
+}
+
+.reward-right .content {
+    float: right;
+}
+
+.reward-right, .reward-left {
+    vertical-align: top;
+}
+
+.sprint-reward32 .reward-quantity {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.reward-right .reward-icon {
+    display: inline;
+}
+
+.reward-central {
+    padding-top: 3px;
+}
+
+.reward-bottom {
+    margin-top: -7px;
+    font-size: 11px;
+    color: grey;
+}

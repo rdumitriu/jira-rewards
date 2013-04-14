@@ -15,25 +15,95 @@
 * Renders a reward as the quantity followed by the reward icon
 * @param reward
 */
-{template .RewardSmall}
-    <span class="rwd-icon-small"
-          style="background-image: url({$reward.fromUser.avatarUrl})"
-          title="{$reward.name} - {$reward.description}">
-          {$reward.quantity} {$reward.quantity < 2 ? $reward.name : $reward.pluralName}
-    </span>
+{template .Reward32}
+    <div class="sprint-reward32 rwd-list-item">
+        <table cellpadding="0" callspacing="0">
+            <tr>
+                <td rowspan="2" class="reward-left">
+                    {call .Avatar}
+                        {param iconUrl : $reward.fromUser.avatarUrl /}
+                        {param avatarSize : 'medium' /}
+                    {/call}
+                </td>
+                <td class="reward-central">
+                    <div class="reward-top">
+                        {call .User}
+                            {param user : $reward.fromUser /}
+                        {/call}
+                        &nbsp;{getText('rewards.keyword.offered')}&nbsp;
+                    </div>
+                </td>
+                <td rowspan="2" class="reward-right">
+                    <div class="content">
+                        <span class="reward-quantity">{$reward.quantity}</span>
+                        <div class="reward-icon" title="{$reward.name}">
+                            {call .Avatar}
+                                {param iconUrl : $ij.baseurl + $reward.iconURL /}
+                                {param avatarSize : 'medium' /}
+                            {/call}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="reward-bottom">
+                        <span class="reward-summary">{$reward.summary}</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+{/template}
+
+/**
+* Renders an avatar JIRA-style.
+* The avatar size must be one of:
+*    xsmall (16px)
+*    small (24px)
+*    medium (32px)
+*    large (48px)
+*    xxlarge (96px)
+*
+* @param iconUrl
+* @param avatarSize
+*/
+{template .Avatar}
+    <div class="aui-avatar aui-avatar-{$avatarSize}">
+        <img src="{$iconUrl}"></img>
+    </div>
 {/template}
 
 /**
 * Formats a reward entry
-* @param user
-* @param reward
+* @param sprint
 */
-{template .OfferLinear}
-    {call .User}
-        {param user: $user /}
-    {/call}
-    ${getText('rewards.offers')}
-    {call .RewardSmall}
-        {param reward: $reward /}
-    {/call}
+{template .SprintSummary}
+    <div class="rwd-sprint-summary" id="rwd-sprint-summary-{$sprint.id}">
+        <div class="rwd-sprint-header">
+            <span class="rwd-sprint-name">{$sprint.name}</span>
+            <span class="rwd-sprint-date">{$sprint.when}</span>
+        </div>
+        {foreach $rwd in $sprint.rewards}
+            {call .Reward32}
+                {param reward : $rwd /}
+            {/call}
+        {/foreach}
+    </div>
+{/template}
+
+/**
+* Formats a set of sprints
+* @param sprints
+*/
+{template .Sprints}
+    {if $sprints}
+        {foreach $sprint in $sprints}
+            {call .SprintSummary}
+                {param sprint : $sprint /}
+            {/call}
+        {/foreach}
+    {else}
+        {getText('rewards.message.norewardsforissue')}
+    {/if}
 {/template}

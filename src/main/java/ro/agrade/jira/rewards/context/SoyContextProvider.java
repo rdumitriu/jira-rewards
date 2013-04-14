@@ -28,7 +28,7 @@ public class SoyContextProvider extends DefaultVelocityContextProvider{
 
     private static final Log LOG = LogFactory.getLog(SoyContextProvider.class);
 
-    private final SoyTemplateRenderer soyRenderer;
+    protected final BetterSoyRenderer soyRenderer;
     private JiraAuthenticationContext authenticationContext;
 
     /**
@@ -40,7 +40,7 @@ public class SoyContextProvider extends DefaultVelocityContextProvider{
                               SoyTemplateRendererProvider soyProvider) {
         super(authenticationContext);
         this.authenticationContext = authenticationContext;
-        this.soyRenderer = soyProvider.getRenderer();
+        this.soyRenderer = new BetterSoyRenderer(soyProvider.getRenderer());
     }
 
     @Override
@@ -48,15 +48,12 @@ public class SoyContextProvider extends DefaultVelocityContextProvider{
         Map<String, Object> ctxMap = super.getContextMap(context);
         ctxMap.put("soyRenderer", soyRenderer);
         ctxMap.put("user", authenticationContext.getUser());
-        ctxMap.put("smallAvatarSize", Avatar.Size.SMALL);
-        ctxMap.put("largeAvatarSize", Avatar.Size.LARGE);
         if(LOG.isDebugEnabled()){
             LOG.debug("Passing to context:");
             LOG.debug("================================");
             for(Map.Entry<String,Object> me : ctxMap.entrySet()){
                 LOG.debug(String.format("%s : %s", me.getKey(), me.getValue()));
             }
-
         }
         return ctxMap;
     }
