@@ -83,7 +83,7 @@
                 <configuration>
                     <productVersion>${jira.version}</productVersion>
                     <productDataVersion>${jira.version}</productDataVersion>
-                    <useFastdevCli>false</useFastdevCli>
+                    <!--<useFastdevCli>false</useFastdevCli>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -98,7 +98,7 @@
 
     <properties>
         <jira.version>6.0-m10</jira.version>
-        <amps.version>4.1.6</amps.version>
+        <amps.version>4.1.7</amps.version>
         <plugin.testrunner.version>1.1.1</plugin.testrunner.version>
     </properties>
 

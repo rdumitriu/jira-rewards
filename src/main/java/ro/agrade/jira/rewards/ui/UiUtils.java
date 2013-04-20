@@ -6,9 +6,8 @@
 package ro.agrade.jira.rewards.ui;
 
 import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.datetime.*;
 import com.atlassian.jira.user.ApplicationUser;
-import com.atlassian.jira.user.UserUtils;
-import com.atlassian.jira.user.util.UserUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -19,6 +18,28 @@ import java.util.*;
  * @author Florin Manaila (florin.manaila@gmail.com)
  */
 public class UiUtils {
+
+    /**
+     * Get a pretty formatter for the current user
+     * @return the formatter
+     */
+    public static DateTimeFormatter getDateFormatter(DateTimeStyle style){
+        if(style == null){
+            style = DateTimeStyle.RELATIVE;
+        }
+        return ComponentAccessor.getComponentOfType(DateTimeFormatterFactory.class)
+                                .formatter()
+                                .forLoggedInUser()
+                                .withStyle(style);
+    }
+
+    /**
+     * Get a pretty formatter for the current user
+     * @return the formatter
+     */
+    public static DateTimeFormatter getDateFormatter(){
+        return getDateFormatter(null);
+    }
 
     /**
      * Formats a date

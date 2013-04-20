@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <title>$i18n.getText('rewards.new.title')</title>
+        <meta content="issueaction" name="decorator">
+    </head>
+    <body>
+        <form class="aui" method="post" action="NewReward!create.jspa">
+             <div class="form-body">
+                 <h2>$i18n.getText('rewards.new.title')</h2>
+                 ##-------------------------------------------------------------
+                 ##  To User
+                 ##-------------------------------------------------------------
+                 ##$action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.UserPicker',
+                 ##                   {
+                 ##                   'label': "$i18n.getText('rewards.new.toUser.label')",
+                 ##                   'fieldId': "toUser",
+                 ##                   'fieldName': "toUser",
+                 ##                   'description': "$i18n.getText('rewards.new.toUser.description')",
+                 ##                   'required' : false,
+                 ##                  'error' : $errors.get("toUser")
+                 ##                   },{'baseurl' : $baseurl})
+
+                 ##-------------------------------------------------------------
+                 ##  Summary
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Text',
+                                    {
+                                    'label': "$i18n.getText('rewards.new.summary.label')",
+                                    'fieldId': "summary",
+                                    'fieldName': "summary",
+                                    'description': "$i18n.getText('rewards.new.summary.description')",
+                                    'required' : true,
+                                    'error' : $errors.get("summary"),
+                                    'defaultValue' : $summary
+                                    },{'baseurl' : $baseurl})
+
+                 ##-------------------------------------------------------------
+                 ##  Offer
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Offer',
+                                     {
+                                     'label': "$i18n.getText('rewards.new.offer.label')",
+                                     'qtyId': "quantity",
+                                     'qtyName': "quantity",
+                                     'typesId': "typeId",
+                                     'typesName': "typeId",
+                                     'rwdTypes' : $types,
+                                     'description': "$i18n.getText('rewards.new.offer.description')",
+                                     'required' : true,
+                                     'error' : $errors.get("offer"),
+                                     'qtyDefaultValue' : $quantity,
+                                     'typesDefaultValue' : $typeId
+                                     },{'baseurl' : $baseurl})
+
+                 ##-------------------------------------------------------------
+                 ##  Sprint
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.SprintSelect',
+                                     {
+                                     'label': "$i18n.getText('rewards.new.sprint.label')",
+                                     'fieldId': "sprintId",
+                                     'fieldName': "sprintId",
+                                     'sprints' : $sprints,
+                                     'description': "$i18n.getText('rewards.new.sprint.description')",
+                                     'required' : true,
+                                     'error' : $errors.get("sprint"),
+                                     'defaultValue' : $sprintId
+                                     },{'baseurl' : $baseurl, 'dateFormatter' : $dateTimeFormatter})
+
+                 ##-------------------------------------------------------------
+                 ##  Description
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Textarea',
+                                     {
+                                     'label': "$i18n.getText('rewards.new.description.label')",
+                                     'fieldId': "description",
+                                     'fieldName': "description",
+                                     'description': "$i18n.getText('rewards.new.description.description')",
+                                     'error' : $errors.get("description"),
+                                     'defaultValue' : $description
+                                     },{'baseurl' : $baseurl})
+
+             </div>
+             <input type="hidden" name="issueId" value="$id">
+             <div class="buttons-container form-footer">
+                <div class="buttons">
+                    <input class="aui-button" id="reward-create-submit" value="$i18n.getText('rewards.new.submit')"  type="submit" name="save" />
+                    <a class="aui-button aui-button-link cancel" href="$baseurl$issuePath">$i18n.getText('rewards.new.cancel')</a>
+                </div>
+             </div>
+        </form>
+    </body>
+</html>
+

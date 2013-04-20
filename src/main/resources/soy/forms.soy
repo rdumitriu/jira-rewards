@@ -1,0 +1,163 @@
+{namespace REWARDS.Forms}
+
+/**
+* User picker field for a form
+* @param label
+* @param fieldId
+* @param fieldName
+* @param description
+* @param required
+* @param error
+* @param defaultValue
+*/
+{template .UserPicker}
+    <div class="field-group">
+        <label for="{$fieldName}">
+            {$label}
+            {if $required}
+                <span class="aui-icon icon-required">{getText('rewards.required.label')}</span>
+            {/if}
+        </label>
+        <select class="single-user-picker js-default-user-picker"
+                data-show-dropdown-button="true"
+                id="{$fieldId}"
+                name="{$fieldName}"
+                {if $defaultValue} value="{$defaultValue}"{/if}
+                ></select>
+        <div class="description">{$description}</div>
+        {if $error}<div class="error">{$error}</div>{/if}
+    </div>
+{/template}
+
+/**
+* Text field for a form
+* @param label
+* @param fieldId
+* @param fieldName
+* @param description
+* @param required
+* @param error
+* @param defaultValue
+*/
+{template .Text}
+    <div class="field-group">
+        <label for="{$fieldName}">
+            {$label}
+            {if $required}
+                <span class="aui-icon icon-required">{getText('rewards.required.label')}</span>
+            {/if}
+        </label>
+        <input class="text long-field"
+               type="text"
+               id="{$fieldId}"
+               name="{$fieldName}"
+               {if $defaultValue} value="{$defaultValue}"{/if} />
+        <div class="description">{$description}</div>
+        {if $error}<div class="error">{$error}</div>{/if}
+    </div>
+{/template}
+
+/**
+* Text field for a form
+* @param label
+* @param qtyId
+* @param qtyName
+* @param qtyDefaultValue
+* @param typesId
+* @param typesName
+* @param typesDefaultValue
+* @param rwdTypes
+* @param description
+* @param required
+* @param error
+*/
+{template .Offer}
+    <div class="field-group rwd-offer">
+        <label for="{$qtyName}">
+            {$label}
+            {if $required}
+                <span class="aui-icon icon-required">{getText('rewards.required.label')}</span>
+            {/if}
+        </label>
+        <input class="text rwd-quantity"
+               type="text"
+               id="{$qtyId}"
+               name="{$qtyName}"
+               {if $qtyDefaultValue} value="{$qtyDefaultValue}"{/if}
+               />
+        <select class="select rwd-types rwd-select"
+               data-container-class="rwdTypes-ss"
+               id="{$typesId}"
+               name="{$typesName}">
+            {foreach $rwdType in $rwdTypes}
+                <option id="rwdTypes{$rwdType.id}" data-icon="{$ij.baseurl}{$rwdType.iconURL}"
+                        class="imagebacked"
+                        {if $typesDefaultValue and $typesDefaultValue == $rwdType.id}selected="selected"{/if}
+                        value="{$rwdType.id}" title="{$rwdType.description}">{$rwdType.namePluralForm}</option>
+            {/foreach}
+        </select>
+        <div class="description">{$description}</div>
+        {if $error}<div class="error">{$error}</div>{/if}
+    </div>
+{/template}
+
+/**
+* Text field for a form
+* @param label
+* @param fieldId
+* @param fieldName
+* @param sprints
+* @param description
+* @param required
+* @param error
+* @param defaultValue
+*/
+{template .SprintSelect}
+    <div class="field-group">
+        <label for="{$fieldName}">
+            {$label}
+            {if $required}
+                <span class="aui-icon icon-required">{getText('rewards.required.label')}</span>
+            {/if}
+        </label>
+        <select class="select rwd-sprints rwd-select"
+               data-container-class="rwd-sprints-ss"
+               id="{$fieldId}"
+               name="{$fieldName}">
+            {foreach $sprint in $sprints}
+                <option id="sprints-{$sprint.id}"
+                        value="{$sprint.id}" title="{$sprint.description}"
+                        {if $defaultValue and $defaultValue == $sprint.id}selected="selected"{/if}
+                        >{$sprint.name} - {$sprint.when}</option>
+            {/foreach}
+        </select>
+        <div class="description">{$description}</div>
+        {if $error}<div class="error">{$error}</div>{/if}
+    </div>
+{/template}
+
+/**
+* Text field for a form
+* @param label
+* @param fieldId
+* @param fieldName
+* @param description
+* @param required
+* @param error
+* @param defaultValue
+*/
+{template .Textarea}
+    <div class="field-group">
+        <label for="{$fieldName}">
+            {$label}
+            {if $required}
+                <span class="aui-icon icon-required">{getText('rewards.required.label')}</span>
+            {/if}
+        </label>
+        <textarea class="textarea long-field"
+               id="{$fieldId}"
+               name="{$fieldName}">{if $defaultValue}{$defaultValue}{/if}</textarea>
+        <div class="description">{$description}</div>
+        {if $error}<div class="error">{$error}</div>{/if}
+    </div>
+{/template}

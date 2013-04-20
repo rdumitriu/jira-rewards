@@ -60,3 +60,15 @@
     font-size: 11px;
     color: grey;
 }
+
+/* =========================================================================
+    Add reward
+========================================================================= */
+
+.rwd-offer #quantity {
+    width : 50px;
+}
+
+.rwd-offer #typeId-single-select {
+    margin-left: 5px;
+}

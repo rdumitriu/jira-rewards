@@ -55,7 +55,7 @@ public class IssueRewardsContextProvider extends SoyContextProvider {
 
     public List<SprintDescriptor> getSprints() {
         RewardSprint sprint = new RewardSprint(1, "Sprint", "location", "admin", new Date(System.currentTimeMillis()), SprintStatus.ACTIVE, new ArrayList<String>());
-        RewardSprint sprint2 = new RewardSprint(2, "Sprint2", "location2", "admin", new Date(System.currentTimeMillis() + 20000), SprintStatus.ACTIVE, new ArrayList<String>());
+        RewardSprint sprint2 = new RewardSprint(2, "Sprint2", "location2", "admin", new Date(System.currentTimeMillis() + 200000000), SprintStatus.ACTIVE, new ArrayList<String>());
         RewardType type = new RewardType(1, "Beer", "Beers", "Sweet golden nectar of the gods", "/download/resources/ro.agrade.jira.rewards:rewards-resources/images/beer_32x32.png");
         Reward r1 = new Reward(1, 1, 1, 1, new Date(System.currentTimeMillis()), "rwd summary", "long description", "admin", null, "resolution", 10000);
         Reward r2 = new Reward(2, 1, 1, 12, new Date(System.currentTimeMillis()), "rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd " +

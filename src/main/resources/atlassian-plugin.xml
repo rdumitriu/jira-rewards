@@ -56,12 +56,14 @@
 
         <!-- Available to the server-side only -->
         <resource type="soy" name="templates" location="/soy/templates.soy"/>
+        <resource type="soy" name="forms" location="/soy/forms.soy"/>
 
         <!-- Make available to the client-side in JS as well... -->
         <transformation extension="soy">
             <transformer key="soyTransformer" />
         </transformation>
         <resource type="download" name="templates.soy.js" location="/soy/templates.soy"/>
+        <resource type="download" name="forms.soy.js" location="/soy/forms.soy"/>
         <context>atl.general</context>
     </web-resource>
 
@@ -75,13 +77,21 @@
 
     <!-- Issue panel header link -->
     <web-item key="create-reward" section="ro.agrade.jira.rewards:rewards-view-issue-panel/header" weight="1">
-        <label key="createreward.title"/>
-        <tooltip key="createreward.tooltip"/>
-        <styleClass>icon jira-icon-add issueaction-create-reward trigger-dialog</styleClass>
+        <label key="rewards.createreward.title"/>
+        <tooltip key="rewards.createreward.tooltip"/>
+        <styleClass>icon jira-icon-add issueaction-create-reward trigger-dialog rwd-trigger-dialog</styleClass>
         <link linkId="rwd-create-link">
-            /secure/CreateWorklog!default.jspa?id=${issue.id}
+            /secure/NewReward!default.jspa?id=${issue.id}
         </link>
         <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
     </web-item>
+
+    <webwork1 key="rwd-webwork-actions" name="WebWork Actions">
+        <actions>
+            <action name="ro.agrade.jira.rewards.ui.actions.AddRewardAction" alias="NewReward">
+                <view name="input">/velocity/newReward.vm</view>
+            </action>
+        </actions>
+    </webwork1>
     
 </atlassian-plugin>
