@@ -25,9 +25,9 @@ public class RewardSprint {
     //<field name="s_status" type="numeric"/>
     private SprintStatus status;
     //Link to guests
-    private List<String> guests;
+    private Set<String> guests;
 
-    public RewardSprint(long id, String name, String where, String owner, Date when, SprintStatus status, List<String> invitees) {
+    public RewardSprint(long id, String name, String where, String owner, Date when, SprintStatus status, Set<String> invitees) {
         this.id = id;
         this.name = name;
         this.where = where;
@@ -77,11 +77,11 @@ public class RewardSprint {
         this.when = when;
     }
 
-    public List<String> getGuests() {
+    public Set<String> getGuests() {
         return guests;
     }
 
-    public void setGuests(List<String> guests) {
+    public void setGuests(Set<String> guests) {
         this.guests = guests;
     }
 

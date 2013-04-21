@@ -70,12 +70,12 @@ public class RewardSprintInvDataServiceImpl implements RewardSprintInvDataServic
      * @return the list of guests
      */
     @Override
-    public List<String> getGuestsForSprint(long sprintId) {
+    public Set<String> getGuestsForSprint(long sprintId) {
         try {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ID_FIELD, sprintId);
             List<GenericValue> list = delegator.findByAnd(ENTITY, map);
-            List<String> ret = new ArrayList<String>();
+            Set<String> ret = new HashSet<String>();
             if(list != null) {
                 for(GenericValue gv : list) {
                     ret.add((String)gv.get(GUEST_FIELD));

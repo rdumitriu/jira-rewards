@@ -92,8 +92,8 @@ public class AddRewardAction extends AbstractIssueSelectAction {
 
     public List<SimpleSprintDescriptor> getSprints() {
         // TODO
-        RewardSprint sprint = new RewardSprint(1, "Sprint", "location", "admin", new Date(System.currentTimeMillis()), SprintStatus.ACTIVE, new ArrayList<String>());
-        RewardSprint sprint2 = new RewardSprint(2, "Sprint2", "location2", "admin", new Date(System.currentTimeMillis() + 2000000), SprintStatus.ACTIVE, new ArrayList<String>());
+        RewardSprint sprint = new RewardSprint(1, "Sprint", "location", "admin", new Date(System.currentTimeMillis()), SprintStatus.ACTIVE, new HashSet<String>());
+        RewardSprint sprint2 = new RewardSprint(2, "Sprint2", "location2", "admin", new Date(System.currentTimeMillis() + 2000000), SprintStatus.ACTIVE, new HashSet<String>());
 //        return radminService.getRewardSprints(SprintStatus.ACTIVE);
         return Lists.newArrayList(new SimpleSprintDescriptor(sprint), new SimpleSprintDescriptor(sprint2));
 

@@ -18,7 +18,7 @@ public interface RewardSprintInvDataService {
      * @param sprintId the sprint
      * @return the list of guests
      */
-    public abstract List<String> getGuestsForSprint(long sprintId);
+    public abstract Set<String> getGuestsForSprint(long sprintId);
 
     /**
      * Adds a guest

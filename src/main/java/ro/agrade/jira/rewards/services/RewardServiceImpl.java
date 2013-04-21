@@ -7,6 +7,9 @@ import java.util.*;
 
 import ro.agrade.jira.rewards.dao.RewardDataService;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * The reward service implementation
  *
@@ -14,6 +17,8 @@ import ro.agrade.jira.rewards.dao.RewardDataService;
  * @since 1.0
  */
 public class RewardServiceImpl implements RewardService {
+    private static final Log LOG = LogFactory.getLog(RewardServiceImpl.class);
+
     private RewardDataService rds;
     private RewardAdminService adminds;
 
@@ -41,7 +46,7 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public List<Reward> getRewardsForSprint(long sprintId) {
-        return rds.getRewardForSprint(sprintId);
+        return rds.getRewardsForSprint(sprintId);
     }
 
     /**
@@ -52,7 +57,7 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public Reward addReward(Reward reward) {
-        //::TODO:: date of the reward should be < date of the sprint
+        verifySprintFor(reward);
         return rds.addReward(reward);
     }
 
@@ -63,8 +68,24 @@ public class RewardServiceImpl implements RewardService {
      */
     @Override
     public void updateReward(Reward reward) {
-        //::TODO:: date of the reward should be < date of the sprint
+        verifySprintFor(reward);
         rds.updateReward(reward);
+    }
+
+    private void verifySprintFor(Reward reward) {
+        RewardSprint sprint = adminds.getRewardSprint(reward.getSprintId());
+        if(sprint == null) {
+            String msg = String.format("Reward sprint %d does not exist", reward.getSprintId());
+            LOG.error(msg);
+            throw new RewardException(msg);
+        }
+        if(sprint.getWhen() != null && reward.getDateEnds() != null &&
+           sprint.getWhen().after(reward.getDateEnds())) {
+            String msg = String.format("Reward sprint %d ends (%s) before the reward! (%s)",
+                                        reward.getSprintId(), sprint.getWhen(), reward.getDateEnds());
+            LOG.error(msg);
+            throw new RewardException(msg);
+        }
     }
 
     /**
