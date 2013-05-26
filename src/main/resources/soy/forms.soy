@@ -161,3 +161,19 @@
         {if $error}<div class="error">{$error}</div>{/if}
     </div>
 {/template}
+
+/**
+* Creates a message panel
+* @param title
+* @param text
+* @param class
+*/
+{template .Message}
+    <div class="aui-message {$class}">
+        <p class="title">
+            <span class="aui-icon icon-{$class}"></span>
+            <strong>{$title}</strong>
+        </p>
+        <p>{$text}</p>
+    </div>
+{/template}

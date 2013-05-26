@@ -3,5 +3,7 @@ $soyRenderer.render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.Sp
                         'sprints': $sprints
                     },
                     {
-                        'baseurl' : $baseurl
+                        'baseurl' : $baseurl,
+                        'currentUser' : $user,
+                        'isAdmin' : $isAdmin
                     })

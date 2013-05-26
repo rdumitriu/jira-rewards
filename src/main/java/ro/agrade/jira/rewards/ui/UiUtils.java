@@ -7,6 +7,7 @@ package ro.agrade.jira.rewards.ui;
 
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.datetime.*;
+import com.atlassian.jira.security.Permissions;
 import com.atlassian.jira.user.ApplicationUser;
 
 import java.text.SimpleDateFormat;
@@ -67,5 +68,16 @@ public class UiUtils {
                                 .getAvatarURL(ComponentAccessor.getJiraAuthenticationContext().getUser(),
                                               user)
                                 .toString();
+    }
+
+    /**
+     * Checks administrator permissions
+     * @param user the user
+     * @return true if user is admin or system admin
+     */
+    public static boolean isAdmin(ApplicationUser user){
+        return
+                ComponentAccessor.getPermissionManager().hasPermission(Permissions.ADMINISTER, user) ||
+                ComponentAccessor.getPermissionManager().hasPermission(Permissions.SYSTEM_ADMIN, user);
     }
 }

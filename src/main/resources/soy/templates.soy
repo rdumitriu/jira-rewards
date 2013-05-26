@@ -6,9 +6,15 @@
 * @param avatarUrl - the avatar URL
 */
 {template .User}
-    <span class="user-hover {if $avatarUrl}user-avatar{/if}"
-        {if $avatarUrl}style="background-image: url({$avatarUrl});" {/if}
-        rel="{$user.username}">{$user.displayName}</span>
+    <span class="user-hover rwd-user-hover" rel="{$user.username}">
+        {if $avatarUrl}
+            {call .Avatar}
+                {param iconUrl : $avatarUrl /}
+                {param avatarSize : 'xsmall' /}
+            {/call}
+        {/if}
+        {$user.displayName}
+    </span>
 {/template}
 
 /**
@@ -16,43 +22,51 @@
 * @param reward
 */
 {template .Reward32}
-    <div class="sprint-reward32 rwd-list-item">
-        <table cellpadding="0" callspacing="0">
-            <tr>
-                <td rowspan="2" class="reward-left">
-                    {call .Avatar}
-                        {param iconUrl : $reward.fromUser.avatarUrl /}
-                        {param avatarSize : 'medium' /}
+    <div class="sprint-reward32 rwd-list-item {if $reward.toUser != null}rwd-granted{/if}">
+        <div class="reward-left reward-short">
+            <div class="reward-icon" title="{$reward.name}">
+                {call .Avatar}
+                    {param iconUrl : $ij.baseurl + $reward.iconURL /}
+                    {param avatarSize : 'medium' /}
+                {/call}
+            </div>
+            <span class="reward-quantity">{$reward.quantity}</span>
+        </div>
+        <div class="reward-central">
+            {if $reward.toUser == null}
+                <div class="reward-ctop">
+                    &nbsp;{getText('rewards.keyword.offered.by')}&nbsp;
+                    {call .User}
+                        {param user : $reward.fromUser /}
                     {/call}
-                </td>
-                <td class="reward-central">
-                    <div class="reward-top">
-                        {call .User}
-                            {param user : $reward.fromUser /}
-                        {/call}
-                        &nbsp;{getText('rewards.keyword.offered')}&nbsp;
-                    </div>
-                </td>
-                <td rowspan="2" class="reward-right">
-                    <div class="content">
-                        <span class="reward-quantity">{$reward.quantity}</span>
-                        <div class="reward-icon" title="{$reward.name}">
-                            {call .Avatar}
-                                {param iconUrl : $ij.baseurl + $reward.iconURL /}
-                                {param avatarSize : 'medium' /}
-                            {/call}
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="reward-bottom">
-                        <span class="reward-summary">{$reward.summary}</span>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                </div>
+                <div class="reward-cbot">
+                    <span class="reward-summary">{$reward.summary}</span>
+                </div>
+            {else}
+                <div class="reward-ctop">
+                    &nbsp;{getText('rewards.keyword.granted.to')}&nbsp;
+                    {call .User}
+                        {param user : $reward.toUser /}
+                    {/call}
+                    &nbsp;{getText('rewards.keyword.by')}&nbsp;
+                    {call .User}
+                        {param user : $reward.fromUser /}
+                    {/call}
+                </div>
+                <div class="reward-cbot">
+                    <span class="reward-summary">{$reward.resolution}</span>
+                </div>
+            {/if}
+        </div>
+        {if $reward.fromUser.key == $ij.currentUser.key or $ij.isAdmin}
+            {call .Toolbar}
+                {param isGrant : $reward.toUser == null /}
+                {param isEdit : $reward.fromUser.key == $ij.currentUser.key and $reward.toUser == null /}
+                {param isDelete : $ij.isAdmin /}
+                {param reward : $reward /}
+            {/call}
+        {/if}
     </div>
 {/template}
 
@@ -106,4 +120,66 @@
     {else}
         {getText('rewards.message.norewardsforissue')}
     {/if}
+{/template}
+
+/**
+* Toolbar containing grant/edit reward
+* @param reward
+* @param isGrant
+* @param isEdit
+* @param isDelete
+*/
+{template .Toolbar}
+    <div class="rwd-toolbar" id="rwd-toolbar-{$reward.id}">
+        {if $isGrant}
+            <a id="rwd-grant-{$reward.id}"
+               rwdId="{$reward.id}"
+               class="rwd-toolbar-action rwd-icon rwd-icon-accept rwd-trigger-dialog"
+               title="{getText('rewards.grant.trigger.title')}"
+               href="{$ij.baseurl}/secure/GrantReward!default.jspa?rwdId={$reward.id}"></a>
+        {/if}
+        {if $isEdit and $isDelete}
+            <a href="#rwd-actions-{$reward.id}"
+               aria-owns="rwd-actions-{$reward.id}"
+               aria-haspopup="true"
+               class="icon-tools-small aui-dropdown2-trigger aui-style-default rwd-icon-overwrite"
+               title="{getText('rewards.more.trigger.title')}">
+            </a>
+            <!-- Simple Dropdown - dropdown -->
+            <div id="rwd-actions-{$reward.id}" class="rwd-actions-dropdown aui-dropdown2 aui-style-default">
+                <ul class="aui-list-truncate">
+                    <li>
+                        <a id="rwd-edit-{$reward.id}"
+                           rwdId="{$reward.id}"
+                           class="rwd-toolbar-dropdown-action rwd-trigger-dialog"
+                           href="{$ij.baseurl}/secure/IssueReward!selectReward.jspa?rwdId={$reward.id}">
+                        <span class="icon icon-edit"></span>
+                        {getText('rewards.edit.trigger.title')}
+                        </a>
+                    </li>
+                    <li>
+                        <a id="rwd-delete-{$reward.id}"
+                           rwdId="{$reward.id}"
+                           class="rwd-toolbar-dropdown-action rwd-trigger-dialog"
+                           href="{$ij.baseurl}/secure/DeleteReward!default.jspa?rwdId={$reward.id}">
+                        <span class="icon icon-delete"></span>
+                        {getText('rewards.delete.trigger.title')}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {elseif $isEdit}
+            <a id="rwd-edit-{$reward.id}"
+               rwdId="{$reward.id}"
+               class="rwd-toolbar-action icon-edit rwd-icon-overwrite rwd-trigger-dialog"
+               title="{getText('rewards.edit.trigger.title')}"
+               href="{$ij.baseurl}/secure/IssueReward!selectReward.jspa?rwdId={$reward.id}"></a>
+        {elseif $isDelete}
+            <a id="rwd-delete-{$reward.id}"
+               rwdId="{$reward.id}"
+               class="rwd-toolbar-action icon-delete rwd-icon-overwrite rwd-trigger-dialog"
+               href="{$ij.baseurl}/secure/DeleteReward!default.jspa?rwdId={$reward.id}"
+               title="{getText('rewards.delete.trigger.title')}"></a>
+        {/if}
+    </div>
 {/template}

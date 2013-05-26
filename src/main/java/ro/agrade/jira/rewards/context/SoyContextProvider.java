@@ -11,10 +11,13 @@ import com.atlassian.jira.plugin.userformat.DefaultUserFormatManager;
 import com.atlassian.jira.plugin.userformat.UserFormatter;
 import com.atlassian.jira.plugin.userformat.UserFormatterImpl;
 import com.atlassian.jira.plugin.webfragment.contextproviders.DefaultVelocityContextProvider;
-import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.*;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
+import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.user.util.UserUtilImpl;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
+import ro.agrade.jira.rewards.ui.UiUtils;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -46,8 +49,10 @@ public class SoyContextProvider extends DefaultVelocityContextProvider{
     @Override
     public Map<String, Object> getContextMap(Map<String, Object> context) {
         Map<String, Object> ctxMap = super.getContextMap(context);
+        ApplicationUser currentUser = authenticationContext.getUser();
         ctxMap.put("soyRenderer", soyRenderer);
-        ctxMap.put("user", authenticationContext.getUser());
+        ctxMap.put("user", currentUser);
+        ctxMap.put("isAdmin", UiUtils.isAdmin(currentUser));
         if(LOG.isDebugEnabled()){
             LOG.debug("Passing to context:");
             LOG.debug("================================");
@@ -57,4 +62,5 @@ public class SoyContextProvider extends DefaultVelocityContextProvider{
         }
         return ctxMap;
     }
+
 }

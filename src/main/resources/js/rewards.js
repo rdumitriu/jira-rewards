@@ -27,11 +27,15 @@
 
     JIRA.bind(JIRA.Events.NEW_CONTENT_ADDED, function (e, context, reason) {
         if (reason !== JIRA.CONTENT_ADDED_REASON.panelRefreshed) {
-            createRewardTypePicker(context);
+            createRewardTypePicker(AJS.$(document));
         }
     });
 
     JIRA.bind(JIRA.Events.ISSUE_REFRESHED, function (e, context, reason) {
-        initDialogTrigger(context);
+        initDialogTrigger(AJS.$(document));
+    });
+
+    AJS.$(document).ready(function(){
+        initDialogTrigger(AJS.$(this));
     });
 })(AJS.$);

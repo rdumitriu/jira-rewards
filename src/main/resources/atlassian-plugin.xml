@@ -81,15 +81,27 @@
         <tooltip key="rewards.createreward.tooltip"/>
         <styleClass>icon jira-icon-add issueaction-create-reward trigger-dialog rwd-trigger-dialog</styleClass>
         <link linkId="rwd-create-link">
-            /secure/NewReward!default.jspa?id=${issue.id}
+            /secure/IssueReward!default.jspa?id=${issue.id}
         </link>
         <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
     </web-item>
 
     <webwork1 key="rwd-webwork-actions" name="WebWork Actions">
         <actions>
-            <action name="ro.agrade.jira.rewards.ui.actions.AddRewardAction" alias="NewReward">
+            <action name="ro.agrade.jira.rewards.ui.actions.IssueRewardAction" alias="IssueReward">
                 <view name="input">/velocity/newReward.vm</view>
+                <view name="success">/velocity/newReward.vm</view>
+                <view name="error">/velocity/newReward.vm</view>
+            </action>
+            <action name="ro.agrade.jira.rewards.ui.actions.GrantRewardAction" alias="GrantReward">
+                <view name="input">/velocity/grantReward.vm</view>
+                <view name="success">/velocity/grantReward.vm</view>
+                <view name="error">/velocity/grantReward.vm</view>
+            </action>
+            <action name="ro.agrade.jira.rewards.ui.actions.DeleteRewardAction" alias="DeleteReward">
+                <view name="input">/velocity/deleteReward.vm</view>
+                <view name="success">/velocity/deleteReward.vm</view>
+                <view name="error">/velocity/deleteReward.vm</view>
             </action>
         </actions>
     </webwork1>

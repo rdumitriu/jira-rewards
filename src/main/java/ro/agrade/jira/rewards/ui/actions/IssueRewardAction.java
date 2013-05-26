@@ -23,11 +23,11 @@ import java.util.*;
  *
  * @author Florin Manaila (florin.manaila@gmail.com)
  */
-public class AddRewardAction extends AbstractIssueSelectAction {
+public class IssueRewardAction extends AbstractIssueSelectAction {
     // extending AbstractIssueSelectAction to enable
     // the use of "issueaction" decorator
 
-
+    private long rwdId;
     private long typeId;
     private long sprintId;
     private long quantity;
@@ -41,11 +41,11 @@ public class AddRewardAction extends AbstractIssueSelectAction {
     private final ApplicationProperties properties;
     private final SoyTemplateRenderer soyRenderer;
 
-    public AddRewardAction(RewardAdminService radminService,
-                           RewardService rService,
-                           ApplicationProperties properties,
-                           SoyTemplateRendererProvider soyProvider,
-                           SubTaskManager subTaskManager){
+    public IssueRewardAction(RewardAdminService radminService,
+                             RewardService rService,
+                             ApplicationProperties properties,
+                             SoyTemplateRendererProvider soyProvider,
+                             SubTaskManager subTaskManager){
         super(subTaskManager);
         this.radminService = radminService;
         this.rService = rService;
@@ -54,6 +54,75 @@ public class AddRewardAction extends AbstractIssueSelectAction {
     }
 
     public String doCreate(){
+        checkFields();
+
+        if(getHasErrors() || getHasErrorMessages()){
+            return INPUT;
+        }
+
+        // TODO create reward and add
+        // TODO maybe create constructor without id
+        Reward reward = new Reward(0l, typeId, sprintId, quantity,
+                                  new Date(), summary, longDescription,
+                                  getLoggedInApplicationUser().getKey(),
+                                  null, "", getId());
+//        rService.addReward(reward);
+        return returnComplete();
+    }
+
+    public String doSelectReward(){
+        // TODO uncomment when sprint planning is done
+//        Reward reward = rService.getReward(rwdId);
+//        if(reward == null){
+//            addErrorMessage(getText("rewards.forms.errors.invalid.reward"));
+//        }
+        if(getHasErrors() || getHasErrorMessages()){
+            return INPUT;
+        }
+
+        Reward reward = new Reward(0l, 1l, 2l, 12,
+                new Date(), "my summary", "really long description",
+                getLoggedInApplicationUser().getKey(),
+                null, "", 10000);
+        this.typeId = reward.getTypeId();
+        this.sprintId = reward.getSprintId();
+        this.quantity = reward.getQuantity();
+        this.dateEnds = reward.getDateEnds();
+        this.summary = reward.getSummary();
+        this.longDescription = reward.getLongDescription();
+        this.fromUser = reward.getFromUser();
+        setId(reward.getIssueId());
+        return INPUT;
+    }
+
+    public String doEdit(){
+        if(rwdId <= 0){
+            addErrorMessage(getText("rewards.forms.errors.invalid.reward"));
+        }
+        checkFields();
+
+        if(getHasErrors() || getHasErrorMessages()){
+            return INPUT;
+        }
+
+        // TODO maybe create constructor without id
+        Reward reward = new Reward(0l, typeId, sprintId, quantity,
+                new Date(), summary, longDescription,
+                getLoggedInApplicationUser().getKey(),
+                null, "", getId());
+
+        if(!reward.getFromUser().equals(getLoggedInApplicationUser().getKey())){
+            addErrorMessage(getText("rewards.edit.errors.owner.permission"));
+        }
+        if(getHasErrors() || getHasErrorMessages()){
+            return INPUT;
+        }
+
+//        rService.updateReward(reward);
+        return returnComplete();
+    }
+
+    private void checkFields() {
         if(StringUtils.isBlank(summary)){
             getErrors().put("summary", getText("rewards.forms.errors.required",
                                                getText("rewards.new.summary.label")));
@@ -70,18 +139,6 @@ public class AddRewardAction extends AbstractIssueSelectAction {
             getErrors().put("sprint", getText("rewards.forms.errors.invalid",
                                              getText("rewards.new.offer.label")));
         }
-        if(getHasErrors()){
-            return INPUT;
-        }
-
-        // TODO create reward and add
-        // TODO maybe create constructor without id
-        Reward reward = new Reward(0l, typeId, sprintId, quantity,
-                                  new Date(), summary, longDescription,
-                                  getLoggedInApplicationUser().getKey(),
-                                  null, "", getId());
-//        rService.addReward(reward);
-        return returnComplete();
     }
 
     public List<RewardType> getTypes() {
@@ -157,6 +214,14 @@ public class AddRewardAction extends AbstractIssueSelectAction {
 
     public void setFromUser(String fromUser) {
         this.fromUser = fromUser;
+    }
+
+    public long getRwdId() {
+        return rwdId;
+    }
+
+    public void setRwdId(long rwdId) {
+        this.rwdId = rwdId;
     }
 
     public SoyTemplateRenderer getSoyRenderer() {

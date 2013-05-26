@@ -1,12 +1,38 @@
+#set($edit = $rwdId > 0)
 <html>
     <head>
-        <title>$i18n.getText('rewards.new.title')</title>
+        #if($edit)
+            <title>$i18n.getText('rewards.edit.title')</title>
+        #else
+            <title>$i18n.getText('rewards.new.title')</title>
+        #end
         <meta content="issueaction" name="decorator">
     </head>
     <body>
-        <form class="aui" method="post" action="NewReward!create.jspa">
+        #if($edit)
+            #set($url = "IssueReward!edit.jspa")
+        #else
+            #set($url = "IssueReward!create.jspa")
+        #end
+        <form class="aui" method="post" action="$url">
              <div class="form-body">
-                 <h2>$i18n.getText('rewards.new.title')</h2>
+                 #if($edit)
+                     <h2>$i18n.getText('rewards.edit.title')</h2>
+                 #else
+                     <h2>$i18n.getText('rewards.new.title')</h2>
+                 #end
+                 <input type="hidden" id="rwdId" name="rwdId" value="$rwdId">
+                 #if($hasErrorMessages)
+                     #foreach($errMsg in $errorMessages)
+                         $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Message',
+                             {
+                              'title': "$i18n.getText('rewards.forms.errors.title')",
+                              'text' : $errMsg,
+                              'class' : 'error'
+                             })
+                     #end
+                     <br/>
+                 #end
                  ##-------------------------------------------------------------
                  ##  To User
                  ##-------------------------------------------------------------
@@ -73,18 +99,22 @@
                  $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Textarea',
                                      {
                                      'label': "$i18n.getText('rewards.new.description.label')",
-                                     'fieldId': "description",
-                                     'fieldName': "description",
+                                     'fieldId': "longDescription",
+                                     'fieldName': "longDescription",
                                      'description': "$i18n.getText('rewards.new.description.description')",
-                                     'error' : $errors.get("description"),
-                                     'defaultValue' : $description
+                                     'error' : $errors.get("longDescription"),
+                                     'defaultValue' : $longDescription
                                      },{'baseurl' : $baseurl})
 
              </div>
              <input type="hidden" name="issueId" value="$id">
              <div class="buttons-container form-footer">
                 <div class="buttons">
-                    <input class="aui-button" id="reward-create-submit" value="$i18n.getText('rewards.new.submit')"  type="submit" name="save" />
+                    #if($edit)
+                        <input class="aui-button" id="reward-edit-submit" value="$i18n.getText('rewards.edit.submit')"  type="submit" name="edit" />
+                    #else
+                        <input class="aui-button" id="reward-create-submit" value="$i18n.getText('rewards.new.submit')"  type="submit" name="save" />
+                    #end
                     <a class="aui-button aui-button-link cancel" href="$baseurl$issuePath">$i18n.getText('rewards.new.cancel')</a>
                 </div>
              </div>

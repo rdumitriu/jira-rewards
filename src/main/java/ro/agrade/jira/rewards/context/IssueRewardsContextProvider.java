@@ -7,6 +7,7 @@ package ro.agrade.jira.rewards.context;
 
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.PermissionManager;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
 import com.google.common.collect.Lists;
 import ro.agrade.jira.rewards.services.*;
@@ -60,7 +61,7 @@ public class IssueRewardsContextProvider extends SoyContextProvider {
         Reward r1 = new Reward(1, 1, 1, 1, new Date(System.currentTimeMillis()), "rwd summary", "long description", "admin", null, "resolution", 10000);
         Reward r2 = new Reward(2, 1, 1, 12, new Date(System.currentTimeMillis()), "rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd " +
                                                                                  "summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary ",
-                                                                                 "long description", "admin", null, "resolution", 10000);
+                                                                                 "long description", "admin", "admin", "resolution", 10000);
         Reward r3 = new Reward(3, 1, 1, 999, new Date(System.currentTimeMillis()), "rwd summary", "long description", "admin", null, "resolution", 10000);
         Reward r4 = new Reward(4, 1, 2, 5, new Date(System.currentTimeMillis()), "rwd summary", "long description", "admin", null, "resolution", 10000);
         Reward r5 = new Reward(5, 1, 2, 100, new Date(System.currentTimeMillis()), "rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd summary rwd " +

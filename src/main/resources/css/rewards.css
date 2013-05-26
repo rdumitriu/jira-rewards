@@ -5,6 +5,7 @@
 
 .rwd-sprint-summary {
     margin-right: 20px;
+    margin-bottom: 30px;
 }
 
 .rwd-sprint-summary .rwd-sprint-header {
@@ -23,43 +24,105 @@
 
 .rwd-list-item {
     margin-top: 5px;
+    padding: 4px;
+    color : #333333;
 }
 
-.rwd-list-item > table {
-    width: 100%;
+.rwd-list-item:hover {
+    background-color: #F0F0F0;
+}
+
+.rwd-list-item .reward-quantity {
+    color: #707070;
+}
+
+.rwd-list-item.rwd-granted .reward-quantity {
+    color: #51a825;
 }
 
 .reward-left {
-    padding: 5px 3px 3px 0px;
-    width: 37px;
+    margin-top: 2px;
+    margin-right : 5px;
+    vertical-align: top;
+    display : inline-block;
+    width : 90px;
+    position: absolute;
 }
 
-.reward-right .content {
+.reward-left * {
     float: right;
 }
 
-.reward-right, .reward-left {
-    vertical-align: top;
+.reward-central {
+    display : inline-block;
+    padding-left : 90px;
+    padding-right : 20px;
+}
+
+.reward-central .reward-ctop {
+
+}
+
+.reward-central .reward-cbot {
+    color: grey;
+    font-size: 11px;
+    margin-left: 4px;
+}
+
+.reward-short {
+    min-width: 90px;
+}
+
+.reward-short .reward-icon {
+    position: absolute;
+    right: 0px;
 }
 
 .sprint-reward32 .reward-quantity {
     font-size: 32px;
     font-weight: bold;
+    line-height: 1;
+    display: inline-block;
+    padding-right : 32px;
 }
 
-.reward-right .reward-icon {
-    display: inline;
+.rwd-user-hover .aui-avatar {
+    margin-right : 3px;
 }
 
-.reward-central {
-    padding-top: 3px;
+.rwd-list-item:hover .rwd-toolbar {
+    display: inline-block;
 }
 
-.reward-bottom {
-    margin-top: -7px;
-    font-size: 11px;
-    color: grey;
+.rwd-toolbar {
+    float: right;
+    width : 16px;
+    position: absolute;
+    margin-top: -2px;
+    right: 44px;
+    display : none;
 }
+
+.rwd-toolbar .rwd-toolbar-action {
+    vertical-align: text-bottom;
+    width: 16px;
+    height: 16px;
+}
+
+.rwd-toolbar-dropdown-action {
+    cursor: pointer;
+}
+
+.rwd-toolbar-dropdown-action .icon {
+    padding-right: 5px;
+}
+
+.rwd-icon-overwrite{
+    height: 16px;
+    display: block;
+    margin-left: -3px;
+}
+
 
 /* =========================================================================
     Add reward
@@ -71,4 +134,32 @@
 
 .rwd-offer #typeId-single-select {
     margin-left: 5px;
+}
+
+/* =========================================================================
+    Icons
+========================================================================= */
+
+.rwd-icon {
+    background: transparent url(images/accept_reject.png) no-repeat 0 0;
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    background-position: 20px 0px;
+}
+
+.rwd-icon-accept {
+    background-position: -22px -21px;
+}
+
+.rwd-icon-accept:hover {
+    background-position: -2px -21px;
+}
+
+.rwd-icon-reject {
+    background-position: -22px -1px;
+}
+
+.qanda-icon-reject:hover {
+    background-position: -2px -1px;
 }

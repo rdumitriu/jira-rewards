@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>$i18n.getText('rewards.grant.title')</title>
+        <meta content="atl.general" name="decorator">
+    </head>
+    <body>
+        <form class="aui" method="post" action="GrantReward!grant.jspa">
+             <div class="form-body">
+                 <h2>$i18n.getText('rewards.grant.title')</h2>
+                 <input type="hidden" id="rwdId" name="rwdId" value="$rwdId">
+                 #if($hasErrorMessages)
+                     #foreach($errMsg in $errorMessages)
+                         $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Message',
+                         {
+                         'title': "$i18n.getText('rewards.forms.errors.title')",
+                         'text' : $errMsg,
+                         'class' : 'error'
+                         })
+                     #end
+                     <br/>
+                 #end
+                 ##-------------------------------------------------------------
+                 ##  To User
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.UserPicker',
+                                    {
+                                    'label': "$i18n.getText('rewards.grant.toUser.label')",
+                                    'fieldId': "toUser",
+                                    'fieldName': "toUser",
+                                    'description': "$i18n.getText('rewards.new.toUser.description')",
+                                    'required' : true,
+                                    'defaultValue' : $toUser,
+                                    'error' : $errors.get("toUser")
+                                    },{'baseurl' : $baseurl})
+
+                 ##-------------------------------------------------------------
+                 ##  Resolution
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Textarea',
+                                    {
+                                    'label': "$i18n.getText('rewards.grant.resolution.label')",
+                                    'fieldId': "resolution",
+                                    'fieldName': "resolution",
+                                    'description': "$i18n.getText('rewards.grant.resolution.description')",
+                                    'required' : false,
+                                    'error' : $errors.get("resolution"),
+                                    'defaultValue' : $resolution
+                                    },{'baseurl' : $baseurl})
+
+             </div>
+             <div class="buttons-container form-footer">
+                <div class="buttons">
+                    <input class="aui-button" id="reward-grant-submit" value="$i18n.getText('rewards.grant.button')"  type="submit" name="grant" />
+                    <a class="aui-button aui-button-link cancel">$i18n.getText('rewards.new.cancel')</a>
+                </div>
+             </div>
+        </form>
+    </body>
+</html>
+
