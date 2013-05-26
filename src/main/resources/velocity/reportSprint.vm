@@ -1,0 +1,10 @@
+<html>
+  <head>
+    <title>i18n.getText('reward.sprintreport.title')</title>
+    <meta name="decorator" content="atl.general">
+    $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
+  </head>
+  <body>
+
+  </body>
+</html>

@@ -49,6 +49,9 @@
     <!-- import from the product container -->
     <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties" />
     <component-import key="soyTemplateRenderer" interface="com.atlassian.soy.renderer.SoyTemplateRenderer"/>
+    <component-import key="userManager" interface="com.atlassian.sal.api.user.UserManager" />
+    <component-import key="loginUriProvider" interface="com.atlassian.sal.api.auth.LoginUriProvider" />
+    <component-import key="renderer" interface="com.atlassian.templaterenderer.velocity.one.six.VelocityTemplateRenderer" />
 
 
     <web-resource key="soy-templates">
@@ -105,5 +108,9 @@
             </action>
         </actions>
     </webwork1>
+
+    <servlet key="report-servlet-persprint" class="ro.agrade.jira.rewards.ui.report.RewardSprintReport">
+        <url-pattern>/rewards/sprintreport</url-pattern>
+    </servlet>
     
 </atlassian-plugin>

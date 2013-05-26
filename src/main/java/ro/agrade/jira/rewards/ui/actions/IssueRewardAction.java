@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import ro.agrade.jira.rewards.context.BetterSoyRenderer;
 import ro.agrade.jira.rewards.services.*;
 import ro.agrade.jira.rewards.ui.descriptors.SimpleSprintDescriptor;
+import ro.agrade.jira.rewards.utils.JIRAUtils;
 
 import java.util.*;
 
@@ -157,7 +158,7 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
     }
 
     public String getBaseurl(){
-        return properties.getString("jira.baseurl");
+        return JIRAUtils.getRelativeJIRAPath(properties);
     }
 
     public long getTypeId() {
