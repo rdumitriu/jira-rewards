@@ -78,6 +78,7 @@
         <field name="r_issueid" type="numeric"/>
 
         <prim-key field="r_id"/>
+        <!-- ::TODO:: one index on issueid -->
         <relation type="one" title="Rewards-to-Types" rel-entity-name="RWDTYPES" fk-name="RWDREWARDS_FK_1">
             <key-map field-name="t_id" rel-field-name="t_id"/>
         </relation>

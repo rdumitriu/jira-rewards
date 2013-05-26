@@ -17,18 +17,21 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0
  */
 public class RewardAdminServiceImpl implements RewardAdminService {
-    private static final Log LOG = LogFactory.getLog(RewardDataServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(RewardAdminServiceImpl.class);
 
     private RewardSprintDataService sprintDS;
     private RewardSprintInvDataService sprintGstDS;
     private RewardTypeDataService typeDS;
+    private RewardDataService rewardService;
 
     public RewardAdminServiceImpl(RewardSprintDataService sprintDS,
                                   RewardSprintInvDataService sprintGstDS,
-                                  RewardTypeDataService typeDS) {
+                                  RewardTypeDataService typeDS,
+                                  RewardDataService rewardService) {
         this.sprintDS = sprintDS;
         this.sprintGstDS = sprintGstDS;
         this.typeDS = typeDS;
+        this.rewardService = rewardService;
     }
 
     /**
@@ -167,9 +170,8 @@ public class RewardAdminServiceImpl implements RewardAdminService {
     @Override
     public RewardSprint addSprintGuest(RewardSprint rs, String guest) {
         if(rs.getGuests() == null) {
-            rs.setGuests(new ArrayList<String>());
+            rs.setGuests(new HashSet<String>());
         }
-        //::TODO:: unicity of the guest
         rs.getGuests().add(guest);
         updateRewardSprint(rs);
         return rs;
@@ -187,7 +189,17 @@ public class RewardAdminServiceImpl implements RewardAdminService {
         if(rs.getGuests() == null) {
             return rs;
         }
-        //::TODO:: check that is not linked to a reward
+        List<Reward> actualRewards = rewardService.getRewardsForSprint(rs.getId());
+        if(actualRewards != null) {
+            for(Reward r : actualRewards) {
+                if(guest.equals(r.getFromUser()) || guest.equals(r.getToUser())) {
+                    String msg = String.format("User %s appears in the reward %d ('%s'), cannot be deleted",
+                                               guest, r.getId(), r.getSummary());
+                    LOG.error(msg);
+                    throw new RewardException(msg);
+                }
+            }
+        }
         rs.getGuests().remove(guest);
         updateRewardSprint(rs);
         return rs;

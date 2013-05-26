@@ -47,11 +47,12 @@ public class RewardDataServiceImpl implements RewardDataService {
     /**
      * Gets the specified rewards for the given sprint
      *
+     *
      * @param sprintId the id of the sprint
      * @return the list of rewards for the sprint
      */
     @Override
-    public List<Reward> getRewardForSprint(long sprintId) {
+    public List<Reward> getRewardsForSprint(long sprintId) {
         try {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(SPRINTID_FIELD, sprintId);
