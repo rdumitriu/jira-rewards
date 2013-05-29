@@ -26,4 +26,20 @@ public class CategorySprintsDescriptor {
         this.category = category;
         this.sprints = sprints;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public List<SimpleSprintDescriptor> getSprints() {
+        return sprints;
+    }
+
+    public void setSprints(List<SimpleSprintDescriptor> sprints) {
+        this.sprints = sprints;
+    }
 }

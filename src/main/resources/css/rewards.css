@@ -194,3 +194,19 @@
 .rwd-date-picker .date-picker-trigger {
     margin-left : 5px;
 }
+
+.spa-page-panel .aui-page-panel-nav {
+    min-width: 218px;
+}
+
+.spa-page-panel .aui-page-header-actions .icon {
+    margin-right : 3px;
+}
+
+.spa-page-panel .aui-page-panel-content {
+    width: 100%;
+}
+
+.spa-page-panel .aui-navgroup-inner .aui-nav-heading:first-child {
+    border-top: none;
+}

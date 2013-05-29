@@ -29,6 +29,15 @@
                             })
                 </div>
             #else
+                $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.SprintsNav',
+                            {
+                            'categories' : $sprints,
+                            'selectedSprint' : $selectedSprint
+                            }, {'baseurl' : $baseurl})
+                $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.SprintPageContent',
+                            {
+                            'sprint' : $selectedSprintObj
+                            }, {'baseurl' : $baseurl})
             #end
         </div>
     </body>

@@ -40,6 +40,7 @@ public class BeerSprintsAction extends JiraWebActionSupport {
     private boolean showClosed;
     private SimpleDateFormat categoryExtractor;
     private long selectedSprint;
+    private SprintDescriptor selectedSprintObj;
     private List<CategorySprintsDescriptor> sprints;
 
     public BeerSprintsAction(RewardService rService,
@@ -82,6 +83,14 @@ public class BeerSprintsAction extends JiraWebActionSupport {
                 selectedSprint = spr.get(0).sprints.get(0).id;
             }
         }
+        RewardSprint ss = rAdminService.getRewardSprint(selectedSprint);
+        List<UserDescriptor> guests = new ArrayList<UserDescriptor>();
+        if(ss.getGuests() != null){
+            for(String guestKey : ss.getGuests()){
+                guests.add(new UserDescriptor(guestKey));
+            }
+        }
+        this.selectedSprintObj = new SprintDescriptor(ss, guests, null);
         return super.doDefault();
     }
 
@@ -103,10 +112,14 @@ public class BeerSprintsAction extends JiraWebActionSupport {
         return sprints;
     }
 
+    public SprintDescriptor getSelectedSprintObj(){
+        return selectedSprintObj;
+    }
+
     private List<CategorySprintsDescriptor> categorizeSprints(List<RewardSprint> rewardSprints) {
         if(LOG.isDebugEnabled()){
             LOG.debug(String.format("Categorizing %s sprints",
-                                    rewardSprints!= null ? rewardSprints.size() : 0));
+                    rewardSprints != null ? rewardSprints.size() : 0));
         }
         List<CategorySprintsDescriptor> ret = new ArrayList<CategorySprintsDescriptor>();
 

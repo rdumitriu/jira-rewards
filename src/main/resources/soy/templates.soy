@@ -224,3 +224,56 @@
         </nav>
     </div>
 {/template}
+
+
+/**
+* Renders the sprint page content
+* @param sprint the sprint
+*/
+{template .SprintPageContent}
+    <section class="aui-page-panel-content">
+        {call .SprintPageHeader}
+            {param sprint : $sprint /}
+        {/call}
+        {call .SprintPageBody}
+            {param sprint : $sprint /}
+        {/call}
+    </section>
+{/template}
+
+/**
+* Renders the sprint header with title and tolbar
+* @param sprint the sprint
+*/
+{template .SprintPageHeader}
+    <header class="aui-page-header">
+        <div class="aui-page-header-inner">
+            <div class="aui-page-header-main">
+                <h2>{$sprint.name}</h2>
+            </div>
+            <div class="aui-page-header-actions">
+                <div class="aui-buttons">
+                    <a id="edit-sprint" class="aui-button rwd-dialog-trigger" href="">
+                        <span class="icon jira-icon-edit"></span>
+                        {getText('rewards.sptrint.toolbar.edit.button')}
+                    </a>
+                    <a id="close-sprint" class="aui-button rwd-dialog-trigger" href="">
+                        {getText('rewards.sptrint.toolbar.close.button')}
+                    </a>
+                    <a id="delete-sprint" class="aui-button rwd-dialog-trigger" href="">
+                        <span class="icon icon-delete"></span>
+                        {getText('rewards.sptrint.toolbar.delete.button')}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+{/template}
+
+/**
+* Renders the sprint details
+* @param sprint
+*/
+{template .SprintPageBody}
+    {$sprint}
+{/template}
