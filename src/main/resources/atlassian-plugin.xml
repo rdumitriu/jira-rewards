@@ -110,7 +110,8 @@
     </webwork1>
 
     <servlet key="report-servlet-persprint" class="ro.agrade.jira.rewards.ui.report.RewardSprintReport">
-        <url-pattern>/rewards/sprintreport</url-pattern>
+        <url-pattern>/agrade/rewards/sprintreport</url-pattern>
+        <!-- published under /plugins/servlet/agrade/rewards/sprintreport -->
     </servlet>
     
 </atlassian-plugin>

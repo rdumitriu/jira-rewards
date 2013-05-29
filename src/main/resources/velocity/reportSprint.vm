@@ -1,10 +1,76 @@
 <html>
   <head>
-    <title>i18n.getText('reward.sprintreport.title')</title>
+    <title>$i18n.getText('reward.sprintreport.title')</title>
     <meta name="decorator" content="atl.general">
     $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
+    $webResourceManager.requireResource("com.atlassian.auiplugin:aui-experimental-dropdown2")
+    $webResourceManager.requireResource("ro.agrade.jira.rewards:rewards-resources")
   </head>
   <body>
+     <h2>$i18n.getText('rewards.report.title')</h2>
+     <a href="#rewardsprintslist" aria-owns="rewardsprintslist" aria-haspopup="true" class="aui-dropdown2-trigger aui-style-default">$i18n.getText('rewards.report.choose.current.sprint')</a>
+     <div id="rewardsprintslist" class="aui-dropdown2 aui-style-default">
+         <ul class="aui-list-truncate">
+            #foreach ($rwd in $rewardSprints)
+             <li><a href="/plugins/servlet/agrade/rewards/sprintreport?currentRewardSprintId=$rwd.id">$rwd.name</a></li>
+            #end
+         </ul>
+     </div>
+
+     #if($currentSprint)
+        $soyRenderer.render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.ReportSprintSummary',
+                              {
+                              'sprint': $currentSprint,
+                              'wheremsg' : "$i18n.getText('reward.sprintreport.wheremsg')"
+                              })
+        <br />
+        <br />
+        <span class="reward-explanation">$i18n.getText('reward.sprintreport.smallexplanation')</span>
+
+        ##
+        ## The Report starts here
+        ##
+        <table border="1" class="aui">
+        <thead>
+        <tr>
+            <td id="rfirstcell">
+                $i18n.getText('reward.sprintreport.firstcell')
+            </td>
+            #foreach($user in $rewardSprintReportUsers)
+            <td id="$user.username">
+                $soyRenderer.render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.User',
+                                              {
+                                              'user': $user,
+                                              'avatarUrl' : ""
+                                              })
+            </td>
+            #end
+        </tr>
+        </thead>
+        <tbody>
+        #foreach($user1 in $rewardSprintReportUsers)
+            <tr>
+            <td headers="rfirstcell">
+                $soyRenderer.render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.User',
+                                              {
+                                              'user': $user1,
+                                              'avatarUrl' : ""
+                                              })
+            </td>
+            #foreach($user2 in $rewardSprintReportUsers)
+                <td headers="$user1.username">
+                #if($user1 == $user2)
+                    *
+                #else
+                    $rewardSprintReport.getQuantity($user1.username, $user2.username)
+                #end
+                </td>
+            #end
+            </tr>
+        #end
+        </tbody>
+        </table>
+     #end
 
   </body>
 </html>

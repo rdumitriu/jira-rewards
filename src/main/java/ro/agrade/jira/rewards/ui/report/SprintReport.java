@@ -42,6 +42,7 @@ public class SprintReport {
         }
         SprintReportRow row = getRelevantRow(r.getToUser());
         row.add(r);
+        addUsers(r.getFromUser(), r.getToUser());
     }
 
     /**
@@ -57,6 +58,7 @@ public class SprintReport {
         }
         SprintReportRow row = getRelevantRow(r.getToUser());
         row.substract(r);
+        addUsers(r.getFromUser(), r.getToUser());
     }
 
     /**
@@ -72,6 +74,7 @@ public class SprintReport {
         }
         SprintReportRow row = getRelevantRow(r.getFromUser());
         row.substractInverse(r);
+        addUsers(r.getFromUser(), r.getToUser());
     }
 
     /**
@@ -83,6 +86,7 @@ public class SprintReport {
     public void add(String fromUser, String toUser, long quantity) {
         SprintReportRow row = getRelevantRow(toUser);
         row.add(fromUser, quantity);
+        addUsers(fromUser, toUser);
     }
 
     /**
@@ -94,6 +98,7 @@ public class SprintReport {
     public void substract(String fromUser, String toUser, long quantity) {
         SprintReportRow row = getRelevantRow(toUser);
         row.substract(fromUser, quantity);
+        addUsers(fromUser, toUser);
     }
 
     /**
@@ -154,5 +159,11 @@ public class SprintReport {
             rows.put(toUser, row);
         }
         return row;
+    }
+
+    private void addUsers(String ... users) {
+        for(String s : users) {
+            uniqueUsers.add(s);
+        }
     }
 }

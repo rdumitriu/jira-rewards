@@ -96,6 +96,9 @@
                     <productVersion>${jira.version}</productVersion>
                     <productDataVersion>${jira.version}</productDataVersion>
                     <!--<useFastdevCli>false</useFastdevCli>-->
+                    <instructions>
+                        <Bundle-Activator>ro.agrade.jira.rewards.plugin.PluginBundleActivator</Bundle-Activator>
+                    </instructions>
                 </configuration>
             </plugin>
             <plugin>

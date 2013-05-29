@@ -18,7 +18,7 @@
     border-bottom: 1px solid #E4E4E4;
 }
 
-.rwd-sprint-summary .rwd-sprint-date {
+.rwd-sprint-summary .rwd-sprint-date .rwd-sprint-where {
     float: right;
 }
 
@@ -64,6 +64,12 @@
 }
 
 .reward-central .reward-cbot {
+    color: grey;
+    font-size: 11px;
+    margin-left: 4px;
+}
+
+.reward-explanation {
     color: grey;
     font-size: 11px;
     margin-left: 4px;

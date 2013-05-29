@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>$i18n.getText('rewards.report.error.title')</title>
+    <meta name="decorator" content="atl.general">
+    $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
+  </head>
+  <body>
+    <h2>$i18n.getText('rewards.report.error.title')</h2>
+    $soyRenderer.render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Message',
+                             {
+                             'title': "$i18n.getText('rewards.report.error.paneltitle')",
+                             'text' : "$i18n.getText('rewards.report.error.general')",
+                             'class' : 'error'
+                             })
+  </body>
+</html>

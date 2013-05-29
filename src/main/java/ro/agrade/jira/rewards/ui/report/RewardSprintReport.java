@@ -17,6 +17,11 @@ import com.atlassian.templaterenderer.TemplateRenderer;
 
 import ro.agrade.jira.rewards.context.BetterSoyRenderer;
 import ro.agrade.jira.rewards.services.*;
+import ro.agrade.jira.rewards.ui.descriptors.SimpleSprintDescriptor;
+import ro.agrade.jira.rewards.ui.descriptors.UserDescriptor;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * The report on the screen
@@ -25,6 +30,8 @@ import ro.agrade.jira.rewards.services.*;
  * @since 1.0
  */
 public class RewardSprintReport extends HttpServlet {
+    private static final Log LOG = LogFactory.getLog(RewardSprintReport.class);
+
     private final UserManager userManager;
     private final LoginUriProvider loginUriProvider;
     private final TemplateRenderer renderer;
@@ -68,22 +75,54 @@ public class RewardSprintReport extends HttpServlet {
             return;
         }
 
-        String currentRewardSprintStr = request.getParameter("currentRewardSprint");
-        long currentRewardSprint = 0L;
-
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType("text/html");
         Map<String, Object> velocityParams = new HashMap<String, Object>();
         velocityParams.put("soyRenderer", soyRenderer);
-        velocityParams.put("rewardSprints", getRewardSprints(username));
-        if(currentRewardSprintStr != null) {
-            try {
-                currentRewardSprint = Integer.parseInt(currentRewardSprintStr);
-            } catch (NumberFormatException e) {}
+
+        try {
+            String currentRewardSprintStr = request.getParameter("currentRewardSprintId");
+            long currentRewardSprintId = 0L;
+            List<RewardSprint> rewards = getRewardSprints(username);
+            //remove me
+            rewards.add(new RewardSprint(0, "beer sprint 0", "place", "admin", new Date(), SprintStatus.ACTIVE, new HashSet<String>()));
+            rewards.add(new RewardSprint(-1, "beer sprint -1", "place", "admin", new Date(), SprintStatus.ACTIVE, new HashSet<String>()));
+            //
+            velocityParams.put("rewardSprints", rewards);
+            if(currentRewardSprintStr != null) {
+                try {
+                    currentRewardSprintId = Integer.parseInt(currentRewardSprintStr);
+                } catch (NumberFormatException e) {}
+            }
+            if(currentRewardSprintId > 0) {
+                velocityParams.put("currentSprint",
+                                   new SimpleSprintDescriptor(adminService.getRewardSprint(currentRewardSprintId)));
+                SprintReport report = createReport(currentRewardSprintId);
+                velocityParams.put("rewardSprintReportUsers", toDescriptors(report.getUniqueUsers()));
+                velocityParams.put("rewardSprintReport", report);
+            } else if(currentRewardSprintId >= -1) {
+                RewardSprint sprtest = new RewardSprint(-1, "beer sprint " + currentRewardSprintId, "place", "admin", new Date(), SprintStatus.ACTIVE, new HashSet<String>());
+                velocityParams.put("currentSprint", new SimpleSprintDescriptor(sprtest));
+                SprintReport report = createReport(currentRewardSprintId);
+                report.add(new Reward(1, 1, 0, 2, new Date(), "Two beers if you shoe my horse", "4 iron shoes", "admin", "user1", "Done", -1));
+                report.add(new Reward(2, 1, 0, 1, new Date(), "One beer if you shoot yourself", "For the sake of beer", "admin", "user1", "Done", -1));
+                report.add(new Reward(3, 1, 0, 1, new Date(), "One beer for nothing", "For the sake of beer", "admin", "user2", "Done", -1));
+                report.add(new Reward(3, 1, 0, 4, new Date(), "Four beers in exchange", "For the sake of beer", "user1", "admin", "Done", -1));
+                velocityParams.put("rewardSprintReportUsers", toDescriptors(report.getUniqueUsers()));
+                velocityParams.put("rewardSprintReport", report);
+            }
+            renderer.render("velocity/reportSprint.vm", velocityParams, response.getWriter());
+        } catch(Exception e) {
+            LOG.error("Got exception while rendering report", e);
+            renderer.render("velocity/reportSprintError.vm", velocityParams, response.getWriter());
         }
-        if(currentRewardSprint > 0) {
-            velocityParams.put("rewardSprintReport", createReport(currentRewardSprint));
+    }
+
+    private List<UserDescriptor> toDescriptors(String[] uniqueUsers) {
+        List<UserDescriptor> descriptors = new ArrayList<UserDescriptor>();
+        for(String s : uniqueUsers) {
+            descriptors.add(new UserDescriptor(s));
         }
-        renderer.render("velocity/reportSprint.vm", velocityParams, response.getWriter());
+        return descriptors;
     }
 
     private SprintReport createReport(long currentRewardSprint) {
