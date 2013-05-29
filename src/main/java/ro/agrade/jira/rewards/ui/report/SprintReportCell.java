@@ -24,6 +24,7 @@ public class SprintReportCell {
     public SprintReportCell() {
         this.quantity = 0L;
         this.positiveRewards = new ArrayList<Reward>();
+        this.negativeRewards = new ArrayList<Reward>();
     }
 
     /**

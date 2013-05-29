@@ -57,6 +57,7 @@
                                               'user': $user1,
                                               'avatarUrl' : ""
                                               })
+                $rewardSprintReport.getTotal($user1.username)
             </td>
             #foreach($user2 in $rewardSprintReportUsers)
 
@@ -64,7 +65,7 @@
                     <td headers="$user1.username" class="rewardreportdiscell">
                 #else
                     <td headers="$user1.username">
-                    $rewardSprintReport.getQuantity($user1.username, $user2.username)
+                    $rewardSprintReport.getQuantity($user2.username, $user1.username)
                 #end
                 </td>
             #end

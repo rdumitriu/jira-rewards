@@ -103,10 +103,6 @@ public class RewardSprintReport extends HttpServlet {
                 RewardSprint sprtest = new RewardSprint(-1, "beer sprint " + currentRewardSprintId, "place", "admin", new Date(), SprintStatus.ACTIVE, new HashSet<String>());
                 velocityParams.put("currentSprint", new SimpleSprintDescriptor(sprtest));
                 SprintReport report = createReport(currentRewardSprintId);
-                report.add(new Reward(1, 1, 0, 2, new Date(), "Two beers if you shoe my horse", "4 iron shoes", "admin", "user1", "Done", -1));
-                report.add(new Reward(2, 1, 0, 1, new Date(), "One beer if you shoot yourself", "For the sake of beer", "admin", "user1", "Done", -1));
-                report.add(new Reward(3, 1, 0, 1, new Date(), "One beer for nothing", "For the sake of beer", "admin", "user2", "Done", -1));
-                report.add(new Reward(3, 1, 0, 4, new Date(), "Four beers in exchange", "For the sake of beer", "user1", "admin", "Done", -1));
                 velocityParams.put("rewardSprintReportUsers", toDescriptors(report.getUniqueUsers()));
                 velocityParams.put("rewardSprintReport", report);
             }
@@ -129,6 +125,11 @@ public class RewardSprintReport extends HttpServlet {
         List<Reward> list = rService.getRewardsForSprint(currentRewardSprint);
         RewardSprintReportBuilder reportBuilder = createReportBuilder();
         reportBuilder.init();
+        reportBuilder.addReward(new Reward(1, 1, 0, 2, new Date(), "Two beers if you shoe my horse", "4 iron shoes", "admin", "user1", "Done", -1));
+        reportBuilder.addReward(new Reward(2, 1, 0, 1, new Date(), "One beer if you shoot yourself", "For the sake of beer", "admin", "user1", "Done", -1));
+        reportBuilder.addReward(new Reward(3, 1, 0, 1, new Date(), "One beer for nothing", "For the sake of beer", "admin", "user2", "Done", -1));
+        reportBuilder.addReward(new Reward(3, 1, 0, 4, new Date(), "Four beers in exchange", "For the sake of beer", "user1", "admin", "Done", -1));
+
         if(list != null) {
             for(Reward r : list) {
                 reportBuilder.addReward(r);

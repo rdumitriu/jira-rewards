@@ -7,6 +7,9 @@ import java.util.*;
 
 import ro.agrade.jira.rewards.services.Reward;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Reduces the amount of beers to drink ...
  *
@@ -14,6 +17,7 @@ import ro.agrade.jira.rewards.services.Reward;
  * @since 1.0
  */
 public class ReductiveRewardSprintReportBuilder extends BasicRewardSprintReportBuilder {
+    private static final Log LOG = LogFactory.getLog(ReductiveRewardSprintReportBuilder.class);
 
     /**
      * Creates the builder
