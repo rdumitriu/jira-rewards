@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>$i18n.getText('rewards.sprints.title')</title>
+        <meta content="atl.general" name="decorator">
+    </head>
+    <body>
+        <header class="aui-page-header">
+            <div class="aui-page-header-inner">
+                <div class="aui-page-header-main">
+                    <h1>$i18n.getText('rewards.sprints.title')</h1>
+                </div><!-- .aui-page-header-main -->
+            <div class="aui-page-header-actions">
+                <a href="$!baseurl/secure/ManageSprint!create.jspa" class="aui-button rwd-trigger-dialog" id="create-sprint-trigger" title="">
+                    $i18n.getText('rewards.sprints.new.header.button')
+                </a>
+            </div><!-- .aui-page-header-actions -->
+
+
+            </div><!-- .aui-page-header-inner -->
+        </header>
+        <div class="aui-page-panel spa-page-panel">
+            #if($sprints.size() == 0)
+                <div class="solo-message">
+                $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Message',
+                            {
+                            'title': "$i18n.getText('rewards.sprints.no.sprints.title')",
+                            'text' : "$i18n.getText('rewards.sprints.no.sprints')",
+                            'class' : 'info'
+                            })
+                </div>
+            #else
+            #end
+        </div>
+    </body>
+</html>
+

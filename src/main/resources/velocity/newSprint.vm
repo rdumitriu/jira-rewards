@@ -1,0 +1,92 @@
+#set($edit = $!id > 0)
+<html>
+    <head>
+        #if($edit)
+            <title>$i18n.getText('rewards.sprint.edit.title')</title>
+        #else
+            <title>$i18n.getText('rewards.sprint.new.title')</title>
+        #end
+        <meta content="atl.general" name="decorator">
+    </head>
+    <body>
+        #if($edit)
+            #set($url = "ManageSprint!saveEdit.jspa")
+        #else
+            #set($url = "ManageSprint!add.jspa")
+        #end
+        <form class="aui" method="post" action="$url">
+             <div class="form-body">
+                 #if($edit)
+                     <h2>$i18n.getText('rewards.sprint.edit.title')</h2>
+                 #else
+                     <h2>$i18n.getText('rewards.sprint.new.title')</h2>
+                 #end
+                 <input type="hidden" id="sprintId" name="id" value="$id">
+                 #if($hasErrorMessages)
+                     #foreach($errMsg in $errorMessages)
+                         $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Message',
+                             {
+                              'title': "$i18n.getText('rewards.forms.errors.title')",
+                              'text' : $errMsg,
+                              'class' : 'error'
+                             })
+                     #end
+                     <br/>
+                 #end
+                 ##-------------------------------------------------------------
+                 ##  Name
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Text',
+                                    {
+                                    'label': "$i18n.getText('rewards.sprint.name.label')",
+                                    'fieldId': "name",
+                                    'fieldName': "name",
+                                    'description': "$i18n.getText('rewards.sprint.name.description')",
+                                    'required' : true,
+                                    'error' : $errors.get("name"),
+                                    'defaultValue' : $name
+                                    },{'baseurl' : $baseurl})
+
+                 ##-------------------------------------------------------------
+                 ##  Where
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Textarea',
+                                    {
+                                     'label': "$i18n.getText('rewards.sprint.where.label')",
+                                     'fieldId': "where",
+                                     'fieldName': "where",
+                                     'description': "$i18n.getText('rewards.sprint.where.description')",
+                                     'error' : $errors.get("where"),
+                                     'defaultValue' : $where
+                                    },{'baseurl' : $baseurl})
+
+                 ##-------------------------------------------------------------
+                 ##  When
+                 ##-------------------------------------------------------------
+                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.DatePicker',
+                                     {
+                                     'label': "$i18n.getText('rewards.sprint.when.label')",
+                                     'fieldId': "when",
+                                     'fieldName': "when",
+                                     'description': "$i18n.getText('rewards.sprint.when.description')",
+                                     'required' : false,
+                                     'error' : $errors.get("when"),
+                                     'defaultValue' : $dmyDateFormatter.fomra($when)
+                                     },{'baseurl' : $baseurl})
+
+             </div>
+             <input type="hidden" name="issueId" value="$id">
+             <div class="buttons-container form-footer">
+                <div class="buttons">
+                    #if($edit)
+                        <input class="aui-button" id="reward-edit-submit" value="$i18n.getText('rewards.sprint.edit.submit')"  type="submit" name="edit" />
+                    #else
+                        <input class="aui-button" id="reward-create-submit" value="$i18n.getText('rewards.sprint.new.submit')"  type="submit" name="save" />
+                    #end
+                    <a class="aui-button aui-button-link cancel" >$i18n.getText('rewards.sprint.cancel')</a>
+                </div>
+             </div>
+        </form>
+    </body>
+</html>
+

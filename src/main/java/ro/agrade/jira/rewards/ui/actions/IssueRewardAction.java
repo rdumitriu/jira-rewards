@@ -67,6 +67,7 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
                                   new Date(), summary, longDescription,
                                   getLoggedInApplicationUser().getKey(),
                                   null, "", getId());
+        // TODO check sprint status == ACTIVE
 //        rService.addReward(reward);
         return returnComplete();
     }
@@ -80,6 +81,7 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
         if(getHasErrors() || getHasErrorMessages()){
             return INPUT;
         }
+
 
         Reward reward = new Reward(0l, 1l, 2l, 12,
                 new Date(), "my summary", "really long description",
@@ -105,7 +107,7 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
         if(getHasErrors() || getHasErrorMessages()){
             return INPUT;
         }
-
+        // TODO check sprint status == ACTIVE
         // TODO maybe create constructor without id
         Reward reward = new Reward(0l, typeId, sprintId, quantity,
                 new Date(), summary, longDescription,

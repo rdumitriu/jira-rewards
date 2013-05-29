@@ -163,6 +163,45 @@
 {/template}
 
 /**
+* Date picker field for a form
+* @param label
+* @param fieldId
+* @param fieldName
+* @param description
+* @param required
+* @param error
+* @param defaultValue
+*/
+{template .DatePicker}
+    <div class="field-group aui-field-datepicker rwd-date-picker">
+        <label for="{$fieldName}">
+            {$label}
+            {if $required}
+                <span class="aui-icon icon-required">{getText('rewards.required.label')}</span>
+            {/if}
+        </label>
+        <input class="text medium-field" id="{$fieldId}" name="{$fieldName}" type="text" value="{if $defaultValue}{$defaultValue}{/if}">
+        <a href="#" id="{$fieldId}-trigger" title="{getText('rewards.sprints.select.date.tooltip')}" tabindex="-1" class="date-picker-trigger">
+            <span class="aui-icon icon-date">{getText('rewards.sprints.select.date.tooltip')}</span>
+        </a>
+        <fieldset class="hidden datepicker-params">
+            <input title="firstDay" type="hidden" value="0">
+            <input title="inputField" type="hidden" value="{$fieldId}">
+            <input title="button" type="hidden" value="{$fieldId}-trigger">
+            <input title="align" type="hidden" value="Br">
+            <input title="singleClick" type="hidden" value="true">
+//            <input title="date" type="hidden" value="2013-05-29T22:39">
+            <input title="useISO8601WeekNumbers" type="hidden" value="false">
+            <input title="ifFormat" type="hidden" value="%e/%b/%y %I:%M %p">
+            <input title="showsTime" type="hidden" value="true">
+            <input title="timeFormat" type="hidden" value="12">
+        </fieldset>
+        <div class="description">{$description}</div>
+        {if $error}<div class="error">{$error}</div>{/if}
+    </div>
+{/template}
+
+/**
 * Creates a message panel
 * @param title
 * @param text

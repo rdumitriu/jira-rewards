@@ -49,9 +49,6 @@
     <!-- import from the product container -->
     <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties" />
     <component-import key="soyTemplateRenderer" interface="com.atlassian.soy.renderer.SoyTemplateRenderer"/>
-    <component-import key="userManager" interface="com.atlassian.sal.api.user.UserManager" />
-    <component-import key="loginUriProvider" interface="com.atlassian.sal.api.auth.LoginUriProvider" />
-    <component-import key="renderer" interface="com.atlassian.templaterenderer.velocity.one.six.VelocityTemplateRenderer" />
 
 
     <web-resource key="soy-templates">
@@ -91,23 +88,48 @@
 
     <webwork1 key="rwd-webwork-actions" name="WebWork Actions">
         <actions>
-            <action name="ro.agrade.jira.rewards.ui.actions.IssueRewardAction" alias="IssueReward">
+            <action name="ro.agrade.jira.rewards.ui.actions.IssueRewardAction" alias="IssueReward" roles-required="use">
                 <view name="input">/velocity/newReward.vm</view>
                 <view name="success">/velocity/newReward.vm</view>
                 <view name="error">/velocity/newReward.vm</view>
             </action>
-            <action name="ro.agrade.jira.rewards.ui.actions.GrantRewardAction" alias="GrantReward">
+            <action name="ro.agrade.jira.rewards.ui.actions.GrantRewardAction" alias="GrantReward" roles-required="use">
                 <view name="input">/velocity/grantReward.vm</view>
                 <view name="success">/velocity/grantReward.vm</view>
                 <view name="error">/velocity/grantReward.vm</view>
             </action>
-            <action name="ro.agrade.jira.rewards.ui.actions.DeleteRewardAction" alias="DeleteReward">
+            <action name="ro.agrade.jira.rewards.ui.actions.DeleteRewardAction" alias="DeleteReward" roles-required="admin">
                 <view name="input">/velocity/deleteReward.vm</view>
                 <view name="success">/velocity/deleteReward.vm</view>
                 <view name="error">/velocity/deleteReward.vm</view>
             </action>
+            <action name="ro.agrade.jira.rewards.ui.actions.BeerSprintsAction" alias="BeerSprints" roles-required="use">
+                <view name="input">/velocity/viewSprints.vm</view>
+                <view name="success">/velocity/viewSprints.vm</view>
+                <view name="error">/velocity/viewSprints.vm</view>
+            </action>
+            <action name="ro.agrade.jira.rewards.ui.actions.CreateEditSprintAction" alias="ManageSprint" roles-required="use">
+                <view name="input">/velocity/newSprint.vm</view>
+                <view name="success">/velocity/newSprint.vm</view>
+                <view name="error">/velocity/newSprint.vm</view>
+            </action>
         </actions>
     </webwork1>
+
+    <!-- Beer Sprints Page in Issues menu -->
+    <web-section key="rewards-section" location="find_link" weight="1000">
+        <label key="rewards.menu.section"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    </web-section>
+
+    <web-item key="beer-sprints" section="find_link/rewards-section" weight="1">
+        <label key="rewards.sprints.title"/>
+        <tooltip key="rewards.sprints.tooltip"/>
+        <link linkId="rwd-bsprints-link">
+            /secure/BeerSprints.jspa
+        </link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    </web-item>
 
     <servlet key="report-servlet-persprint" class="ro.agrade.jira.rewards.ui.report.RewardSprintReport">
         <url-pattern>/agrade/rewards/sprintreport</url-pattern>

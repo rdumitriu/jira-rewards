@@ -200,3 +200,27 @@
     </div>
     <span class="rwd-sprint-where">{$wheremsg} {$sprint.where}</span>
 {/template}
+
+/**
+* Creates a VerticalNav using list of CategorySprintsDescriptor
+* @param categories
+* @param selectedSprint
+*/
+{template .SprintsNav}
+    <div class="aui-page-panel-nav">
+        <nav class="aui-navgroup aui-navgroup-vertical">
+            <div class="aui-navgroup-inner">
+            {foreach $category in $categories}
+                <div class="aui-nav-heading"><strong>{$category.category}</strong></div>
+                <ul class="aui-nav">
+                {foreach $sprint in $category.sprints}
+                    <li {if $selectedSprint == $sprint.id}class="aui-nav-selected"{/if}>
+                        <a href="{$ij.baseurl}/secure/BeerSprints.jspa?selectedSprint={$sprint.id}">{$sprint.name}</a>
+                    </li>
+                {/foreach}
+                </ul>
+            {/foreach}
+            </div>
+        </nav>
+    </div>
+{/template}

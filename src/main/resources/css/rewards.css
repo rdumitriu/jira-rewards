@@ -177,3 +177,20 @@
 .qanda-icon-reject:hover {
     background-position: -2px -1px;
 }
+
+
+/* =========================================================================
+    Sprints page
+========================================================================= */
+
+.aui-page-panel.spa-page-panel {
+    margin: 0px;
+}
+
+.solo-message {
+    margin : 20px;
+}
+
+.rwd-date-picker .date-picker-trigger {
+    margin-left : 5px;
+}

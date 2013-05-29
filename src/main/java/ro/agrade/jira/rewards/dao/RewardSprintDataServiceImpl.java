@@ -82,7 +82,7 @@ public class RewardSprintDataServiceImpl implements RewardSprintDataService {
     public List<RewardSprint> getRewardSprints(SprintStatus status) {
         try {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(OWNER_FIELD, status.ordinal());
+            map.put(STATUS_FILED, status.ordinal());
             List<GenericValue> ret = delegator.findByAnd(ENTITY, map);
             return (ret != null ? fromGenericValue(ret) : null);
         } catch(GenericEntityException e) {
@@ -169,9 +169,9 @@ public class RewardSprintDataServiceImpl implements RewardSprintDataService {
         String where = (String) genval.get(WHERE_FIELD);
         Date when = (Date) genval.get(WHEN_FILED);
         String owner = (String) genval.get(OWNER_FIELD);
-        int status = (Integer) genval.get(STATUS_FILED);
+        long status = (Long) genval.get(STATUS_FILED);
 
-        return new RewardSprint(id, name, where, owner, when, SprintStatus.values()[status], null);
+        return new RewardSprint(id, name, where, owner, when, SprintStatus.values()[(int)status], null);
     }
 
     private List<RewardSprint> fromGenericValue(List<GenericValue> l) {
