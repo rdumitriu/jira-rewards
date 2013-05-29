@@ -7,6 +7,7 @@
     $webResourceManager.requireResource("ro.agrade.jira.rewards:rewards-resources")
   </head>
   <body>
+  <div class="rewardreport">
      <h2>$i18n.getText('rewards.report.title')</h2>
      <a href="#rewardsprintslist" aria-owns="rewardsprintslist" aria-haspopup="true" class="aui-dropdown2-trigger aui-style-default">$i18n.getText('rewards.report.choose.current.sprint')</a>
      <div id="rewardsprintslist" class="aui-dropdown2 aui-style-default">
@@ -58,10 +59,11 @@
                                               })
             </td>
             #foreach($user2 in $rewardSprintReportUsers)
-                <td headers="$user1.username">
+
                 #if($user1 == $user2)
-                    *
+                    <td headers="$user1.username" class="rewardreportdiscell">
                 #else
+                    <td headers="$user1.username">
                     $rewardSprintReport.getQuantity($user1.username, $user2.username)
                 #end
                 </td>
@@ -71,6 +73,6 @@
         </tbody>
         </table>
      #end
-
+  </div>
   </body>
 </html>
