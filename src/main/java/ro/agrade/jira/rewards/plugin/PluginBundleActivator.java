@@ -5,9 +5,12 @@
  */
 package ro.agrade.jira.rewards.plugin;
 
+import java.util.*;
+
 import org.osgi.framework.*;
 
-import ro.agrade.jira.rewards.dao.GenericDelegatorLoader;
+import ro.agrade.jira.rewards.dao.*;
+import ro.agrade.jira.rewards.services.RewardType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,6 +54,11 @@ public class PluginBundleActivator implements BundleActivator {
      */
     public void start(BundleContext bundleContext) {
         registerAdditionalDbResources();
+        RewardTypeDataService ds = new RewardTypeDataServiceImpl();
+        List<RewardType> list = ds.getRewardTypes();
+        if(list == null || list.size() == 0) {
+            ds.addRewardType(new RewardType(1, "Beer", "Beers", "Drinking habits?", "/download/resources/ro.agrade.jira.rewards:rewards-resources/images/beer_32x32.png"));
+        }
     }
 
     /**

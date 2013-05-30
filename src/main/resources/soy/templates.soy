@@ -189,16 +189,34 @@
 /**
 * Formats a reward entry. Receives a sprint descriptor
 * @param sprint
+* @param whenmsg
 * @param wheremsg
 */
 {template .ReportSprintSummary}
     <div class="rwd-sprint-summary" id="rwd-sprint-summary-{$sprint.id}">
         <div class="rwd-sprint-header">
             <span class="rwd-sprint-name">{$sprint.name}</span>
-            <span class="rwd-sprint-date">{$sprint.when}</span>
+
         </div>
     </div>
+    <span class="rwd-sprint-date">{$whenmsg} {$sprint.when}</span>
+    <br />
     <span class="rwd-sprint-where">{$wheremsg} {$sprint.where}</span>
+{/template}
+
+/**
+* Formats a reward number.
+* @param q
+* @param singular
+* @param plural
+*/
+{template .ReportRewardNumberFull}
+    {$q}&nbsp;
+    {if $q > 1 or $q == 0}
+        {$plural}
+    {else}
+        {$singular}
+    {/if}
 {/template}
 
 /**

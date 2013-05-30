@@ -62,7 +62,7 @@ public class RewardSprintDataServiceImpl implements RewardSprintDataService {
                 conds.add(new EntityExpr(STATUS_FILED, EntityOperator.EQUALS, status.ordinal()));
             }
             if(validAt != null) {
-                conds.add(new EntityExpr(WHEN_FILED, EntityOperator.LESS_THAN, new java.sql.Date(validAt.getTime())));
+                conds.add(new EntityExpr(WHEN_FILED, EntityOperator.GREATER_THAN, new java.sql.Date(validAt.getTime())));
             }
             List<GenericValue> ret = delegator.findByCondition(ENTITY, new EntityExprList(conds, EntityOperator.AND), null, null);
             return (ret != null ? fromGenericValue(ret) : null);

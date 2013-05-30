@@ -6,6 +6,7 @@ package ro.agrade.jira.rewards.ui.report;
 import java.util.*;
 
 import ro.agrade.jira.rewards.services.Reward;
+import ro.agrade.jira.rewards.services.RewardType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,13 +21,25 @@ public class SprintReport {
     private static final Log LOG = LogFactory.getLog(SprintReport.class);
     private Map<String, SprintReportRow> rows;
     private Set<String> uniqueUsers;
+    private Set<String> allPossibleUsers;
+    private RewardType rewardType;
 
     /**
      * Constructs an empty report
      */
-    public SprintReport() {
+    public SprintReport(RewardType rewardType) {
         rows = new TreeMap<String, SprintReportRow>();
         uniqueUsers = new TreeSet<String>();
+        allPossibleUsers = new TreeSet<String>();
+        this.rewardType = rewardType;
+    }
+
+    /**
+     * Returns the reward type
+     * @return the reward type
+     */
+    public RewardType getRewardType() {
+        return rewardType;
     }
 
     /**
@@ -150,6 +163,29 @@ public class SprintReport {
      */
     public String [] getUniqueUsers() {
         return uniqueUsers.toArray(new String[uniqueUsers.size()]);
+    }
+
+    /**
+     * Get the users who do not count towards the report
+     * @return the array of irrelevant users
+     */
+    public String [] getIrrelevantUsers() {
+        Set<String> irr = new TreeSet<String>();
+        for(String s : allPossibleUsers) {
+            if(!uniqueUsers.contains(s)) {
+                irr.add(s);
+            }
+        }
+        return irr.toArray(new String[irr.size()]);
+    }
+
+
+    /**
+     * Collection of all possible users
+     * @param allPossibleUsers the set of all users
+     */
+    public void setAllPossibleUsers(Set<String> allPossibleUsers) {
+        this.allPossibleUsers = allPossibleUsers;
     }
 
     private SprintReportRow getRelevantRow(String toUser) {

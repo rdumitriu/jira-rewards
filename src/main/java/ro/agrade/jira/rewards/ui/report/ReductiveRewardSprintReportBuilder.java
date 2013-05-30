@@ -5,7 +5,7 @@ package ro.agrade.jira.rewards.ui.report;
 
 import java.util.*;
 
-import ro.agrade.jira.rewards.services.Reward;
+import ro.agrade.jira.rewards.services.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,14 +22,17 @@ public class ReductiveRewardSprintReportBuilder extends BasicRewardSprintReportB
     /**
      * Creates the builder
      */
-    public ReductiveRewardSprintReportBuilder() {
+    public ReductiveRewardSprintReportBuilder(RewardType type) {
+        super(type);
     }
 
     /**
      * Post-process the report, In this case, does nothing
+     * @param sprint the sprint
      */
     @Override
-    public void postProcess() {
+    public void postProcess(RewardSprint sprint) {
+        super.postProcess(sprint);
         //create the reductions
         SprintReport report = getReport();
 

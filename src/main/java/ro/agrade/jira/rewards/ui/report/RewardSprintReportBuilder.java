@@ -4,6 +4,7 @@
 package ro.agrade.jira.rewards.ui.report;
 
 import ro.agrade.jira.rewards.services.Reward;
+import ro.agrade.jira.rewards.services.RewardSprint;
 
 /**
  * We want to be able to offer (maybe!) multiple reports. So while we all know that this is a
@@ -27,8 +28,9 @@ public interface RewardSprintReportBuilder {
 
     /**
      * Post-process the report
+     * @param sprint
      */
-    public abstract void postProcess();
+    public abstract void postProcess(RewardSprint sprint);
 
     /**
      * Gets the finished report

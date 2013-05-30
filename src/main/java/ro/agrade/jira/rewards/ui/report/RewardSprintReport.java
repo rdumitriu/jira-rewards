@@ -94,16 +94,21 @@ public class RewardSprintReport extends HttpServlet {
                 } catch (NumberFormatException e) {}
             }
             if(currentRewardSprintId > 0) {
-                velocityParams.put("currentSprint",
-                                   new SimpleSprintDescriptor(adminService.getRewardSprint(currentRewardSprintId)));
-                SprintReport report = createReport(currentRewardSprintId);
+                RewardSprint sprint = adminService.getRewardSprint(currentRewardSprintId);
+                velocityParams.put("currentSprint", new SimpleSprintDescriptor(sprint));
+                SprintReport report = createReport(sprint);
                 velocityParams.put("rewardSprintReportUsers", toDescriptors(report.getUniqueUsers()));
+                velocityParams.put("rewardSprintReportOtherUsers", toDescriptors(report.getIrrelevantUsers()));
                 velocityParams.put("rewardSprintReport", report);
             } else if(currentRewardSprintId >= -1) {
-                RewardSprint sprtest = new RewardSprint(-1, "beer sprint " + currentRewardSprintId, "place", "admin", new Date(), SprintStatus.ACTIVE, new HashSet<String>());
-                velocityParams.put("currentSprint", new SimpleSprintDescriptor(sprtest));
-                SprintReport report = createReport(currentRewardSprintId);
+                HashSet<String> usersInvited = new HashSet<String>();
+                usersInvited.add("radu");
+                usersInvited.add("florin");
+                RewardSprint sprint = new RewardSprint(0, "beer sprint " + currentRewardSprintId, "place" + currentRewardSprintId, "admin", new Date(), SprintStatus.ACTIVE, usersInvited);
+                velocityParams.put("currentSprint", new SimpleSprintDescriptor(sprint));
+                SprintReport report = createReport(sprint);
                 velocityParams.put("rewardSprintReportUsers", toDescriptors(report.getUniqueUsers()));
+                velocityParams.put("rewardSprintReportOtherUsers", toDescriptors(report.getIrrelevantUsers()));
                 velocityParams.put("rewardSprintReport", report);
             }
             renderer.render("velocity/reportSprint.vm", velocityParams, response.getWriter());
@@ -121,26 +126,37 @@ public class RewardSprintReport extends HttpServlet {
         return descriptors;
     }
 
-    private SprintReport createReport(long currentRewardSprint) {
-        List<Reward> list = rService.getRewardsForSprint(currentRewardSprint);
-        RewardSprintReportBuilder reportBuilder = createReportBuilder();
+    private SprintReport createReport(RewardSprint sprint) {
+        List<Reward> list = rService.getRewardsForSprint(sprint.getId());
+        RewardType rType = getTheOneAndOnlyRewardType();
+        RewardSprintReportBuilder reportBuilder = createReportBuilder(rType);
         reportBuilder.init();
-        reportBuilder.addReward(new Reward(1, 1, 0, 2, new Date(), "Two beers if you shoe my horse", "4 iron shoes", "admin", "user1", "Done", -1));
-        reportBuilder.addReward(new Reward(2, 1, 0, 1, new Date(), "One beer if you shoot yourself", "For the sake of beer", "admin", "user1", "Done", -1));
-        reportBuilder.addReward(new Reward(3, 1, 0, 1, new Date(), "One beer for nothing", "For the sake of beer", "admin", "user2", "Done", -1));
-        reportBuilder.addReward(new Reward(3, 1, 0, 4, new Date(), "Four beers in exchange", "For the sake of beer", "user1", "admin", "Done", -1));
+        reportBuilder.addReward(new Reward(1, rType.getId(), 0, 2, new Date(), "Two beers if you shoe my horse", "4 iron shoes", "admin", "user1", "Done", -1));
+        reportBuilder.addReward(new Reward(2, rType.getId(), 0, 1, new Date(), "One beer if you shoot yourself", "For the sake of beer", "admin", "user1", "Done", -1));
+        reportBuilder.addReward(new Reward(3, rType.getId(), 0, 1, new Date(), "One beer for nothing", "For the sake of beer", "admin", "user2", "Done", -1));
+        reportBuilder.addReward(new Reward(3, rType.getId(), 0, 4, new Date(), "Four beers in exchange", "For the sake of beer", "user1", "admin", "Done", -1));
 
         if(list != null) {
             for(Reward r : list) {
                 reportBuilder.addReward(r);
             }
         }
-        reportBuilder.postProcess();
+        reportBuilder.postProcess(sprint);
         return reportBuilder.getReport();
     }
 
-    private RewardSprintReportBuilder createReportBuilder() {
-        return new ReductiveRewardSprintReportBuilder();
+    private RewardType getTheOneAndOnlyRewardType() {
+        List<RewardType> list = adminService.getRewardTypes();
+        if(list == null || list.size() == 0) {
+            String msg = "No reward types ?!? Plugin not configured!";
+            LOG.error(msg);
+            throw new RewardException(msg);
+        }
+        return list.get(0);
+    }
+
+    private RewardSprintReportBuilder createReportBuilder(RewardType rewardType) {
+        return new ReductiveRewardSprintReportBuilder(rewardType);
     }
 
     private List<RewardSprint> getRewardSprints(String user) {
