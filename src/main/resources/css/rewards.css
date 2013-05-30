@@ -18,7 +18,7 @@
     border-bottom: 1px solid #E4E4E4;
 }
 
-.rwd-sprint-summary .rwd-sprint-date .rwd-sprint-where {
+.rwd-sprint-summary .rwd-sprint-date {
     float: right;
 }
 
@@ -26,6 +26,7 @@
     margin-top: 5px;
     padding: 4px;
     color : #333333;
+    min-height: 36px;
 }
 
 .rwd-list-item:hover {
@@ -210,3 +211,50 @@
 .spa-page-panel .aui-navgroup-inner .aui-nav-heading:first-child {
     border-top: none;
 }
+
+.spa-sprint-details {
+    border-right: 1px solid #ccc;
+    line-height: 2;
+}
+
+.spa-page-panel .spa-half-panel {
+    width: 45%;
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px 10px 10px 25px;
+    margin-top: 10px;
+}
+
+.spa-page-panel .spa-title {
+    color : #707070;
+    font-size: 18px;
+    margin-bottom: 20px;
+
+}
+
+.spa-sprint-details .spa-sprint-field {
+
+}
+
+.spa-sprint-details .spa-sprint-field label{
+    color : #707070;
+    width: 25%;
+    display: inline-block;
+}
+
+.spa-sprint-details .spa-sprint-field .spa-field-value{
+
+}
+
+.spa-sprint-guests {
+
+}
+
+.spa-sprint-guests .spa-sprint-guest-list {
+
+}
+
+.spa-sprint-guests .spa-sprint-guest-list .spa-guest {
+
+}
+

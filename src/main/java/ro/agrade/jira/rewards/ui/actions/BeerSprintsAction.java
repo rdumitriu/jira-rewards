@@ -80,6 +80,9 @@ public class BeerSprintsAction extends JiraWebActionSupport {
             if(spr != null && spr.size() > 0){
                 // can't be NPE here since the category was created from the sprint
                 selectedSprint = spr.get(0).sprints.get(0).id;
+                if(LOG.isDebugEnabled()){
+                    LOG.debug(String.format("Selected first sprint %s", selectedSprint));
+                }
             }
         }
         RewardSprint ss = rAdminService.getRewardSprint(selectedSprint);
@@ -195,6 +198,10 @@ public class BeerSprintsAction extends JiraWebActionSupport {
             LOG.debug(String.format("Got %s categories", ret != null ? ret.size() : 0));
         }
         return ret;
+    }
+
+    public boolean getIsAdmin(){
+        return UiUtils.isAdmin(getLoggedInApplicationUser());
     }
 
     private String extractCategory(RewardSprint rs) {

@@ -93,4 +93,5 @@ public interface RewardAdminService {
      * @return the reward sprint
      */
     public abstract RewardSprint removeSprintGuest(RewardSprint rs, String guest);
+
 }

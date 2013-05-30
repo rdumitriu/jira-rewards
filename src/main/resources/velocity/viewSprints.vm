@@ -37,7 +37,12 @@
                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.SprintPageContent',
                             {
                             'sprint' : $selectedSprintObj
-                            }, {'baseurl' : $baseurl})
+                            },
+                            {
+                            'baseurl' : $baseurl,
+                            'currentUser' : $loggedInApplicationUser.getKey(),
+                            'isAdmin' : $action.getIsAdmin()
+                            })
             #end
         </div>
     </body>

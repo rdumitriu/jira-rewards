@@ -10,6 +10,7 @@ import com.atlassian.jira.config.properties.ApplicationProperties;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
 import com.atlassian.jira.web.action.issue.AbstractIssueSelectAction;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import ro.agrade.jira.rewards.context.BetterSoyRenderer;
@@ -17,6 +18,7 @@ import ro.agrade.jira.rewards.services.*;
 import ro.agrade.jira.rewards.ui.descriptors.SimpleSprintDescriptor;
 import ro.agrade.jira.rewards.utils.JIRAUtils;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -61,32 +63,23 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
             return INPUT;
         }
 
-        // TODO create reward and add
-        // TODO maybe create constructor without id
-        Reward reward = new Reward(0l, typeId, sprintId, quantity,
+        Reward reward = new Reward(0, typeId, sprintId, quantity,
                                   new Date(), summary, longDescription,
                                   getLoggedInApplicationUser().getKey(),
                                   null, "", getId());
-        // TODO check sprint status == ACTIVE
-//        rService.addReward(reward);
+        rService.addReward(reward);
         return returnComplete();
     }
 
     public String doSelectReward(){
-        // TODO uncomment when sprint planning is done
-//        Reward reward = rService.getReward(rwdId);
-//        if(reward == null){
-//            addErrorMessage(getText("rewards.forms.errors.invalid.reward"));
-//        }
+        Reward reward = rService.getReward(rwdId);
+        if(reward == null){
+            addErrorMessage(getText("rewards.forms.errors.invalid.reward"));
+        }
         if(getHasErrors() || getHasErrorMessages()){
             return INPUT;
         }
 
-
-        Reward reward = new Reward(0l, 1l, 2l, 12,
-                new Date(), "my summary", "really long description",
-                getLoggedInApplicationUser().getKey(),
-                null, "", 10000);
         this.typeId = reward.getTypeId();
         this.sprintId = reward.getSprintId();
         this.quantity = reward.getQuantity();
@@ -107,12 +100,11 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
         if(getHasErrors() || getHasErrorMessages()){
             return INPUT;
         }
-        // TODO check sprint status == ACTIVE
-        // TODO maybe create constructor without id
-        Reward reward = new Reward(0l, typeId, sprintId, quantity,
-                new Date(), summary, longDescription,
-                getLoggedInApplicationUser().getKey(),
-                null, "", getId());
+
+        Reward reward = rService.getReward(rwdId);
+        if(reward == null){
+            addErrorMessage(getText("rewards.forms.errors.invalid.reward"));
+        }
 
         if(!reward.getFromUser().equals(getLoggedInApplicationUser().getKey())){
             addErrorMessage(getText("rewards.edit.errors.owner.permission"));
@@ -121,7 +113,13 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
             return INPUT;
         }
 
-//        rService.updateReward(reward);
+        reward.setLongDescription(this.longDescription);
+        reward.setQuantity(this.quantity);
+        reward.setSummary(this.summary);
+        reward.setTypeId(this.typeId);
+        reward.setSprintId(this.sprintId);
+
+        rService.updateReward(reward);
         return returnComplete();
     }
 
@@ -140,23 +138,32 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
         }
         if(sprintId <= 0) {
             getErrors().put("sprint", getText("rewards.forms.errors.invalid",
-                                             getText("rewards.new.offer.label")));
+                                             getText("rewards.new.sprint.label")));
+        }
+        RewardSprint rs = radminService.getRewardSprint(sprintId);
+        if(rs == null){
+            getErrors().put("sprint", getText("rewards.forms.errors.invalid",
+                                              getText("rewards.new.sprint.label")));
+        } else if(!rs.getStatus().equals(SprintStatus.ACTIVE)) {
+            getErrors().put("sprint", getText("rewards.forms.errors.invalid.sprint.status"));
         }
     }
 
     public List<RewardType> getTypes() {
-        // TODO
-        return Lists.newArrayList(new RewardType(1, "Beer", "Beers", "Sweet golden nectar of the gods", "/download/resources/ro.agrade.jira.rewards:rewards-resources/images/beer_32x32.png"));
-//        return radminService.getRewardTypes();
+        return radminService.getRewardTypes();
     }
 
     public List<SimpleSprintDescriptor> getSprints() {
-        // TODO
-        RewardSprint sprint = new RewardSprint(1, "Sprint", "location", "admin", new Date(System.currentTimeMillis()), SprintStatus.ACTIVE, new HashSet<String>());
-        RewardSprint sprint2 = new RewardSprint(2, "Sprint2", "location2", "admin", new Date(System.currentTimeMillis() + 2000000), SprintStatus.ACTIVE, new HashSet<String>());
-//        return radminService.getRewardSprints(SprintStatus.ACTIVE);
-        return Lists.newArrayList(new SimpleSprintDescriptor(sprint), new SimpleSprintDescriptor(sprint2));
-
+        List<RewardSprint> rewardSprints = radminService.getRewardSprints(SprintStatus.ACTIVE);
+        if(rewardSprints == null || rewardSprints.size() == 0){
+            return new ArrayList<SimpleSprintDescriptor>();
+        }
+        return Lists.transform(rewardSprints, new Function<RewardSprint, SimpleSprintDescriptor>() {
+            @Override
+            public SimpleSprintDescriptor apply(@Nullable RewardSprint input) {
+                return new SimpleSprintDescriptor(input);
+            }
+        });
     }
 
     public String getBaseurl(){

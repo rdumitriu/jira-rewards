@@ -107,7 +107,7 @@
                                      },{'baseurl' : $baseurl})
 
              </div>
-             <input type="hidden" name="issueId" value="$id">
+             <input type="hidden" name="id" value="$id">
              <div class="buttons-container form-footer">
                 <div class="buttons">
                     #if($edit)

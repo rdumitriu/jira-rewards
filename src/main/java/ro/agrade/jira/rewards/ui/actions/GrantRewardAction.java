@@ -58,12 +58,7 @@ public class GrantRewardAction extends JiraWebActionSupport {
                                                getText("rewards.grant.toUser.label")));
         }
 
-        // TODO uncomment when sprint planning is done
-//        Reward reward = rService.getReward(rwdId);
-        Reward reward = new Reward(0l, 1l, 2l, 12,
-                new Date(), "my summary", "really long description",
-                getLoggedInApplicationUser().getKey(),
-                null, "", 10000);
+        Reward reward = rService.getReward(rwdId);
         if(rwdId <= 0 || reward == null){
             addErrorMessage(getText("rewards.forms.errors.invalid.reward"));
         }
@@ -77,8 +72,7 @@ public class GrantRewardAction extends JiraWebActionSupport {
             return INPUT;
         }
 
-        // TODO uncomment when sprint planning is done
-//        rService.grantRewardTo(reward, toUser, resolution);
+        rService.grantRewardTo(reward, toUser, resolution);
         return returnComplete();
     }
 

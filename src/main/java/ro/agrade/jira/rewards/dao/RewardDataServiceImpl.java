@@ -3,6 +3,7 @@
  */
 package ro.agrade.jira.rewards.dao;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import org.ofbiz.core.entity.*;
@@ -129,7 +130,7 @@ public class RewardDataServiceImpl implements RewardDataService {
         map.put(SPRINTID_FIELD, r.getSprintId());
         map.put(ISSUEID_FIELD, r.getIssueId() > 0 ? r.getIssueId() : null);
         map.put(QUANTITY_FIELD, r.getQuantity());
-        map.put(LIMITDATE_FIELD, r.getDateEnds());
+        map.put(LIMITDATE_FIELD, r.getDateEnds() != null ? new Timestamp(r.getDateEnds().getTime()) : null);
         map.put(SHORTDESC_FIELD, r.getSummary());
         map.put(LONGDESC_FIELD, r.getLongDescription());
         map.put(FROMUSR_FIELD, r.getFromUser());
@@ -148,13 +149,13 @@ public class RewardDataServiceImpl implements RewardDataService {
         long sprintId = (Long)genval.get(SPRINTID_FIELD);
         long issueId = (Long)genval.get(ISSUEID_FIELD);
         long quantity = (Long)genval.get(QUANTITY_FIELD);
-        Date endDate = (Date) genval.get(LIMITDATE_FIELD);
+        Timestamp endDate = (Timestamp) genval.get(LIMITDATE_FIELD);
         String summary = (String)genval.get(SHORTDESC_FIELD);
         String longDesc = (String)genval.get(LONGDESC_FIELD);
         String fromUser = (String)genval.get(FROMUSR_FIELD);
         String toUser = (String)genval.get(TOUSR_FIELD);
         String resolution = (String)genval.get(RESOLUTION_FIELD);
-        return new Reward(id, typeId, sprintId, quantity, endDate, summary, longDesc, fromUser, toUser, resolution, issueId);
+        return new Reward(id, typeId, sprintId, quantity, new Date(endDate.getTime()), summary, longDesc, fromUser, toUser, resolution, issueId);
     }
 
     private List<Reward> fromGenericValue(List<GenericValue> l) {

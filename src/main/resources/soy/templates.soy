@@ -111,7 +111,7 @@
 * @param sprints
 */
 {template .Sprints}
-    {if $sprints}
+    {if $sprints and length($sprints) > 0}
         {foreach $sprint in $sprints}
             {call .SprintSummary}
                 {param sprint : $sprint /}
@@ -264,12 +264,20 @@
 */
 {template .SprintPageContent}
     <section class="aui-page-panel-content">
-        {call .SprintPageHeader}
-            {param sprint : $sprint /}
-        {/call}
-        {call .SprintPageBody}
-            {param sprint : $sprint /}
-        {/call}
+        {if $sprint}
+            {call .SprintPageHeader}
+                {param sprint : $sprint /}
+            {/call}
+            {call .SprintPageBody}
+                {param sprint : $sprint /}
+            {/call}
+        {else}
+            {call REWARDS.Forms.Message}
+                {param title : getText('rewards.forms.errors.title') /}
+                {param text : getText('rewards.sprints.invalid.id') /}
+                {param class : 'info' /}
+            {/call}
+        {/if}
     </section>
 {/template}
 
@@ -285,17 +293,24 @@
             </div>
             <div class="aui-page-header-actions">
                 <div class="aui-buttons">
-                    <a id="edit-sprint" class="aui-button rwd-dialog-trigger" href="">
-                        <span class="icon jira-icon-edit"></span>
-                        {getText('rewards.sptrint.toolbar.edit.button')}
-                    </a>
-                    <a id="close-sprint" class="aui-button rwd-dialog-trigger" href="">
-                        {getText('rewards.sptrint.toolbar.close.button')}
-                    </a>
-                    <a id="delete-sprint" class="aui-button rwd-dialog-trigger" href="">
-                        <span class="icon icon-delete"></span>
-                        {getText('rewards.sptrint.toolbar.delete.button')}
-                    </a>
+                    {if $sprint.owner.key == $ij.currentUser}
+                        <a id="edit-sprint" class="aui-button rwd-dialog-trigger" href="{$ij.baseurl}/secure/ManageSprint!edit.jspa?id={$sprint.id}">
+                            <span class="icon jira-icon-edit"></span>
+                            {getText('rewards.sptrint.toolbar.edit.button')}
+                        </a>
+                        {if $sprint.status == 'ACTIVE'}
+                            <a id="close-sprint" class="aui-button rwd-dialog-trigger" href="{$ij.baseurl}/secure/ManageSprint!close.jspa?id={$sprint.id}">
+                                {getText('rewards.sptrint.toolbar.close.button')}
+                            </a>
+                        {/if}
+                    {/if}
+                    {$ij.isAdmin}
+                    {if (not $sprint.rewards or length($sprint.rewards) == 0) and $ij.isAdmin}
+                        <a id="delete-sprint" class="aui-button rwd-dialog-trigger" href="{$ij.baseurl}/secure/DeleteSprint.jspa?id={$sprint.id}">
+                            <span class="icon icon-delete"></span>
+                            {getText('rewards.sptrint.toolbar.delete.button')}
+                        </a>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -320,12 +335,52 @@
 * @param sprint the sprint
 */
 {template .SprintDetails}
-    <div class="spa-sprint-details">
+    <div class="spa-sprint-details spa-half-panel">
+        <div class="spa-title">{getText('rewards.sprint.details.title')}</div>
+        <div class="spa-sprint-field">
+            <label>{getText('rewards.sprint.status.label')}</label>
+            <span class="spa-field-value">
+                {if $sprint.status == 'PROPOSED'}
+                    <span class="aui-lozenge aui-lozenge-complete">{getText('rewards.sprint.status.PROPOSED')}</span>
+                {elseif $sprint.status == 'ACTIVE'}
+                    <span class="aui-lozenge aui-lozenge-success">{getText('rewards.sprint.status.ACTIVE')}</span>
+                {elseif $sprint.status == 'CLOSED'}
+                    <span class="aui-lozenge aui-lozenge-moved">{getText('rewards.sprint.status.CLOSED')}</span>
+                {else}
+                    <span class="aui-lozenge aui-lozenge-error">{getText('rewards.sprint.status.unknown')}</span>
+                {/if}
+            </span>
+        </div>
         <div class="spa-sprint-field">
             <label>{getText('rewards.sprint.where.label')}</label>
-            <span class="spa-field-value">{$sprint}</span>
-        <div>
-    <div>
+            <span class="spa-field-value">
+            {if $sprint.where}
+                {$sprint.where}
+            {else}
+                {getText('rewards.sprint.description.not.decided')}
+            {/if}
+            </span>
+        </div>
+        <div class="spa-sprint-field">
+            <label>{getText('rewards.sprint.when.label')}</label>
+            <span class="spa-field-value">
+            {if $sprint.when}
+                {$sprint.when}
+            {else}
+                {getText('rewards.sprint.description.not.decided')}
+            {/if}
+            </span>
+        </div>
+        <div class="spa-sprint-field">
+            <label>{getText('rewards.sprint.owner.label')}</label>
+            <span class="spa-field-value">
+                {call .User}
+                    {param user : $sprint.owner /}
+                    {param avatarUrl : $sprint.owner.avatarUrl /}
+                {/call}
+            </span>
+        </div>
+    </div>
 {/template}
 
 
@@ -335,7 +390,26 @@
 * @param sprint
 */
 {template .SprintGuests}
-    <div class="spa-sprint-guests">
-        {$sprint}
-    <div>
+    <div class="spa-sprint-guests spa-half-panel">
+        <div class="spa-title">{getText('rewards.sprint.guests.title')}</div>
+
+        <div class="spa-sprint-guest-list">
+        {if $sprint.guests and length($sprint.guests) > 0}
+            {foreach $guest in $sprint.guests}
+                <div class="spa-guest">
+                    {call .User}
+                        {param user : $guest /}
+                        {param avatarUrl : $guest.avatarUrl /}
+                    {/call}
+                </div>
+            {/foreach}
+        {else}
+            {call REWARDS.Forms.Message}
+                {param title : getText('rewards.sprints.no.guests.title') /}
+                {param text : getText('rewards.sprints.no.guests') /}
+                {param class : 'info' /}
+            {/call}
+        {/if}
+        </div>
+    </div>
 {/template}

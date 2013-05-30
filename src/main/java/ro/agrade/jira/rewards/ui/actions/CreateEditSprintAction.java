@@ -155,7 +155,7 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
             this.date = null;
         } else {
             try {
-                // TODO getTimezone() does return null
+                // TODO getTimezone() does: return null
                 this.date = UiUtils.getDateTimePickerFormat(getTimezone()).parse(when);
             } catch (ParseException ex){
                 if(LOG.isDebugEnabled()){

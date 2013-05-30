@@ -7,37 +7,32 @@ package ro.agrade.jira.rewards.ui.actions;
 
 import com.atlassian.jira.config.properties.ApplicationProperties;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
-import com.atlassian.jira.user.util.UserManager;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
-import org.apache.commons.lang.StringUtils;
 import ro.agrade.jira.rewards.context.BetterSoyRenderer;
-import ro.agrade.jira.rewards.services.Reward;
-import ro.agrade.jira.rewards.services.RewardService;
+import ro.agrade.jira.rewards.services.*;
 import ro.agrade.jira.rewards.ui.UiUtils;
-
-import java.util.*;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Delete a reward
  *
  * @author Florin Manaila (florin.manaila@gmail.com)
  */
-public class DeleteRewardAction extends JiraWebActionSupport {
+public class DeleteSprintAction extends JiraWebActionSupport {
 
-    private long rwdId;
+    private long sprintId;
 
     private final RewardService rService;
+    private RewardAdminService rAdminService;
     private final ApplicationProperties properties;
     private final SoyTemplateRenderer soyRenderer;
 
-    public DeleteRewardAction(RewardService rService,
+    public DeleteSprintAction(RewardService rService,
+                              RewardAdminService rAdminService,
                               ApplicationProperties properties,
                               SoyTemplateRendererProvider soyProvider){
         this.rService = rService;
+        this.rAdminService = rAdminService;
         this.properties = properties;
         this.soyRenderer = new BetterSoyRenderer(soyProvider.getRenderer());
     }
@@ -47,16 +42,16 @@ public class DeleteRewardAction extends JiraWebActionSupport {
             addErrorMessage(getText("rewards.delete.permissions"));
         }
 
-        Reward reward = rService.getReward(rwdId);
-        if(rwdId <= 0 || reward == null){
-            addErrorMessage(getText("rewards.forms.errors.invalid.reward"));
+        RewardSprint sprint = rAdminService.getRewardSprint(sprintId);
+        if(sprintId <= 0 || sprint == null){
+            addErrorMessage(getText("rewards.sprints.invalid.id"));
         }
 
         if(getHasErrors() || getHasErrorMessages()){
             return INPUT;
         }
 
-        rService.deleteReward(rwdId);
+        rAdminService.deleteRewardSprint(sprintId);
         return returnComplete();
     }
 
@@ -64,12 +59,12 @@ public class DeleteRewardAction extends JiraWebActionSupport {
         return properties.getString("jira.baseurl");
     }
 
-    public long getRwdId() {
-        return rwdId;
+    public long getSprintId() {
+        return sprintId;
     }
 
-    public void setRwdId(long rwdId) {
-        this.rwdId = rwdId;
+    public void setSprintId(long sprintId) {
+        this.sprintId = sprintId;
     }
 
     public SoyTemplateRenderer getSoyRenderer() {

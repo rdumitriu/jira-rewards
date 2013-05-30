@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>$i18n.getText('rewards.sprints.delete.title')</title>
+        <meta content="panel-general" name="decorator">
+    </head>
+    <body>
+        <form class="aui" method="post" action="DeleteSprint!delete.jspa">
+             <div class="form-body">
+                 <h2>$i18n.getText('rewards.sprints.delete.title')</h2>
+                 <input type="hidden" id="sprintId" name="sprintId" value="$sprintId">
+                 #if($hasErrorMessages)
+                     #foreach($errMsg in $errorMessages)
+                         $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Forms.Message',
+                         {
+                         'title': "$i18n.getText('rewards.forms.errors.title')",
+                         'text' : $errMsg,
+                         'class' : 'error'
+                         })
+                     #end
+                     <br/>
+                 #end
+                 <p>$i18n.getText('rewards.sprints.delete.confirm')</p>
+             </div>
+             <div class="buttons-container form-footer">
+                <div class="buttons">
+                    <input class="aui-button" id="sprint-delete-submit" value="$i18n.getText('rewards.delete.button')"  type="submit" name="delete" />
+                    <a class="aui-button aui-button-link cancel">$i18n.getText('rewards.new.cancel')</a>
+                </div>
+             </div>
+        </form>
+    </body>
+</html>
+
