@@ -5,13 +5,16 @@
  */
 package ro.agrade.jira.rewards.ui.actions;
 
+import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
 import org.apache.commons.lang.StringUtils;
 import ro.agrade.jira.rewards.context.BetterSoyRenderer;
 import ro.agrade.jira.rewards.services.*;
+import ro.agrade.jira.rewards.ui.UiUtils;
 
+import java.text.ParseException;
 import java.util.*;
 
 import org.apache.commons.logging.Log;
@@ -29,7 +32,8 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
     private long id;
     private String name;
     private String where;
-    private Date when;
+    private Date date;
+    private String when;
 
     private final RewardAdminService rAdminService;
     private final BetterSoyRenderer soyRenderer;
@@ -57,7 +61,7 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
         }
         this.name = rs.getName();
         this.where = rs.getWhere();
-        this.when = rs.getWhen();
+        this.date = rs.getWhen();
 
         return INPUT;
     }
@@ -81,11 +85,11 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
             return INPUT;
         }
         if(LOG.isDebugEnabled()){
-            LOG.debug(String.format("Updating sprint %s %s %s %s", id, name, where, when));
+            LOG.debug(String.format("Updating sprint %s %s %s %s", id, name, where, date));
         }
         rs.setName(this.name);
         rs.setWhere(this.where);
-        rs.setWhen(this.when);
+        rs.setWhen(this.date);
         rAdminService.updateRewardSprint(rs);
         return returnComplete(String.format("/secure/BeerSprints.jspa?selectedSprint=%s", this.id));
     }
@@ -97,7 +101,7 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
         }
         RewardSprint rs = new RewardSprint(0L, this.name, this.where,
                                            getLoggedInApplicationUser().getKey(),
-                                           this.when, SprintStatus.ACTIVE,
+                                           this.date, SprintStatus.ACTIVE,
                                            null);
         if(LOG.isDebugEnabled()){
             LOG.debug(String.format("Creating sprint %s %s %s %s", id, name, where, when));
@@ -134,11 +138,32 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
         this.where = where;
     }
 
-    public Date getWhen() {
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getWhen() {
         return when;
     }
 
-    public void setWhen(Date when) {
+    public void setWhen(String when) {
+        if(StringUtils.isBlank(when)){
+            this.date = null;
+        } else {
+            try {
+                // TODO getTimezone() does return null
+                this.date = UiUtils.getDateTimePickerFormat(getTimezone()).parse(when);
+            } catch (ParseException ex){
+                if(LOG.isDebugEnabled()){
+                    LOG.debug(String.format("Invalid date %s format", when));
+                }
+                this.date = null;
+            }
+        }
         this.when = when;
     }
 }

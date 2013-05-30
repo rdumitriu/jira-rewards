@@ -171,6 +171,8 @@
 * @param required
 * @param error
 * @param defaultValue
+* @param timeFormat 12 or 24
+* @param dateTimeFormat javascript style
 */
 {template .DatePicker}
     <div class="field-group aui-field-datepicker rwd-date-picker">
@@ -180,7 +182,7 @@
                 <span class="aui-icon icon-required">{getText('rewards.required.label')}</span>
             {/if}
         </label>
-        <input class="text medium-field" id="{$fieldId}" name="{$fieldName}" type="text" value="{if $defaultValue}{$defaultValue}{/if}">
+        <input class="text medium-field" id="{$fieldId}" name="{$fieldName}" type="text" value="">
         <a href="#" id="{$fieldId}-trigger" title="{getText('rewards.sprints.select.date.tooltip')}" tabindex="-1" class="date-picker-trigger">
             <span class="aui-icon icon-date">{getText('rewards.sprints.select.date.tooltip')}</span>
         </a>
@@ -190,11 +192,13 @@
             <input title="button" type="hidden" value="{$fieldId}-trigger">
             <input title="align" type="hidden" value="Br">
             <input title="singleClick" type="hidden" value="true">
-//            <input title="date" type="hidden" value="2013-05-29T22:39">
+            {if $defaultValue}
+            <input title="date" type="hidden" value="{$defaultValue}">
+            {/if}
             <input title="useISO8601WeekNumbers" type="hidden" value="false">
-            <input title="ifFormat" type="hidden" value="%e/%b/%y %I:%M %p">
+            <input title="ifFormat" type="hidden" value="{$dateTimeFormat}">
             <input title="showsTime" type="hidden" value="true">
-            <input title="timeFormat" type="hidden" value="12">
+            <input title="timeFormat" type="hidden" value="{$timeFormat}">
         </fieldset>
         <div class="description">{$description}</div>
         {if $error}<div class="error">{$error}</div>{/if}

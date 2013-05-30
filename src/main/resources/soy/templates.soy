@@ -293,5 +293,35 @@
 * @param sprint
 */
 {template .SprintPageBody}
-    {$sprint}
+    {call .SprintDetails}
+        {param sprint : $sprint /}
+    {/call}
+    {call .SprintGuests}
+        {param sprint : $sprint /}
+    {/call}
+{/template}
+
+/**
+* Renders the Sprint details
+* @param sprint the sprint
+*/
+{template .SprintDetails}
+    <div class="spa-sprint-details">
+        <div class="spa-sprint-field">
+            <label>{getText('rewards.sprint.where.label')}</label>
+            <span class="spa-field-value">{$sprint}</span>
+        <div>
+    <div>
+{/template}
+
+
+
+/**
+* Renders the guest list
+* @param sprint
+*/
+{template .SprintGuests}
+    <div class="spa-sprint-guests">
+        {$sprint}
+    <div>
 {/template}

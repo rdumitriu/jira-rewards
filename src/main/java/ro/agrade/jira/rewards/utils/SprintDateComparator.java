@@ -18,12 +18,12 @@ public class SprintDateComparator implements Comparator<RewardSprint> {
 
     @Override
     public int compare(RewardSprint s1, RewardSprint s2) {
-        if(s1.getWhen() == null){
-            return s2.getWhen() == null ? 0 : 1;
+        if(s2.getWhen() == null){
+            return s1.getWhen() == null ? 0 : 1;
         }
-        if(s2.getWhen() == null)  {
+        if(s1.getWhen() == null)  {
             return -1;
         }
-        return s2.getWhen().compareTo(s1.getWhen());
+        return s1.getWhen().compareTo(s2.getWhen());
     }
 }

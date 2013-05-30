@@ -6,6 +6,8 @@
 package ro.agrade.jira.rewards.ui;
 
 import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.config.properties.APKeys;
+import com.atlassian.jira.config.properties.ApplicationProperties;
 import com.atlassian.jira.datetime.*;
 import com.atlassian.jira.security.Permissions;
 import com.atlassian.jira.user.ApplicationUser;
@@ -79,5 +81,28 @@ public class UiUtils {
         return
                 ComponentAccessor.getPermissionManager().hasPermission(Permissions.ADMINISTER, user) ||
                 ComponentAccessor.getPermissionManager().hasPermission(Permissions.SYSTEM_ADMIN, user);
+    }
+
+    /**
+     * Gets a SimpleDateFormat to parse/format date time picker value
+     * using system TZ
+     * @return the SimpleDateFormat for date time picker
+     */
+    public static SimpleDateFormat getDateTimePickerFormat(){
+        return new SimpleDateFormat(ComponentAccessor.getApplicationProperties()
+                                              .getDefaultBackedString(APKeys.JIRA_DATE_TIME_PICKER_JAVA_FORMAT));
+    }
+
+    /**
+     * Gets a SimpleDateFormat to parse/format date time picker value for the
+     * specified TZ
+     * @return the SimpleDateFormat for date time picker
+     */
+    public static SimpleDateFormat getDateTimePickerFormat(TimeZone tz){
+        SimpleDateFormat sdf = getDateTimePickerFormat();
+        if(tz != null) {
+            sdf.setTimeZone(tz);
+        }
+        return sdf;
     }
 }

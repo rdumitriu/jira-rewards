@@ -72,11 +72,10 @@ public class BeerSprintsAction extends JiraWebActionSupport {
 
     @Override
     public String doDefault() throws Exception {
-//        if(getLoggedInApplicationUser() == null){
-//            LOG.debug("User not logged in.");
-//            return PERMISSION_VIOLATION_RESULT;
-//        }
         if(selectedSprint <= 0){
+            if(LOG.isDebugEnabled()){
+                LOG.debug("No selected sprint. Getting the first one available.");
+            }
             List<CategorySprintsDescriptor> spr = getSprints();
             if(spr != null && spr.size() > 0){
                 // can't be NPE here since the category was created from the sprint
@@ -84,13 +83,22 @@ public class BeerSprintsAction extends JiraWebActionSupport {
             }
         }
         RewardSprint ss = rAdminService.getRewardSprint(selectedSprint);
-        List<UserDescriptor> guests = new ArrayList<UserDescriptor>();
-        if(ss.getGuests() != null){
-            for(String guestKey : ss.getGuests()){
-                guests.add(new UserDescriptor(guestKey));
+        if(ss != null){
+            if(LOG.isDebugEnabled()){
+                LOG.debug(String.format("Selected sprint is %s(%s)", ss.getId(), ss.getName()));
             }
+            List<UserDescriptor> guests = new ArrayList<UserDescriptor>();
+            if(ss.getGuests() != null){
+                for(String guestKey : ss.getGuests()){
+                    guests.add(new UserDescriptor(guestKey));
+                }
+            }
+            this.selectedSprintObj = new SprintDescriptor(ss, guests, null);
+        } else {
+            LOG.debug("No sprint to select");
+            selectedSprint = 0;
+            this.selectedSprintObj = null;
         }
-        this.selectedSprintObj = new SprintDescriptor(ss, guests, null);
         return super.doDefault();
     }
 
@@ -114,6 +122,30 @@ public class BeerSprintsAction extends JiraWebActionSupport {
 
     public SprintDescriptor getSelectedSprintObj(){
         return selectedSprintObj;
+    }
+
+    public boolean isShowActive() {
+        return showActive;
+    }
+
+    public void setShowActive(boolean showActive) {
+        this.showActive = showActive;
+    }
+
+    public boolean isShowClosed() {
+        return showClosed;
+    }
+
+    public void setShowClosed(boolean showClosed) {
+        this.showClosed = showClosed;
+    }
+
+    public long getSelectedSprint() {
+        return selectedSprint;
+    }
+
+    public void setSelectedSprint(long selectedSprint) {
+        this.selectedSprint = selectedSprint;
     }
 
     private List<CategorySprintsDescriptor> categorizeSprints(List<RewardSprint> rewardSprints) {

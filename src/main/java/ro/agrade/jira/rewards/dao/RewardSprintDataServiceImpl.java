@@ -3,6 +3,7 @@
  */
 package ro.agrade.jira.rewards.dao;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import org.ofbiz.core.entity.*;
@@ -155,7 +156,7 @@ public class RewardSprintDataServiceImpl implements RewardSprintDataService {
         map.put(NAME_FIELD, rs.getName());
         map.put(WHERE_FIELD, rs.getWhere());
         map.put(OWNER_FIELD, rs.getOwner());
-        map.put(WHEN_FILED, rs.getWhen());
+        map.put(WHEN_FILED, rs.getWhen() != null ? new Timestamp(rs.getWhen().getTime()) : null);
         map.put(STATUS_FILED, rs.getStatus().ordinal());
         return delegator.makeValue(ENTITY, map);
     }
@@ -167,11 +168,13 @@ public class RewardSprintDataServiceImpl implements RewardSprintDataService {
         long id = (Long)genval.get(ID_FIELD);
         String name = (String)genval.get(NAME_FIELD);
         String where = (String) genval.get(WHERE_FIELD);
-        Date when = (Date) genval.get(WHEN_FILED);
+        Timestamp when = (Timestamp) genval.get(WHEN_FILED);
         String owner = (String) genval.get(OWNER_FIELD);
         long status = (Long) genval.get(STATUS_FILED);
 
-        return new RewardSprint(id, name, where, owner, when, SprintStatus.values()[(int)status], null);
+        return new RewardSprint(id, name, where, owner,
+                                when != null ? new Date(when.getTime()) : null,
+                                SprintStatus.values()[(int)status], null);
     }
 
     private List<RewardSprint> fromGenericValue(List<GenericValue> l) {

@@ -32,7 +32,7 @@
         <field name="s_name" type="long-varchar"/>
         <field name="s_where" type="extremely-long"/>
         <field name="s_owner" type="long-varchar"/>
-        <field name="s_when" type="date"/>
+        <field name="s_when" type="date-time"/>
         <field name="s_status" type="numeric"/>
 
         <prim-key field="s_id"/>
@@ -65,7 +65,7 @@
         <field name="t_id" type="numeric"/>
         <field name="s_id" type="numeric"/>
         <field name="r_quantity" type="numeric"/>
-        <field name="r_limitdate" type="date"/>
+        <field name="r_limitdate" type="date-time"/>
         <field name="r_shortdesc" type="long-varchar"/>
         <field name="r_longdesc" type="extremely-long"/>
         <!-- from user can be null, in which case is from the house (see sprint s_who) -->
