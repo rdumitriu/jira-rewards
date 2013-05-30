@@ -7,8 +7,22 @@
     $webResourceManager.requireResource("ro.agrade.jira.rewards:rewards-resources")
   </head>
   <body>
+  <header class="aui-page-header">
+      <div class="aui-page-header-inner">
+          <div class="aui-page-header-main">
+              <h1>$i18n.getText('rewards.report.title')</h1>
+          </div><!-- .aui-page-header-main -->
+          <div class="aui-page-header-actions">
+              <a href="$!baseurl/secure/BeerSprints.jspa?" class="aui-button" id="backto-sprint-trigger" title="">
+                  $i18n.getText('rewards.sprints.back.to.sprints.button')
+              </a>
+          </div><!-- .aui-page-header-actions -->
+      </div><!-- .aui-page-header-inner -->
+  </header>
+
   <div class="rewardreport">
-     <h2>$i18n.getText('rewards.report.title')</h2>
+
+     <h2>$i18n.getText('')</h2>
 
      #if($rewardSprints)
          <a href="#rewardsprintslist" aria-owns="rewardsprintslist" aria-haspopup="true" class="aui-dropdown2-trigger aui-style-default">$i18n.getText('rewards.report.choose.current.sprint')</a>

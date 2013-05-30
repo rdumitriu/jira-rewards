@@ -13,6 +13,9 @@
                 <a href="$!baseurl/secure/ManageSprint!create.jspa" class="aui-button rwd-trigger-dialog" id="create-sprint-trigger" title="">
                     $i18n.getText('rewards.sprints.new.header.button')
                 </a>
+                <a href="$!baseurl/plugins/servlet/agrade/rewards/sprintreport?" class="aui-button" id="view-reports-trigger" title="">
+                    $i18n.getText('rewards.sprints.view.reports.button')
+                </a>
             </div><!-- .aui-page-header-actions -->
 
 

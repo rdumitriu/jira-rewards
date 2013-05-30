@@ -80,7 +80,7 @@ public class RewardServiceImpl implements RewardService {
             throw new RewardException(msg);
         }
         if(sprint.getWhen() != null && reward.getDateEnds() != null &&
-           sprint.getWhen().after(reward.getDateEnds())) {
+           sprint.getWhen().before(reward.getDateEnds())) {
             String msg = String.format("Reward sprint %d ends (%s) before the reward! (%s)",
                                         reward.getSprintId(), sprint.getWhen(), reward.getDateEnds());
             LOG.error(msg);

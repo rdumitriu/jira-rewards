@@ -303,6 +303,9 @@
                                 {getText('rewards.sptrint.toolbar.close.button')}
                             </a>
                         {/if}
+                        <a id="report-sprint" class="aui-button" href="{$ij.baseurl}/plugins/servlet/agrade/rewards/sprintreport?currentRewardSprintId={$sprint.id}&hidelist=t">
+                            {getText('rewards.sptrint.toolbar.report.button')}
+                        </a>
                     {/if}
                     {$ij.isAdmin}
                     {if (not $sprint.rewards or length($sprint.rewards) == 0) and $ij.isAdmin}

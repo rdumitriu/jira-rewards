@@ -82,20 +82,23 @@ public class RewardSprintReport extends HttpServlet {
         try {
             String currentRewardSprintStr = request.getParameter("currentRewardSprintId");
             String hideSprintChooser = request.getParameter("hidelist");
+            List<RewardSprint> rewards = null;
+            RewardSprint sprint = null;
 
             if(hideSprintChooser == null) {
-                List<RewardSprint> rewards = getRewardSprints(username);
+                rewards = getRewardSprints(username);
                 velocityParams.put("rewardSprints", rewards);
             }
 
-            long currentRewardSprintId = 0L;
             if(currentRewardSprintStr != null) {
                 try {
-                    currentRewardSprintId = Integer.parseInt(currentRewardSprintStr);
+                    long currentRewardSprintId = Integer.parseInt(currentRewardSprintStr);
+                    sprint = adminService.getRewardSprint(currentRewardSprintId);
                 } catch (NumberFormatException e) {}
+            } else if(rewards != null && rewards.size() > 0) {
+                sprint = rewards.get(0);
             }
-            if(currentRewardSprintId > 0) {
-                RewardSprint sprint = adminService.getRewardSprint(currentRewardSprintId);
+            if(sprint != null) {
                 velocityParams.put("currentSprint", new SimpleSprintDescriptor(sprint));
                 SprintReport report = createReport(sprint);
                 velocityParams.put("rewardSprintReportUsers", toDescriptors(report.getUniqueUsers()));
