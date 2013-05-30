@@ -9,6 +9,7 @@ import java.net.URI;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
+import com.atlassian.jira.config.properties.ApplicationProperties;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
 import com.atlassian.sal.api.auth.LoginUriProvider;
 import com.atlassian.sal.api.user.UserManager;
@@ -19,6 +20,7 @@ import ro.agrade.jira.rewards.context.BetterSoyRenderer;
 import ro.agrade.jira.rewards.services.*;
 import ro.agrade.jira.rewards.ui.descriptors.SimpleSprintDescriptor;
 import ro.agrade.jira.rewards.ui.descriptors.UserDescriptor;
+import ro.agrade.jira.rewards.utils.JIRAUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,10 +40,12 @@ public class RewardSprintReport extends HttpServlet {
     private final RewardService rService;
     private final RewardAdminService adminService;
     private final SoyTemplateRenderer soyRenderer;
+    private final ApplicationProperties appProperties;
 
     public RewardSprintReport(UserManager userManager,
                               LoginUriProvider loginUriProvider,
                               TemplateRenderer renderer,
+                              ApplicationProperties appProperties,
                               SoyTemplateRendererProvider soyProvider,
                               RewardService rService,
                               RewardAdminService adminService) {
@@ -51,6 +55,7 @@ public class RewardSprintReport extends HttpServlet {
         this.soyRenderer = new BetterSoyRenderer(soyProvider.getRenderer());
         this.rService = rService;
         this.adminService = adminService;
+        this.appProperties = appProperties;
     }
 
     private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -78,6 +83,7 @@ public class RewardSprintReport extends HttpServlet {
         response.setContentType("text/html");
         Map<String, Object> velocityParams = new HashMap<String, Object>();
         velocityParams.put("soyRenderer", soyRenderer);
+        velocityParams.put("baseurl", JIRAUtils.getRelativeJIRAPath(appProperties));
 
         try {
             String currentRewardSprintStr = request.getParameter("currentRewardSprintId");
