@@ -209,6 +209,10 @@
 * @param q
 * @param singular
 * @param plural
+* @param msgsober
+* @param msgstillok
+* @param msgdrunk
+* @param msgcoma
 */
 {template .ReportRewardNumberFull}
     {$q}&nbsp;
@@ -216,6 +220,16 @@
         {$plural}
     {else}
         {$singular}
+    {/if}
+    &nbsp;-&nbsp;
+    {if $q < 2}
+        <span class="aui-lozenge aui-lozenge-success">{$msgsober}</span>
+    {elseif $q < 5}
+        <span class="aui-lozenge aui-lozenge-current">{$msgstillok}</span>
+    {elseif $q < 11}
+        <span class="aui-lozenge aui-lozenge-error">{$msgdrunk}</span>
+    {else}
+        <span class="aui-lozenge aui-lozenge-moved">{$msgcoma}</span>
     {/if}
 {/template}
 

@@ -67,6 +67,12 @@ public interface RewardAdminService {
     public abstract void updateRewardSprint(RewardSprint rs);
 
     /**
+     * Deletes a sprint
+     * @param rewardSprintId the reward sprint id
+     */
+    public abstract void deleteRewardSprint(long rewardSprintId);
+
+    /**
      * Updates a sprint status
      * @param rs the reward sprint
      * @return the reward sprint

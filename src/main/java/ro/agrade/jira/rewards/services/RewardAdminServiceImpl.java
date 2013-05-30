@@ -137,6 +137,17 @@ public class RewardAdminServiceImpl implements RewardAdminService {
     }
 
     /**
+     * Deletes a sprint
+     *
+     * @param rewardSprintId the reward sprint id
+     */
+    @Override
+    public void deleteRewardSprint(long rewardSprintId) {
+        sprintGstDS.removeGuests(rewardSprintId);
+        sprintDS.deleteRewardSprint(rewardSprintId);
+    }
+
+    /**
      * Updates a sprint status
      *
      * @param rs the reward sprint

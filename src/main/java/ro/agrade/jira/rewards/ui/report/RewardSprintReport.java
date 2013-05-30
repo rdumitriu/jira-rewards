@@ -81,13 +81,14 @@ public class RewardSprintReport extends HttpServlet {
 
         try {
             String currentRewardSprintStr = request.getParameter("currentRewardSprintId");
+            String hideSprintChooser = request.getParameter("hidelist");
+
+            if(hideSprintChooser == null) {
+                List<RewardSprint> rewards = getRewardSprints(username);
+                velocityParams.put("rewardSprints", rewards);
+            }
+
             long currentRewardSprintId = 0L;
-            List<RewardSprint> rewards = getRewardSprints(username);
-            //remove me
-            rewards.add(new RewardSprint(0, "beer sprint 0", "place", "admin", new Date(), SprintStatus.ACTIVE, new HashSet<String>()));
-            rewards.add(new RewardSprint(-1, "beer sprint -1", "place", "admin", new Date(), SprintStatus.ACTIVE, new HashSet<String>()));
-            //
-            velocityParams.put("rewardSprints", rewards);
             if(currentRewardSprintStr != null) {
                 try {
                     currentRewardSprintId = Integer.parseInt(currentRewardSprintStr);
@@ -95,16 +96,6 @@ public class RewardSprintReport extends HttpServlet {
             }
             if(currentRewardSprintId > 0) {
                 RewardSprint sprint = adminService.getRewardSprint(currentRewardSprintId);
-                velocityParams.put("currentSprint", new SimpleSprintDescriptor(sprint));
-                SprintReport report = createReport(sprint);
-                velocityParams.put("rewardSprintReportUsers", toDescriptors(report.getUniqueUsers()));
-                velocityParams.put("rewardSprintReportOtherUsers", toDescriptors(report.getIrrelevantUsers()));
-                velocityParams.put("rewardSprintReport", report);
-            } else if(currentRewardSprintId >= -1) {
-                HashSet<String> usersInvited = new HashSet<String>();
-                usersInvited.add("radu");
-                usersInvited.add("florin");
-                RewardSprint sprint = new RewardSprint(0, "beer sprint " + currentRewardSprintId, "place" + currentRewardSprintId, "admin", new Date(), SprintStatus.ACTIVE, usersInvited);
                 velocityParams.put("currentSprint", new SimpleSprintDescriptor(sprint));
                 SprintReport report = createReport(sprint);
                 velocityParams.put("rewardSprintReportUsers", toDescriptors(report.getUniqueUsers()));
@@ -131,10 +122,6 @@ public class RewardSprintReport extends HttpServlet {
         RewardType rType = getTheOneAndOnlyRewardType();
         RewardSprintReportBuilder reportBuilder = createReportBuilder(rType);
         reportBuilder.init();
-        reportBuilder.addReward(new Reward(1, rType.getId(), 0, 2, new Date(), "Two beers if you shoe my horse", "4 iron shoes", "admin", "user1", "Done", -1));
-        reportBuilder.addReward(new Reward(2, rType.getId(), 0, 1, new Date(), "One beer if you shoot yourself", "For the sake of beer", "admin", "user1", "Done", -1));
-        reportBuilder.addReward(new Reward(3, rType.getId(), 0, 1, new Date(), "One beer for nothing", "For the sake of beer", "admin", "user2", "Done", -1));
-        reportBuilder.addReward(new Reward(3, rType.getId(), 0, 4, new Date(), "Four beers in exchange", "For the sake of beer", "user1", "admin", "Done", -1));
 
         if(list != null) {
             for(Reward r : list) {

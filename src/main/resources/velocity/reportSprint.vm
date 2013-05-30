@@ -9,14 +9,17 @@
   <body>
   <div class="rewardreport">
      <h2>$i18n.getText('rewards.report.title')</h2>
-     <a href="#rewardsprintslist" aria-owns="rewardsprintslist" aria-haspopup="true" class="aui-dropdown2-trigger aui-style-default">$i18n.getText('rewards.report.choose.current.sprint')</a>
-     <div id="rewardsprintslist" class="aui-dropdown2 aui-style-default">
-         <ul class="aui-list-truncate">
-            #foreach ($rwd in $rewardSprints)
-             <li><a href="/plugins/servlet/agrade/rewards/sprintreport?currentRewardSprintId=$rwd.id">$rwd.name</a></li>
-            #end
-         </ul>
-     </div>
+
+     #if($rewardSprints)
+         <a href="#rewardsprintslist" aria-owns="rewardsprintslist" aria-haspopup="true" class="aui-dropdown2-trigger aui-style-default">$i18n.getText('rewards.report.choose.current.sprint')</a>
+         <div id="rewardsprintslist" class="aui-dropdown2 aui-style-default">
+             <ul class="aui-list-truncate">
+                #foreach ($rwd in $rewardSprints)
+                 <li><a href="/plugins/servlet/agrade/rewards/sprintreport?currentRewardSprintId=$rwd.id">$rwd.name</a></li>
+                #end
+             </ul>
+         </div>
+     #end
 
      #if($currentSprint)
         $soyRenderer.render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.ReportSprintSummary',
@@ -75,7 +78,11 @@
                                                                                                                              {
                                                                                                                              'q': $rewardSprintReport.getTotal($user1.username),
                                                                                                                              'singular' : $rewardSprintReport.getRewardType().getName(),
-                                                                                                                             'plural' : $rewardSprintReport.getRewardType().getNamePluralForm()
+                                                                                                                             'plural' : $rewardSprintReport.getRewardType().getNamePluralForm(),
+                                                                                                                             'msgsober' : "$i18n.getText('reward.sprintreport.funnymsg.sober')",
+                                                                                                                             'msgstillok' : "$i18n.getText('reward.sprintreport.funnymsg.stillok')",
+                                                                                                                             'msgdrunk' : "$i18n.getText('reward.sprintreport.funnymsg.drunk')",
+                                                                                                                             'msgcoma' : "$i18n.getText('reward.sprintreport.funnymsg.coma')"
                                                                                                                              })
 
                     )</span>
