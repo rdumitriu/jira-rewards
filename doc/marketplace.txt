@@ -16,16 +16,14 @@ And we, the beer drinkers, we, the know-it-all, are agile too! So we mocked the 
 to create a beer sprint, put beer rewards into it, and when you finally receive some help from us, grant it to
 the one that helps you.
 
-When the sprint concludes, just create and print the beer sprint report, and take it with you to your favourite
+When the sprint ends, just create and print the beer sprint report, and take it with you to your favourite
 bar. We placed a border on the table so you can follow the rows and columns with your finger no matter the state you're in,
 and we even predicted the outcome (very complicated algorithm, the most tricky part was to guess your mass from the
 metrics in your projects, like the number of re-opens).
 
-That concludes the marketing text for this plugin. I have to say, for copyright reasons, that "Does humor
-belong in ..." is a trademark owned by Frank Zappa; I personally asked for permission to use it.
+That concludes the marketing text for this plugin.
 
-Consumer warning: you must be at least 18 to install this plugin. Actual number depends on the country. Check local
-laws.
+Consumer warning: you must be at least 18 to install this plugin. Actual number depends on the country. Check local laws.
 
 Serious note: this plugin is not intended to win Codegeist 2013 - although, let's be honest, it would buy a lot of beer -
 but to celebrate the longest Codegeist in history! Cheers!
