@@ -6,10 +6,10 @@
 package ro.agrade.jira.rewards.ui.actions;
 
 import com.atlassian.jira.config.properties.ApplicationProperties;
-import com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import ro.agrade.jira.rewards.context.BetterSoyRenderer;
 import ro.agrade.jira.rewards.services.*;
@@ -96,7 +96,17 @@ public class BeerSprintsAction extends JiraWebActionSupport {
                     guests.add(new UserDescriptor(guestKey));
                 }
             }
-            this.selectedSprintObj = new SprintDescriptor(ss, guests, null);
+            List<Reward> rewards = rService.getRewardsForSprint(selectedSprint);
+            List<RewardDescriptor> rewardDescrs = null;
+            if(rewards != null || rewards.size() == 0){
+                rewardDescrs = Lists.transform(rewards, new Function<Reward, RewardDescriptor>() {
+                    @Override
+                    public RewardDescriptor apply(Reward input) {
+                        return new RewardDescriptor(input, rAdminService.getRewardType(input.getTypeId()));
+                    }
+                });
+            }
+            this.selectedSprintObj = new SprintDescriptor(ss, guests, rewardDescrs);
         } else {
             LOG.debug("No sprint to select");
             selectedSprint = 0;

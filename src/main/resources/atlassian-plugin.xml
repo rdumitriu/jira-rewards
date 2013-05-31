@@ -116,6 +116,11 @@
                 <view name="success">/velocity/newSprint.vm</view>
                 <view name="error">/velocity/newSprint.vm</view>
             </action>
+            <action name="ro.agrade.jira.rewards.ui.actions.DeleteSprintAction" alias="DeleteSprint" roles-required="admin">
+                <view name="input">/velocity/deleteSprint.vm</view>
+                <view name="success">/velocity/deleteSprint.vm</view>
+                <view name="error">/velocity/deleteSprint.vm</view>
+            </action>
         </actions>
     </webwork1>
 

@@ -71,7 +71,7 @@
                                      'description': "$i18n.getText('rewards.sprint.when.description')",
                                      'required' : false,
                                      'error' : $errors.get("when"),
-                                     'defaultValue' : $when.toString(),
+                                     'defaultValue' : $when,
                                      'timeFormat' : $timeFormat,
                                      'dateTimeFormat' : $dateTimeFormat
                                      },{'baseurl' : $baseurl})

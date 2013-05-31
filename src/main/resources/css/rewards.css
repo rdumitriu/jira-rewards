@@ -258,3 +258,13 @@
 
 }
 
+.spa-form-header h1, .spa-form-header form {
+    display : inline;
+}
+
+.spa-form-header form {
+    margin-left : 76px;
+    color : #707070;
+}
+
+

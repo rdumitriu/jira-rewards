@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>$i18n.getText('rewards.grant.title')</title>
-        <meta content="atl.general" name="decorator">
+        <meta content="panel-general" name="decorator">
     </head>
     <body>
         <form class="aui" method="post" action="GrantReward!grant.jspa">

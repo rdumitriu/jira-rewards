@@ -6,7 +6,7 @@
     <body>
         <header class="aui-page-header">
             <div class="aui-page-header-inner">
-                <div class="aui-page-header-main">
+                <div class="aui-page-header-main spa-form-header">
                     <h1>$i18n.getText('rewards.sprints.title')</h1>
                 </div><!-- .aui-page-header-main -->
             <div class="aui-page-header-actions">

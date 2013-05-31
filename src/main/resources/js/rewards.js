@@ -37,5 +37,8 @@
 
     AJS.$(document).ready(function(){
         initDialogTrigger(AJS.$(this));
+        AJS.$(".spa-autosubmit").click(function(){
+           AJS.$(this).closest("form").submit();
+        });
     });
 })(AJS.$);

@@ -182,7 +182,7 @@
                 <span class="aui-icon icon-required">{getText('rewards.required.label')}</span>
             {/if}
         </label>
-        <input class="text medium-field" id="{$fieldId}" name="{$fieldName}" type="text" value="">
+        <input class="text medium-field" id="{$fieldId}" name="{$fieldName}" type="text" value="{if $defaultValue}{$defaultValue}{/if}">
         <a href="#" id="{$fieldId}-trigger" title="{getText('rewards.sprints.select.date.tooltip')}" tabindex="-1" class="date-picker-trigger">
             <span class="aui-icon icon-date">{getText('rewards.sprints.select.date.tooltip')}</span>
         </a>
@@ -192,9 +192,6 @@
             <input title="button" type="hidden" value="{$fieldId}-trigger">
             <input title="align" type="hidden" value="Br">
             <input title="singleClick" type="hidden" value="true">
-            {if $defaultValue}
-            <input title="date" type="hidden" value="{$defaultValue}">
-            {/if}
             <input title="useISO8601WeekNumbers" type="hidden" value="false">
             <input title="ifFormat" type="hidden" value="{$dateTimeFormat}">
             <input title="showsTime" type="hidden" value="true">

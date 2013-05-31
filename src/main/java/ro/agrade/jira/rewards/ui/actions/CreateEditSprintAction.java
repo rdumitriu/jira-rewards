@@ -66,6 +66,23 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
         return INPUT;
     }
 
+    public String doClose(){
+        changeStatus(SprintStatus.EXECUTED);
+        if(getHasErrorMessages()){
+            LOG.error(String.format("There were errors closing the sprint: %s", getErrorMessages()));
+        }
+        return returnComplete("/secure/BeerSprints.jspa?selectedSprint="+this.id);
+    }
+
+    public String doReopen(){
+        changeStatus(SprintStatus.ACTIVE);
+        if(getHasErrorMessages()){
+            LOG.error(String.format("There were errors reopening the sprint: %s", getErrorMessages()));
+        }
+        return returnComplete("/secure/BeerSprints.jspa?selectedSprint="+this.id);
+    }
+
+
     public String doCreate(){
         return INPUT;
     }
@@ -91,7 +108,8 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
         rs.setWhere(this.where);
         rs.setWhen(this.date);
         rAdminService.updateRewardSprint(rs);
-        return returnComplete(String.format("/secure/BeerSprints.jspa?selectedSprint=%s", this.id));
+        setReturnUrl(String.format("/secure/BeerSprints.jspa?selectedSprint=%s", this.id));
+        return returnComplete();
     }
 
     public String doAdd(){
@@ -107,7 +125,8 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
             LOG.debug(String.format("Creating sprint %s %s %s %s", id, name, where, when));
         }
         rs = rAdminService.addRewardSprint(rs);
-        return returnComplete(String.format("/secure/BeerSprints.jspa?selectedSprint=%s", rs.getId()));
+        setReturnUrl(String.format("/secure/BeerSprints.jspa?selectedSprint=%s", this.id));
+        return returnComplete();
     }
 
     public SoyTemplateRenderer getSoyRenderer() {
@@ -147,7 +166,9 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
     }
 
     public String getWhen() {
-        return when;
+        return date != null
+                ? UiUtils.getDateTimePickerFormat().format(date)
+                : null;
     }
 
     public void setWhen(String when) {
@@ -165,5 +186,19 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
             }
         }
         this.when = when;
+    }
+
+    private void changeStatus(SprintStatus status){
+        if(this.id <= 0){
+            addErrorMessage(getText("rewards.sprints.invalid.id"));
+            return;
+        }
+        RewardSprint rs = rAdminService.getRewardSprint(this.id);
+        if(rs == null){
+            addErrorMessage(getText("rewards.sprints.invalid.id"));
+            return;
+        }
+        rs.setStatus(status);
+        rAdminService.updateRewardSprint(rs);
     }
 }

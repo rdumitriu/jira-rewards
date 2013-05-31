@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>$i18n.getText('reward.sprintreport.title')</title>
-    <meta name="decorator" content="atl.general">
+    <meta name="decorator" content="panel-general">
     $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
     $webResourceManager.requireResource("com.atlassian.auiplugin:aui-experimental-dropdown2")
     $webResourceManager.requireResource("ro.agrade.jira.rewards:rewards-resources")

@@ -294,26 +294,30 @@
             <div class="aui-page-header-actions">
                 <div class="aui-buttons">
                     {if $sprint.owner.key == $ij.currentUser}
-                        <a id="edit-sprint" class="aui-button rwd-dialog-trigger" href="{$ij.baseurl}/secure/ManageSprint!edit.jspa?id={$sprint.id}">
+                        <a id="edit-sprint" class="aui-button rwd-trigger-dialog" href="{$ij.baseurl}/secure/ManageSprint!edit.jspa?id={$sprint.id}">
                             <span class="icon jira-icon-edit"></span>
                             {getText('rewards.sptrint.toolbar.edit.button')}
                         </a>
                         {if $sprint.status == 'ACTIVE'}
-                            <a id="close-sprint" class="aui-button rwd-dialog-trigger" href="{$ij.baseurl}/secure/ManageSprint!close.jspa?id={$sprint.id}">
+                            <a id="close-sprint" class="aui-button rwd-trigger-dialog" href="{$ij.baseurl}/secure/ManageSprint!close.jspa?id={$sprint.id}">
                                 {getText('rewards.sptrint.toolbar.close.button')}
                             </a>
+                        {elseif $sprint.status == 'EXECUTED'}
+                            <a id="reopen-sprint" class="aui-button rwd-trigger-dialog" href="{$ij.baseurl}/secure/ManageSprint!reopen.jspa?id={$sprint.id}">
+                                {getText('rewards.sptrint.toolbar.reopen.button')}
+                            </a>
                         {/if}
-                        <a id="report-sprint" class="aui-button" href="{$ij.baseurl}/plugins/servlet/agrade/rewards/sprintreport?currentRewardSprintId={$sprint.id}&hidelist=t">
-                            {getText('rewards.sptrint.toolbar.report.button')}
-                        </a>
                     {/if}
                     {$ij.isAdmin}
                     {if (not $sprint.rewards or length($sprint.rewards) == 0) and $ij.isAdmin}
-                        <a id="delete-sprint" class="aui-button rwd-dialog-trigger" href="{$ij.baseurl}/secure/DeleteSprint.jspa?id={$sprint.id}">
+                        <a id="delete-sprint" class="aui-button rwd-trigger-dialog" href="{$ij.baseurl}/secure/DeleteSprint.jspa?sprintId={$sprint.id}">
                             <span class="icon icon-delete"></span>
                             {getText('rewards.sptrint.toolbar.delete.button')}
                         </a>
                     {/if}
+                    <a id="report-sprint" class="aui-button" href="{$ij.baseurl}/plugins/servlet/agrade/rewards/sprintreport?currentRewardSprintId={$sprint.id}&hidelist=t">
+                        {getText('rewards.sptrint.toolbar.report.button')}
+                    </a>
                 </div>
             </div>
         </div>
@@ -347,8 +351,8 @@
                     <span class="aui-lozenge aui-lozenge-complete">{getText('rewards.sprint.status.PROPOSED')}</span>
                 {elseif $sprint.status == 'ACTIVE'}
                     <span class="aui-lozenge aui-lozenge-success">{getText('rewards.sprint.status.ACTIVE')}</span>
-                {elseif $sprint.status == 'CLOSED'}
-                    <span class="aui-lozenge aui-lozenge-moved">{getText('rewards.sprint.status.CLOSED')}</span>
+                {elseif $sprint.status == 'EXECUTED'}
+                    <span class="aui-lozenge aui-lozenge-moved">{getText('rewards.sprint.status.EXECUTED')}</span>
                 {else}
                     <span class="aui-lozenge aui-lozenge-error">{getText('rewards.sprint.status.unknown')}</span>
                 {/if}
