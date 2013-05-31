@@ -24,7 +24,8 @@ metrics in your projects, like the number of re-opens).
 That concludes the marketing text for this plugin. I have to say, for copyright reasons, that "Does humor
 belong in ..." is a trademark owned by Frank Zappa; I personally asked for permission to use it.
 
-Consumer warning: you must be at least 18 to install this plugin. Actual number depends on the country. May contain
-traces of nuts.
+Consumer warning: you must be at least 18 to install this plugin. Actual number depends on the country. Check local
+laws.
 
-Serious note: this plugin is not intended to win Codegeist 2013, but to celebrate the longest Codegeist in history! Cheers!
+Serious note: this plugin is not intended to win Codegeist 2013 - although, let's be honest, it would buy a lot of beer -
+but to celebrate the longest Codegeist in history! Cheers!
