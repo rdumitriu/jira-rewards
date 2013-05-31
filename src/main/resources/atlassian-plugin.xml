@@ -5,6 +5,7 @@
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
         <param name="plugin-icon">images/beer_16x16.png</param>
         <param name="plugin-logo">images/beer_72x72.png</param>
+        <param name="plugin-banner">images/banner.png</param>
     </plugin-info>
 
     <!-- add our i18n resource -->
