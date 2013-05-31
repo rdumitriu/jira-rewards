@@ -75,7 +75,7 @@ public class RewardSprintReport extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws IOException, ServletException {
         String username = userManager.getRemoteUsername(request);
-        if (username == null || !userManager.isSystemAdmin(username)) {
+        if (username == null) {
             redirectToLogin(request, response);
             return;
         }
