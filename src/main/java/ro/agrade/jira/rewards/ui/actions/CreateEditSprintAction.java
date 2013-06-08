@@ -5,7 +5,6 @@
  */
 package ro.agrade.jira.rewards.ui.actions;
 
-import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
@@ -89,11 +88,15 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
 
     public String doSaveEdit(){
         if(this.id <= 0){
-            addErrorMessage(getText("rewards.sprints.empty.name"));
+            addErrorMessage(getText("rewards.sprints.invalid.id"));
             return INPUT;
         }
         if(StringUtils.isBlank(this.name)){
             addError("name", getText("rewards.sprints.empty.name"));
+            return INPUT;
+        }
+        if(date != null && date.before(new Date(System.currentTimeMillis()))){
+            addError("when", getText("rewards.sprints.date.in.the.past"));
             return INPUT;
         }
         RewardSprint rs = rAdminService.getRewardSprint(this.id);
@@ -117,6 +120,10 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
             addError("name", getText("rewards.sprints.empty.name"));
             return INPUT;
         }
+        if(date != null && date.before(new Date(System.currentTimeMillis()))){
+            addError("when", getText("rewards.sprints.date.in.the.past"));
+            return INPUT;
+        }
         RewardSprint rs = new RewardSprint(0L, this.name, this.where,
                                            getLoggedInApplicationUser().getKey(),
                                            this.date, SprintStatus.ACTIVE,
@@ -125,7 +132,7 @@ public class CreateEditSprintAction extends JiraWebActionSupport {
             LOG.debug(String.format("Creating sprint %s %s %s %s", id, name, where, when));
         }
         rs = rAdminService.addRewardSprint(rs);
-        setReturnUrl(String.format("/secure/BeerSprints.jspa?selectedSprint=%s", this.id));
+        setReturnUrl(String.format("/secure/BeerSprints.jspa?selectedSprint=%s", rs.getId()));
         return returnComplete();
     }
 
