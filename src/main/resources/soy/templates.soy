@@ -237,11 +237,25 @@
 * Creates a VerticalNav using list of CategorySprintsDescriptor
 * @param categories
 * @param selectedSprint
+* @param showClosed
 */
 {template .SprintsNav}
     <div class="aui-page-panel-nav">
         <nav class="aui-navgroup aui-navgroup-vertical">
             <div class="aui-navgroup-inner">
+            <ul class="aui-nav">
+                <li>
+                    {if $showClosed}
+                        <a href="{$ij.baseurl}/secure/BeerSprints!hidePast.jspa?returnUrl=/secure/BeerSprints.jspa?selectedSprint={$selectedSprint}">
+                            {getText('rewards.sprints.nav.hide.closed')}
+                        </a>
+                    {else}
+                        <a href="{$ij.baseurl}/secure/BeerSprints!showPast.jspa?returnUrl=/secure/BeerSprints.jspa?selectedSprint={$selectedSprint}">
+                            {getText('rewards.sprints.nav.show.closed')}
+                        </a>
+                    {/if}
+                </li>
+            </ul>
             {foreach $category in $categories}
                 <div class="aui-nav-heading"><strong>{$category.category}</strong></div>
                 <ul class="aui-nav">

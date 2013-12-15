@@ -7,6 +7,7 @@ package ro.agrade.jira.rewards.ui.actions;
 
 import com.atlassian.jira.config.properties.ApplicationProperties;
 import com.atlassian.jira.template.soy.SoyTemplateRendererProvider;
+import com.atlassian.jira.user.preferences.UserPreferencesManager;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
 import com.google.common.base.Function;
@@ -32,9 +33,12 @@ public class BeerSprintsAction extends JiraWebActionSupport {
 
     private static final Log LOG = LogFactory.getLog(BeerSprintsAction.class);
 
+    public static final String SHOW_CLOSED_PREF = "rewards.show.closed.sprints";
+
     private final RewardService rService;
     private final RewardAdminService rAdminService;
     private final ApplicationProperties properties;
+    private final UserPreferencesManager userPrefs;
     private final SoyTemplateRenderer soyRenderer;
     private boolean showActive;
     private boolean showClosed;
@@ -46,13 +50,15 @@ public class BeerSprintsAction extends JiraWebActionSupport {
     public BeerSprintsAction(RewardService rService,
                              RewardAdminService rAdminService,
                              ApplicationProperties properties,
-                             SoyTemplateRendererProvider soyProvider){
+                             SoyTemplateRendererProvider soyProvider,
+                             UserPreferencesManager userPrefs){
         this.rService = rService;
         this.rAdminService = rAdminService;
         this.properties = properties;
+        this.userPrefs = userPrefs;
         this.soyRenderer = new BetterSoyRenderer(soyProvider.getRenderer());
         this.categoryExtractor = new SimpleDateFormat("MMMMM yyyy");
-        this.showClosed = false;
+        this.showClosed = userPrefs.getExtendedPreferences(getLoggedInApplicationUser()).getBoolean(SHOW_CLOSED_PREF);
         this.showActive = true;
     }
 
@@ -68,6 +74,18 @@ public class BeerSprintsAction extends JiraWebActionSupport {
     public String doExecute() throws Exception {
         super.doExecute();
         return doDefault();
+    }
+
+    public String doShowPast() throws Exception {
+        userPrefs.getExtendedPreferences(getLoggedInApplicationUser()).setBoolean(SHOW_CLOSED_PREF, true);
+        userPrefs.clearCache(getLoggedInApplicationUser());
+        return getRedirect(getReturnUrl());
+    }
+
+    public String doHidePast() throws Exception {
+        userPrefs.getExtendedPreferences(getLoggedInApplicationUser()).setBoolean(SHOW_CLOSED_PREF, false);
+        userPrefs.clearCache(getLoggedInApplicationUser());
+        return getRedirect(getReturnUrl());
     }
 
     @Override

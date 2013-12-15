@@ -146,6 +146,8 @@ public class IssueRewardAction extends AbstractIssueSelectAction {
                                               getText("rewards.new.sprint.label")));
         } else if(!rs.getStatus().equals(SprintStatus.ACTIVE)) {
             getErrors().put("sprint", getText("rewards.forms.errors.invalid.sprint.status"));
+        } else if(rs.getWhen() != null && rs.getWhen().compareTo(new Date()) <= 0) {
+            getErrors().put("sprint", getText("rewards.forms.errors.sprint.overdue"));
         }
     }
 

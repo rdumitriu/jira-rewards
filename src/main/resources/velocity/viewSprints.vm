@@ -35,7 +35,8 @@
                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.SprintsNav',
                             {
                             'categories' : $sprints,
-                            'selectedSprint' : $selectedSprint
+                            'selectedSprint' : $selectedSprint,
+                            'showClosed' : $showClosed
                             }, {'baseurl' : $baseurl})
                 $action.getSoyRenderer().render('ro.agrade.jira.rewards:soy-templates','REWARDS.Templates.SprintPageContent',
                             {
