@@ -30,6 +30,8 @@ public interface RewardDataService {
      */
     public abstract List<Reward> getRewardsForSprint(long sprintId);
 
+    List<Reward> getRewardsForSprintAndIssue(long sprintId, long issueId);
+
     /**
      * Adds the reward
      * @param reward the reward

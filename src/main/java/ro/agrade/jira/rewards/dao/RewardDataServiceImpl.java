@@ -67,6 +67,29 @@ public class RewardDataServiceImpl implements RewardDataService {
     }
 
     /**
+     * Gets the specified rewards for the given sprint
+     *
+     *
+     * @param sprintId the id of the sprint
+     * @return the list of rewards for the sprint
+     */
+    @Override
+    public List<Reward> getRewardsForSprintAndIssue(long sprintId, long issueId) {
+        try {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(SPRINTID_FIELD, sprintId);
+            map.put(ISSUEID_FIELD, issueId);
+            List<GenericValue> ret = delegator.findByAnd(ENTITY, map);
+            return (ret != null ? fromGenericValue(ret) : null);
+        } catch(GenericEntityException e) {
+            String msg = String.format("Could not load reward (sprint id=%d and issue %s) ?!?",
+                                       sprintId, issueId);
+            LOG.error(msg);
+            throw new OfbizDataException(msg, e);
+        }
+    }
+
+    /**
      * Adds the reward
      *
      * @param reward the reward

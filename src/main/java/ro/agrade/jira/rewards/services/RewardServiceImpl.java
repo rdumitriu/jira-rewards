@@ -50,6 +50,17 @@ public class RewardServiceImpl implements RewardService {
     }
 
     /**
+     * Gets the specified rewards for the given sprint
+     *
+     * @param sprintId the id of the sprint
+     * @return the list of rewards for the sprint
+     */
+    @Override
+    public List<Reward> getRewardsForSprintAndIssue(long sprintId, long issueId) {
+        return rds.getRewardsForSprintAndIssue(sprintId, issueId);
+    }
+
+    /**
      * Adds the reward
      *
      * @param reward the reward

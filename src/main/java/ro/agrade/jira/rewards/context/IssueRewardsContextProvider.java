@@ -57,18 +57,18 @@ public class IssueRewardsContextProvider extends SoyContextProvider {
         if(LOG.isDebugEnabled()){
             LOG.debug(String.format("Adding sprints to context for issue %s", iss.getKey()));
         }
-        ctxMap.put("sprints", getSprints());
+        ctxMap.put("sprints", getSprints(iss));
         return ctxMap;
     }
 
-    public List<SprintDescriptor> getSprints() {
+    public List<SprintDescriptor> getSprints(Issue iss) {
         List<RewardSprint> rewardSprints = rAdminService.getRewardSprints(SprintStatus.ACTIVE);
         List<SprintDescriptor> ret = new ArrayList<SprintDescriptor>();
         if(rewardSprints == null || rewardSprints.size() == 0){
             return ret;
         }
         for(RewardSprint rs : rewardSprints){
-            List<Reward> rewards = rService.getRewardsForSprint(rs.getId());
+            List<Reward> rewards = rService.getRewardsForSprintAndIssue(rs.getId(), iss.getId());
             // only add if we have any rewards
             if(rewards == null || rewards.size() == 0){
                 // nope, no rewards
